@@ -7,7 +7,6 @@ from main.mixins.models import ERPModel
 
 
 class Project(ERPModel):
-    LIST_VIEW_FIELD_NAMES = ('priority', 'manager', 'old_id')
     # manager = models.ForeignKey(get_user_model(), verbose_name='Ответственный')
     description = models.TextField(blank=True, verbose_name=_('Description'))
     entry = models.CharField(blank=True, max_length=255, verbose_name=_('Entry'))
@@ -16,12 +15,9 @@ class Project(ERPModel):
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _('Project')
+        verbose_name = _('Projects')
         verbose_name_plural = _('Projects')
-        # permissions = get_erp_permissions('Project')
-
-    def __str__(self):
-        return self.title
+        # permissions = get_erp_permissions('Projects')
 
 
 class Task(ERPModel):
@@ -32,9 +28,7 @@ class Task(ERPModel):
         ('done', _('Done')),
         ('cancel', _('Canceled')),
     )
-    LIST_VIEW_FIELD_NAMES = ('project', 'assigned_on', 'status', 'due')
-    project = models.ForeignKey(Project, verbose_name=_('Project'), on_delete=models.CASCADE)
-
+    project = models.ForeignKey(Project, verbose_name=_('Projects'), on_delete=models.CASCADE)
     description = models.TextField(blank=True, verbose_name=_('Description'))
     priority = models.IntegerField(default=0, verbose_name=_('Priority'))
     status = models.CharField(max_length=255, verbose_name=_('Status'), choices=STATUS_LIST, default='new')
@@ -67,9 +61,6 @@ class Task(ERPModel):
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _(u'Task')
-        verbose_name_plural = _(u'Tasks')
+        verbose_name = _('Task')
+        verbose_name_plural = _('Tasks')
         # permissions = get_erp_permissions('Task')
-
-    def __str__(self):
-        return self.title

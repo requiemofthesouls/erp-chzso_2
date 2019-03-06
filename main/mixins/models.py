@@ -3,13 +3,8 @@ from django.db import models
 
 from django.utils.translation import gettext_lazy as _
 
-DEFAULT_ACTIONS = ('list', 'detail', 'update', 'add', 'delete')
-DEFAULT_PERMISSIONS = ('view', 'change', 'add', 'delete')
-
 
 class ERPModel(models.Model):
-    LIST_VIEW_FIELD_NAMES = ()
-    DETAIL_VIEW_FIELD_NAMES = ()
     title = models.CharField(
         verbose_name=_('Title'),
         max_length=1000
@@ -24,7 +19,8 @@ class ERPModel(models.Model):
         verbose_name=_('Slug'),
         max_length=1000,
         allow_unicode=True,
-
+        null=True,
+        default=None
     )
 
     last_modified = models.DateTimeField(
@@ -35,3 +31,10 @@ class ERPModel(models.Model):
 
     class Meta:
         abstract = True
+
+    @classmethod
+    def listview_fields(cls):
+        return [field.attname for field in cls._meta.concrete_fields]
+
+    def __str__(self):
+        return self.title
