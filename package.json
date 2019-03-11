@@ -1,0 +1,37 @@
+{
+  "name": "erp_chzso_2",
+  "version": "1.0.0",
+  "description": "Enterprise resource planning system",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production ./frontend/src/index_.jsx --output ./frontend/assets/builds/main.js",
+    "dev": "webpack --mode development ./frontend/src/index_.jsx --output ./frontend/assets/builds-development/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/requiemofthesouls/erp-chzso_2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/requiemofthesouls/erp-chzso_2/issues"
+  },
+  "homepage": "https://gitlab.com/requiemofthesouls/erp-chzso_2#readme",
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  },
+  "dependencies": {
+    "react-router-dom": "^4.3.1"
+  }
+}

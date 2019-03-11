@@ -1,0 +1,25 @@
+PIPENV_VERBOSITY=-1
+
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+djangorestframework = "*"
+djangorestframework-jwt = "*"
+psycopg2-binary = "*"
+django = "*"
+dj-database-url = "*"
+
+whitenoise = "*"
+python-decouple = "*"
+django-webpack-loader = "*"
+gunicorn = "*"
+
+[dev-packages]
+django-debug-toolbar = "*"
+flake8 = "*"
+
+[requires]
+python_version = "3.6"
