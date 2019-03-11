@@ -1,4 +1,5 @@
 // development config
+var path = require('path');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
 const commonConfig = require('./webpack.common');
@@ -11,7 +12,13 @@ module.exports = merge(commonConfig, {
     'webpack/hot/only-dev-server', // bundle the client for hot reloading, only- means to only hot reload for successful updates
     './index.jsx' // the entry point of our app
   ],
+  output: {
+    path: path.resolve(__dirname, '../static/builds-development'),
+    filename: 'index_bundle.js',
+    publicPath: '/'
+  },
   devServer: {
+    historyApiFallback: true,
     hot: true // enable HMR on the server
   },
   devtool: 'cheap-module-eval-source-map',

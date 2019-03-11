@@ -4,7 +4,9 @@
   "description": "Enterprise resource planning system",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config=frontend/webpack/webpack.prod.js --progress --colors",
+    "update-req": "pipenv lock -r > backend/requirements.txt",
+    "up": "npm run update-req && npm run build && docker-compose up --build",
+    "build": "rm -rf frontend/static/builds/* && webpack --config=frontend/webpack/webpack.prod.js --progress --colors",
     "dev": "webpack-dev-server --open --config=frontend/webpack/webpack.dev.js --progress --colors -display-error-details",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -8,8 +8,8 @@ from .base import *
 
 WEBPACK_LOADER = {
     'DEFAULT': {
-        'BUNDLE_DIR_NAME': 'builds-dev/',
-        'STATS_FILE': os.path.join(BACKEND_DIR, 'webpack', 'webpack-stats.dev.json')
+        'BUNDLE_DIR_NAME': 'builds-development/',
+        'STATS_FILE': os.path.join(FRONTEND_DIR, 'static', 'webpack-stats.dev.json')
     }
 }
 

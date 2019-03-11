@@ -11,11 +11,11 @@ djangorestframework-jwt = "*"
 psycopg2-binary = "*"
 django = "*"
 dj-database-url = "*"
-
 whitenoise = "*"
 python-decouple = "*"
 django-webpack-loader = "*"
 gunicorn = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
