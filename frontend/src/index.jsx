@@ -1,23 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './assets/css/index.css';
 import { AppContainer } from 'react-hot-loader';
-import HelloWorld from './components/hello-world';
+import App from './components/App';
 
-ReactDOM.render(
-  <AppContainer>
-    <HelloWorld />
-  </AppContainer>,
-  document.getElementById('react-root')
-);
+const renderApp = App => {
+  ReactDOM.render(
+    <AppContainer>
+      <App/>
+    </AppContainer>,
+    document.getElementById('root')
+  );
+};
 
+renderApp(App);
+
+// Hot Module Replacement API
 if (module.hot) {
-  module.hot.accept('./components/hello-world', () => {
-    const HelloWorld = require('./components/hello-world').default;
-    ReactDOM.render(
-      <AppContainer>
-        <HelloWorld />
-      </AppContainer>,
-      document.getElementById('react-root')
-    );
+  module.hot.accept('./components/App', () => {
+    renderApp(App);
   });
 }
