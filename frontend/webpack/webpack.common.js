@@ -1,6 +1,8 @@
 // shared config (dev and prod)
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+
 
 module.exports = {
   resolve: {
@@ -46,6 +48,14 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({ template: 'index.html', }),
+    new CopyPlugin([
+      { from: '/home/keep_on_rail/PycharmProjects/erp_chzso_2/frontend/src/assets/icons/favicon.ico',
+        to: '/home/keep_on_rail/PycharmProjects/erp_chzso_2/frontend/static/builds/favicon.ico',
+        toType: 'file',},
+      { from: '/home/keep_on_rail/PycharmProjects/erp_chzso_2/frontend/src/assets/manifests/index.json',
+        to: '/home/keep_on_rail/PycharmProjects/erp_chzso_2/frontend/static/builds/index.json',
+        toType: 'file',
+      }, ])
   ],
   externals: {
     'react': 'React',

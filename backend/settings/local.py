@@ -9,7 +9,7 @@ from .base import *
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'builds-development/',
-        'STATS_FILE': os.path.join(FRONTEND_DIR, 'static', 'webpack-stats.dev.json')
+        'STATS_FILE': os.path.join(FRONTEND_DIR, 'static', 'builds-development', 'webpack-stats.dev.json')
     }
 }
 

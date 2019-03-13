@@ -12,7 +12,7 @@ class ProjectDetail extends React.Component {
 
   componentDidMount() {
     const projectID = this.props.match.params.projectID;
-    axios.get(`http://localhost:8000/api/projects/${projectID}/`)
+    axios.get(`http://localhost:8080/api/projects/${projectID}/`)
       .then(res => {
         this.setState({
           project: res.data
@@ -22,7 +22,7 @@ class ProjectDetail extends React.Component {
 
   handleDelete = (event) => {
     const projectID = this.props.match.params.projectID;
-    axios.delete(`http://localhost:8000/api/projects/${projectID}/`);
+    axios.delete(`http://localhost:8080/api/projects/${projectID}/`);
     this.props.history.push("/projects");
     this.forceUpdate();
   };

@@ -9,7 +9,7 @@ __pycache__
 .ipynb*
 
 # Secret environment settings
-.env
+*.env
 env
 
 # Node and Webpack files
@@ -53,4 +53,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-.idea
+
+frontend/static/builds/*
+frontend/static/builds-development/*

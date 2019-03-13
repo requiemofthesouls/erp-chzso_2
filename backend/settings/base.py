@@ -17,9 +17,9 @@ import os
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BACKEND_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'frontend')
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BACKEND_DIR = os.path.join(BASE_DIR, 'backend')
+FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
 # SECRET KEY
 # ------------------------------------------------------------------------------
@@ -95,6 +95,7 @@ DJANGO_MIDDLEWARE = [
 THIRD_PARTY_MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
+
 MIDDLEWARE = DJANGO_SECURITY_MIDDLEWARE + DJANGO_MIDDLEWARE + THIRD_PARTY_MIDDLEWARE
 
 # URL Configuration
@@ -142,8 +143,8 @@ DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 # Added this to support deployment on Heroku
 # https://devcenter.heroku.com/articles/django-app-configuration
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(db_from_env)
 
 # PASSWORD VALIDATION
 # ------------------------------------------------------------------------------
@@ -190,9 +191,9 @@ SITE_ID = 1
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [os.path.join(FRONTEND_DIR, 'static'), ]
+STATICFILES_DIRS = [os.path.join(FRONTEND_DIR, 'static', 'builds'), ]
 
-STATIC_ROOT = os.path.join(FRONTEND_DIR, 'static_cdn')
+STATIC_ROOT = os.path.join(FRONTEND_DIR, 'staticfiles')
 
 # MEDIA CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -201,7 +202,7 @@ STATIC_ROOT = os.path.join(FRONTEND_DIR, 'static_cdn')
 
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = os.path.join(os.path.dirname(FRONTEND_DIR), "media_cdn")
+# MEDIA_ROOT = os.path.join(os.path.dirname(FRONTEND_DIR), "media_cdn")
 
 # Django REST framework
 # ------------------------------------------------------------------------------

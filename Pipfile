@@ -16,6 +16,7 @@ python-decouple = "*"
 django-webpack-loader = "*"
 gunicorn = "*"
 django-cors-headers = "*"
+gevent = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
