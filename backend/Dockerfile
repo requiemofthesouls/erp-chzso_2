@@ -10,5 +10,3 @@ RUN pip3 install -r requirements.txt --no-cache-dir
 # Bundle the source
 COPY . /srv/erp_chzso_2
 WORKDIR /srv/erp_chzso_2/backend
-# Expose port 8000 in the container
-EXPOSE 8080

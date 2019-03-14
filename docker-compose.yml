@@ -12,6 +12,7 @@ services:
       - 80:80
     volumes:
       - ./frontend/staticfiles:/usr/share/nginx/public
+      - ./backend/backend.sock:/tmp/backend.sock
     depends_on:
       - backend
     command: nginx -g 'daemon off';
@@ -36,8 +37,17 @@ services:
       python manage.py makemigrations &&
       python manage.py migrate --run-syncdb &&
       python manage.py collectstatic --noinput &&
-      gunicorn --env DJANGO_SETTINGS_MODULE=settings.production main.wsgi \
-      --workers 2 --worker-class=gevent --bind 0.0.0.0:8080'
+      uwsgi --chdir=/srv/erp_chzso_2/backend \
+          --module=main.wsgi:application \
+          --env DJANGO_SETTINGS_MODULE=settings.production \
+          --master --pidfile=/tmp/project-master.pid \
+          --socket=backend.sock \
+          --processes=5 --enable-threads \
+          --uid=1000 --gid=www-data \
+          --harakiri=20 \
+          --max-requests=5000 \
+          --vacuum --buffer-size=32768'
+#      gunicorn main.wsgi --workers 2 --worker-class=gevent --bind 0.0.0.0:8080'
 
   postgresql:
     container_name: postgresql

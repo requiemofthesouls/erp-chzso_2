@@ -15,7 +15,7 @@ WEBPACK_LOADER = {
 # ------------------------------------------------------------------------------
 # https://whitenoise.readthedocs.io/
 
-MIDDLEWARE = DJANGO_SECURITY_MIDDLEWARE + ['whitenoise.middleware.WhiteNoiseMiddleware'] + DJANGO_MIDDLEWARE
+MIDDLEWARE = DJANGO_SECURITY_MIDDLEWARE + ['whitenoise.middleware.WhiteNoiseMiddleware'] + DJANGO_MIDDLEWARE + ['corsheaders.middleware.CorsMiddleware']
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -23,7 +23,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # ------------------------------------------------------------------------------
 # http://gunicorn.org/
 
-INSTALLED_APPS += ('gunicorn',)
+# INSTALLED_APPS += ('gunicorn',)
 
 # SITE CONFIGURATION
 # ------------------------------------------------------------------------------
