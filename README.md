@@ -1,6 +1,8 @@
 **Для успешного запуска необходимо**
 
 `
+pipenv shell &&
+pipenv install &&
 npm install && 
 npm run update-req && 
 npm run build && 
