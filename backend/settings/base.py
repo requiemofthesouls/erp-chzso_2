@@ -93,10 +93,12 @@ DJANGO_MIDDLEWARE = [
 ]
 
 THIRD_PARTY_MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+
 ]
 
-MIDDLEWARE = DJANGO_SECURITY_MIDDLEWARE + DJANGO_MIDDLEWARE + THIRD_PARTY_MIDDLEWARE
+CORS_HEADERS_MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware']
+
+MIDDLEWARE = CORS_HEADERS_MIDDLEWARE, DJANGO_SECURITY_MIDDLEWARE + DJANGO_MIDDLEWARE + THIRD_PARTY_MIDDLEWARE
 
 # URL Configuration
 # ------------------------------------------------------------------------------
@@ -223,6 +225,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
 
 # Django REST-AUTH framework
 # ------------------------------------------------------------------------------
