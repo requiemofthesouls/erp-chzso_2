@@ -1,7 +1,9 @@
+import HOST_ADDR from '../CONSTANTS'
+
 import React from 'react';
 import axios from 'axios';
 
-import {Button, Card} from 'antd';
+import { Button, Card } from 'antd';
 import CustomForm from '../components/Form';
 
 class ProjectDetail extends React.Component {
@@ -12,18 +14,18 @@ class ProjectDetail extends React.Component {
 
   componentDidMount() {
     const projectID = this.props.match.params.projectID;
-    axios.get(`http://localhost/api/projects/${projectID}/`)
+    axios.get(`http://127.0.0.1:8000/api/projects/${projectID}/`)
       .then(res => {
         this.setState({
           project: res.data
         });
-      })
+      });
   };
 
   handleDelete = (event) => {
     const projectID = this.props.match.params.projectID;
-    axios.delete(`http://localhost/api/projects/${projectID}/`);
-    this.props.history.push("/projects");
+    axios.delete(`http://127.0.0.1:8000/api/projects/${projectID}/`);
+    this.props.history.push('/projects');
     this.forceUpdate();
   };
 

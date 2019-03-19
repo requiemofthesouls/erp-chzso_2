@@ -1,6 +1,9 @@
 # virtual environments
 venv
 
+# Database files
+/db/
+
 # Python files
 *.pyc
 __pycache__

@@ -15,7 +15,11 @@ WEBPACK_LOADER = {
 # ------------------------------------------------------------------------------
 # https://whitenoise.readthedocs.io/
 
-MIDDLEWARE = DJANGO_SECURITY_MIDDLEWARE + ['whitenoise.middleware.WhiteNoiseMiddleware'] + DJANGO_MIDDLEWARE + ['corsheaders.middleware.CorsMiddleware']
+# TODO: настроить CORS HEADERS
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
+
+MIDDLEWARE = CORS_HEADERS_MIDDLEWARE + DJANGO_SECURITY_MIDDLEWARE + ['whitenoise.middleware.WhiteNoiseMiddleware'] + DJANGO_MIDDLEWARE
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 

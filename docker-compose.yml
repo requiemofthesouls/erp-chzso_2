@@ -7,6 +7,8 @@ services:
     hostname: postgresql
     env_file:
       - prod.env
+    volumes:
+      - ./db:/var/lib/postgresql
     ports:
       - 6543:5432
 
@@ -40,9 +42,9 @@ services:
       context: .
       dockerfile: ./nginx/Dockerfile
     ports:
-      - 80:80
+      - 8000:8000
     volumes:
-      - ./frontend/staticfiles:/usr/share/nginx/public
+      - ./frontend/static/builds:/usr/share/nginx/public
       - ./backend/socket:/tmp/socket
     depends_on:
       - backend

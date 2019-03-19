@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+
+import HOST_ADDR from '../CONSTANTS'
 import {Form, Input, Button, Modal, Radio,} from 'antd';
 
 class CustomForm extends React.Component {
@@ -11,7 +13,7 @@ class CustomForm extends React.Component {
 
     switch (requestMethod) {
       case 'post':
-        return axios.post('http://localhost/api/projects/', {
+        return axios.post(`http://127.0.0.1:8000/api/projects/`, {
           "title": title,
           "active": true,
           "description": description,
@@ -21,7 +23,7 @@ class CustomForm extends React.Component {
         })
           .catch(err => console.error(err));
       case 'put':
-        return axios.put(`http://localhost/api/projects/${projectID}/`, {
+        return axios.put(`http://127.0.0.1:8000/api/projects/${projectID}/`, {
           "title": title,
           "active": true,
           "description": description,
