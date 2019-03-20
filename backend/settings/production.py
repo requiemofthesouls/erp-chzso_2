@@ -6,7 +6,7 @@ from .base import *
 
 WEBPACK_LOADER = {
     'DEFAULT': {
-        'BUNDLE_DIR_NAME': 'builds/',
+        'BUNDLE_DIR_NAME': 'builds',
         'STATS_FILE': os.path.join(FRONTEND_DIR, 'static', 'builds', 'webpack-stats.production.json')
     }
 }
@@ -15,19 +15,15 @@ WEBPACK_LOADER = {
 # ------------------------------------------------------------------------------
 # https://whitenoise.readthedocs.io/
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # TODO: настроить CORS HEADERS
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
-
 MIDDLEWARE = CORS_HEADERS_MIDDLEWARE + DJANGO_SECURITY_MIDDLEWARE + ['whitenoise.middleware.WhiteNoiseMiddleware'] + DJANGO_MIDDLEWARE
+THIRD_PARTY_APPS += ['corsheaders']
+# MIDDLEWARE = DJANGO_SECURITY_MIDDLEWARE + ['whitenoise.middleware.WhiteNoiseMiddleware'] + DJANGO_MIDDLEWARE
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Use Gunicorn as WSGI HTTP server
-# ------------------------------------------------------------------------------
-# http://gunicorn.org/
-
-# INSTALLED_APPS += ('gunicorn',)
 
 # SITE CONFIGURATION
 # ------------------------------------------------------------------------------

@@ -17,12 +17,16 @@ WEBPACK_LOADER = {
 # ------------------------------------------------------------------------------
 # https://github.com/jazzband/django-debug-toolbar
 
-MIDDLEWARE += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
 
-INSTALLED_APPS += ('debug_toolbar',)
+INSTALLED_APPS += ('debug_toolbar', 'corsheaders')
 
 INTERNAL_IPS = ['127.0.0.1', '10.0.2.2', ]
 
 # Hack to have debug toolbar when developing with docker
 ip = socket.gethostbyname(socket.gethostname())
 INTERNAL_IPS += [ip[:-1] + "1"]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
+MIDDLEWARE = CORS_HEADERS_MIDDLEWARE + DJANGO_SECURITY_MIDDLEWARE + DJANGO_MIDDLEWARE + ['debug_toolbar.middleware.DebugToolbarMiddleware']
+THIRD_PARTY_APPS += ['corsheaders']

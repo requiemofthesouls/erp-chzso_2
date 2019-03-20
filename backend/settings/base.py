@@ -64,9 +64,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
-    'corsheaders',
     'webpack_loader',
-
 ]
 
 LOCAL_APPS = [

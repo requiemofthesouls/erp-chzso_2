@@ -3,6 +3,7 @@
 В корне лежит пип файл с зависимостями.
 Вроде первыми двумя команами должно активироваться виртуальное окружение и установиться зависимости.
 
+Для продакшна
 
 `
 pipenv shell &&
@@ -11,6 +12,17 @@ npm install &&
 npm run update-req && 
 npm run build && 
 docker-compose up --build
+`
+
+Для разработки
+
+`
+pipenv shell &&
+pipenv install &&
+npm install && 
+npm run dev && 
+cd backend &&
+pipenv run python manage.py --settings=settings.local
 `
 
 

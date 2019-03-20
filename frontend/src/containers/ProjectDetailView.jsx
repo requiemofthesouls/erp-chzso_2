@@ -37,7 +37,7 @@ class ProjectDetail extends React.Component {
         </Card>
         <CustomForm
           requestMethod="put"
-          articleID={this.props.match.params.projectID}
+          projectID={this.props.match.params.projectID}
           btnText="Update"/>
         <form onSubmit={this.handleDelete}>
           <Button type="danger" htmlType="submit">Delete</Button>

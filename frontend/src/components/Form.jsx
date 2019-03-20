@@ -6,10 +6,11 @@ import {Form, Input, Button, Modal, Radio,} from 'antd';
 
 class CustomForm extends React.Component {
 
-  handleFormSubmit = (event, requestMethod, projectID) => {
+  handleFormSubmit = (event, requestMethod) => {
     event.preventDefault();
-    const title = event.target.elements.title.value;
-    const description = event.target.elements.description.value;
+    let title = event.target.elements.title.value;
+    let description = event.target.elements.description.value;
+    let projectID = this.props.projectID;
 
     switch (requestMethod) {
       case 'post':
@@ -39,8 +40,7 @@ class CustomForm extends React.Component {
     return (
       <div>
         <Form onSubmit={(event) => this.handleFormSubmit(event,
-          this.props.requestMethod,
-          this.props.projectID)}>
+          this.props.requestMethod)}>
           <Form.Item label="Title">
             <Input name="title" placeholder="Put a title here"/>
           </Form.Item>

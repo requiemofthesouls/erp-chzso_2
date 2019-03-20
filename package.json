@@ -4,6 +4,7 @@
   "description": "Enterprise resource planning system",
   "main": "index.js",
   "scripts": {
+    "collectstatic": "rm -rf frontend/staticfiles/* && pipenv run python backend/manage.py collectstatic --noinput",
     "update-req": "pipenv lock -r > backend/requirements.txt",
     "up": "npm run update-req && npm run build && docker-compose up --build",
     "build": "rm -rf frontend/static/builds/* && webpack --config=frontend/webpack/webpack.prod.js --progress --colors",
