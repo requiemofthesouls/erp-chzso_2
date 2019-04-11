@@ -1,8 +1,11 @@
 // production config
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const merge = require('webpack-merge');
 const { resolve } = require('path');
 const BundleTracker = require('webpack-bundle-tracker');
 const commonConfig = require('./webpack.common');
+const CopyPlugin = require('copy-webpack-plugin');
+
 
 module.exports = merge(commonConfig, {
   mode: 'production',
@@ -13,7 +16,21 @@ module.exports = merge(commonConfig, {
     path: resolve(__dirname, '../static/builds'),
     publicPath: '/',
   },
+   optimization: {
+    minimizer: [new UglifyJsPlugin()],
+  },
   plugins: [
     new BundleTracker({ filename: 'frontend/static/builds/webpack-stats.prod.json' }),
+    new CopyPlugin([
+      {
+        from: resolve(__dirname, '../src/assets/icons/favicon.ico'),
+        to: resolve(__dirname, '../static/builds/favicon.ico'),
+        toType: 'file',
+      },
+      {
+        from: resolve(__dirname, '../src/assets/manifests/index.json'),
+        to: resolve(__dirname, '../static/builds/index.json'),
+        toType: 'file',
+      },]),
   ],
 });

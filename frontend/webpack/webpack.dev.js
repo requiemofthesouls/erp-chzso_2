@@ -1,9 +1,11 @@
 // development config
-var path = require('path');
+const { resolve } = require('path');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
 const commonConfig = require('./webpack.common');
 const BundleTracker = require('webpack-bundle-tracker');
+const CopyPlugin = require('copy-webpack-plugin');
+
 
 module.exports = merge(commonConfig, {
   mode: 'development',
@@ -14,8 +16,8 @@ module.exports = merge(commonConfig, {
     './index.jsx' // the entry point of our app
   ],
   output: {
-    path: path.resolve(__dirname, '../static/builds-development'),
     filename: 'index_bundle.js',
+    path: resolve(__dirname, '../static/builds-development'),
     publicPath: '/'
   },
   devServer: {
@@ -26,8 +28,19 @@ module.exports = merge(commonConfig, {
   },
   devtool: 'cheap-module-eval-source-map',
   plugins: [
-    new BundleTracker({filename: 'frontend/static/builds-development/webpack-stats.dev.json'}),
+    new BundleTracker({ filename: 'frontend/static/builds-development/webpack-stats.dev.json' }),
     new webpack.HotModuleReplacementPlugin(), // enable HMR globally
     new webpack.NamedModulesPlugin(), // prints more readable module names in the browser console on HMR update
+    new CopyPlugin([
+      {
+        from: resolve(__dirname, '../src/assets/icons/favicon.ico'),
+        to: resolve(__dirname, '../static/builds-development/favicon.ico'),
+        toType: 'file',
+      },
+      {
+        from: resolve(__dirname, '../src/assets/manifests/index.json'),
+        to: resolve(__dirname, '../static/builds-development/index.json'),
+        toType: 'file',
+      },])
   ],
 });

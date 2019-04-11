@@ -1,23 +1,30 @@
 import React from 'react';
 import axios from 'axios';
 
-import HOST_ADDR from '../CONSTANTS'
+import HOST_ADDR from '../CONSTANTS';
 import Projects from '../components/Projects';
 import CustomForm from '../components/Form';
+import AuthService from '../components/AuthService';
 
 class ProjectList extends React.Component {
-
-  state = {
-    projects: []
-  };
+  constructor(props) {
+    super(props);
+    this.Auth = new AuthService();
+    this.auth_header = { 'Authorization': `JWT ${this.Auth.getToken()}` };
+    this.state = {
+      projects: [],
+    };
+  }
 
   componentDidMount() {
-    axios.get(`http://127.0.0.1:8000/api/projects/`)
+    axios.get(`http://127.0.0.1:8000/api/projects/`, {
+      headers: this.auth_header
+    })
       .then(res => {
         this.setState({
           projects: res.data
         });
-      })
+      });
   };
 
   render() {
@@ -29,7 +36,7 @@ class ProjectList extends React.Component {
         <CustomForm
           requestMethod="post"
           projectID={null}
-          btnText="Create" />
+          btnText="Create"/>
       </div>
     );
   }

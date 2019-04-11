@@ -68,6 +68,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    'core',
     'projects',
 ]
 
@@ -208,18 +209,17 @@ MEDIA_URL = "/media/"
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.AllowAny',
         # 'rest_framework.permissions.IsAdminUser',
-        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
     ),
 }
-
 
 
 # Django REST-AUTH framework
@@ -227,9 +227,10 @@ REST_FRAMEWORK = {
 # https://github.com/Tivix/django-rest-auth/
 # https://github.com/GetBlimp/django-rest-framework-jwt
 
-# REST_USE_JWT = True
-#
-# JWT_AUTH = {
-#     'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),
-#     'JWT_ALLOW_REFRESH': True,
-# }
+REST_USE_JWT = True
+
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'main.utils.my_jwt_response_handler',
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),
+    'JWT_ALLOW_REFRESH': True,
+}

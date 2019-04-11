@@ -1,19 +1,21 @@
 import React from 'react';
-import { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, withRouter } from 'react-router-dom';
 import BaseRouter from './routes';
 import 'antd/dist/antd.css';
+import '../assets/css/App.css';
+import RootLayout from '../containers/Layout';
+import withAuth from './withAuth';
 
-import CustomLayout from '../containers/Layout';
+class App extends React.Component {
 
-class App extends Component {
+
   render() {
     return (
       <div className="App">
         <Router>
-          <CustomLayout>
+          <RootLayout>
             <BaseRouter/>
-          </CustomLayout>
+          </RootLayout>
         </Router>
       </div>
     );

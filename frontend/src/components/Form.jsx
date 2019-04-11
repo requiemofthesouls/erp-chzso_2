@@ -1,10 +1,20 @@
 import React from 'react';
 import axios from 'axios';
 
-import HOST_ADDR from '../CONSTANTS'
-import {Form, Input, Button, Modal, Radio,} from 'antd';
+import HOST_ADDR from '../CONSTANTS';
+import { Form, Input, Button, Modal, Radio, } from 'antd';
+import AuthService from './AuthService';
 
 class CustomForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.Auth = new AuthService();
+    this.auth_header = { 'Authorization': `JWT ${this.Auth.getToken()}` };
+    this.state = {
+      projects: [],
+    };
+  }
+
 
   handleFormSubmit = (event, requestMethod) => {
     event.preventDefault();
@@ -15,22 +25,26 @@ class CustomForm extends React.Component {
     switch (requestMethod) {
       case 'post':
         return axios.post(`http://127.0.0.1:8000/api/projects/`, {
-          "title": title,
-          "active": true,
-          "description": description,
-          "entry": "fasgfa",
-          "priority": 2,
-          "old_id": 0
+          'title': title,
+          'active': true,
+          'description': description,
+          'entry': 'fasgfa',
+          'priority': 2,
+          'old_id': 0
+        }, {
+          headers: this.auth_header
         })
           .catch(err => console.error(err));
       case 'put':
         return axios.put(`http://127.0.0.1:8000/api/projects/${projectID}/`, {
-          "title": title,
-          "active": true,
-          "description": description,
-          "entry": "fasgfa",
-          "priority": 2,
-          "old_id": 0
+          'title': title,
+          'active': true,
+          'description': description,
+          'entry': 'fasgfa',
+          'priority': 2,
+          'old_id': 0
+        }, {
+          headers: this.auth_header
         })
           .catch(err => console.error(err));
     }
