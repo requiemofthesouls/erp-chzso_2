@@ -17,6 +17,9 @@ django-webpack-loader = "*"
 gunicorn = "*"
 django-cors-headers = "*"
 uwsgi = "*"
+django-extensions = "*"
+pyparsing = "*"
+pydot = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"

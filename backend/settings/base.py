@@ -65,7 +65,12 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'webpack_loader',
+    # 'django_extensions',
 ]
+
+# Для отрисовки даталогической модели
+# https://github.com/django-extensions/django-extensions/blob/master/docs/graph_models.rst
+# python manage.py graph_models -a -g -o my_project_visualized.png
 
 LOCAL_APPS = [
     'core',
@@ -234,3 +239,10 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),
     'JWT_ALLOW_REFRESH': True,
 }
+
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
+
