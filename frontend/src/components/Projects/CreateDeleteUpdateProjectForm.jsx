@@ -1,15 +1,16 @@
 import React from 'react';
-import axios from 'axios';
+import axios from 'axios/index';
 
-import { Form, Input, Button, Modal, Radio, } from 'antd';
-import AuthService from './AuthService';
+import { Form, Input, Button, Modal, Radio, } from 'antd/lib/index';
+import AuthServiceLogic from '../AuthService/AuthServiceLogic';
 
 class CreateDeleteUpdateProjectForm extends React.Component {
-  Auth = new AuthService();
+  Auth = new AuthServiceLogic();
 
 
   state = {
     projects: [],
+    defaultData: [],
   };
 
 
@@ -47,23 +48,26 @@ class CreateDeleteUpdateProjectForm extends React.Component {
     }
   };
 
-  render() {
+  render(){
     return (
       <div>
-        <Form onSubmit={(event) => this.handleFormSubmit(event,
-          this.props.requestMethod)}>
-          <Form.Item label="Title">
-            <Input name="title" placeholder="Put a title here"/>
+        <Form onChange={this.handleChange} onSubmit={(e) => this.handleFormSubmit(e, this.props.requestMethod)}>
+          <Form.Item label="Название">
+            <Input name="title" placeholder="Введите название" /> {/*TODO: почему не передается свойство defaultData*/}
           </Form.Item>
-          <Form.Item label="Description">
-            <Input name="description" placeholder="Put a description here"/>
+          <Form.Item label="Описание">
+            <Input name="description" placeholder="Введите описание"/>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">{this.props.btnText}</Button>
+            <Button block type="primary" htmlType="submit">{this.props.btnText}</Button>
           </Form.Item>
         </Form>
       </div>
     );
+  }
+
+  handleChange = () => {
+    // console.log(this.props)
   }
 }
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import AuthService from './AuthService';
+import AuthServiceLogic from './AuthServiceLogic';
 import { Redirect} from 'react-router-dom';
 
-export default function withAuth(AuthComponent) {
-  const Auth = new AuthService();
+export default function authServiceWrapper(AuthComponent) {
+  const Auth = new AuthServiceLogic();
 
   return class AuthWrapped extends Component {
     constructor(props) {

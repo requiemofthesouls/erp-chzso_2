@@ -1,18 +1,18 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Table } from 'antd/lib/index';
 import { withRouter } from 'react-router-dom';
 
 const columns = [
   {
-    title: 'Title',
+    title: 'Название',
     dataIndex: 'title'
   },
   {
-    title: 'Manager',
+    title: 'Ответственный',
     dataIndex: 'manager'
   },
   {
-    title: 'Priority',
+    title: 'Приоритет',
     dataIndex: 'priority'
   },
   {
@@ -44,7 +44,7 @@ class Projects extends React.Component {
           return {
             onClick: (event) => {
               // this.routeChange(rowIndex);
-              this.props.history.push(`/projects/${rowIndex}`);
+              this.props.history.push(`/projects/${record.id}`);
             },
             onDoubleClick: (event) => {
             }, // double click row

@@ -3,13 +3,13 @@ import axios from 'axios/index';
 
 import Projects from './Projects';
 import CreateDeleteUpdateProjectForm from './CreateDeleteUpdateProjectForm';
-import AuthService from './AuthService';
-import { Alert, Button, Modal } from 'antd';
+import AuthServiceLogic from '../AuthService/AuthServiceLogic';
+import { Alert, Button, Modal } from 'antd/lib/index';
 import { Link } from 'react-router-dom';
 
 class ProjectList extends React.Component {
 
-  Auth = new AuthService();
+  Auth = new AuthServiceLogic();
 
   state = {
     projects: [],

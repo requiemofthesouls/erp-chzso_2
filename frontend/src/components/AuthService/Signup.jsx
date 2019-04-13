@@ -1,13 +1,13 @@
 import React from 'react';
 import {
   Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,
-} from 'antd';
+} from 'antd/lib/index';
 
-import AuthService from './AuthService';
+import AuthServiceLogic from './AuthServiceLogic';
 
 
 class RegistrationForm extends React.Component {
-  Auth = new AuthService();
+  Auth = new AuthServiceLogic();
 
   state = {};
 

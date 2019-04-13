@@ -1,13 +1,13 @@
 import React from 'react';
-import { Button, Checkbox, Form, Icon, Input, } from 'antd';
+import { Button, Checkbox, Form, Icon, Input, } from 'antd/lib/index';
 
-import AuthService from './AuthService';
+import AuthServiceLogic from './AuthServiceLogic';
 import { Link } from 'react-router-dom';
 
 
 class NormalLoginForm extends React.Component {
 
-  Auth = new AuthService();
+  Auth = new AuthServiceLogic();
 
 
   componentWillMount() {
