@@ -1,21 +1,19 @@
 import React from 'react';
-
 import { Button, Checkbox, Form, Icon, Input, } from 'antd';
-import axios from 'axios';
+
 import AuthService from './AuthService';
+import { Link } from 'react-router-dom';
+
 
 class NormalLoginForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.Auth = new AuthService();
-  }
+
+  Auth = new AuthService();
+
 
   componentWillMount() {
     if (this.Auth.loggedIn()) {
       alert(`Вы уже вошли!`);
-      this.props.history.replace('/');
+      this.props.history.push('/');
     }
   }
 
@@ -52,36 +50,36 @@ class NormalLoginForm extends React.Component {
           })(
             <Checkbox>Запомнить меня</Checkbox>
           )}
-          <a className="login-form-forgot" href="">Забыли пароль?</a>
+          <Link className="login-form-forgot" to="">Забыли пароль?</Link>
 
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            Войти
-          </Button> <span>  </span>
-          <a href="/signup">Зарегистрироваться!</a>
+          <Button icon="login" type="primary" htmlType="submit" className="login-form-button" block>Войти </Button>
+          <Button type="primary" href="/signup" htmlType="submit" icon="user-add" block>Зарегистрироваться</Button>
         </Form.Item>
       </Form>
     );
   }
 
-  handleFormSubmit(e) {
-    e.preventDefault();
-    this.Auth.login(this.state.username, this.state.password)
-      .then(res => {
-        this.props.history.replace('/projects');
-        alert(`Привет, ${this.state.username}`)
-      })
-      .catch(err => {
-        alert(err);
-      });
-  }
-
-  handleChange(e) {
+  handleChange = (e) => {
     this.setState(
       {
         [e.target.name]: e.target.value
       }
     );
-  }
+  };
+
+  handleFormSubmit = (e) => {
+    e.preventDefault();
+    this.Auth.login(this.state.username, this.state.password)
+      .then(res => {
+        this.props.history.push('/projects');
+        alert(`Привет, ${this.state.username}`);
+      })
+      .catch(err => {
+        alert(err);
+      });
+  };
+
+
 
 
 }

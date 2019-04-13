@@ -33,12 +33,12 @@ module.exports = merge(commonConfig, {
     new webpack.NamedModulesPlugin(), // prints more readable module names in the browser console on HMR update
     new CopyPlugin([
       {
-        from: resolve(__dirname, '../src/assets/icons/favicon.ico'),
+        from: resolve(__dirname, '../src/public/favicon.ico'),
         to: resolve(__dirname, '../static/builds-development/favicon.ico'),
         toType: 'file',
       },
       {
-        from: resolve(__dirname, '../src/assets/manifests/index.json'),
+        from: resolve(__dirname, '../src/public/index.json'),
         to: resolve(__dirname, '../static/builds-development/index.json'),
         toType: 'file',
       },])

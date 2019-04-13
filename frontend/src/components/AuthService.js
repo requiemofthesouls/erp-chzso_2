@@ -7,10 +7,27 @@ export default class AuthService {
     this.fetch = this.fetch.bind(this); // React binding stuff
     this.login = this.login.bind(this);
     this.getProfile = this.getProfile.bind(this);
+    this.auth_header = { 'Authorization': `JWT ${this.getToken()}` };
+  }
+
+
+  register(username, password) {
+    // Registering user to backend using the fetch api
+    return this.fetch(`${this.domain}/auth/users/`, {
+      method: 'POST',
+      body: JSON.stringify({
+        username,
+        password
+      })
+    })
+      .then(res => {
+        this.setToken(res.token); // Setting the token in localStorage
+        return Promise.resolve(res);
+      });
   }
 
   login(username, password) {
-    // Get a token from api server using the fetch api
+    // Get a token from backend using the fetch api
     return this.fetch(`${this.domain}/token-auth/`, {
       method: 'POST',
       body: JSON.stringify({

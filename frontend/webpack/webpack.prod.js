@@ -23,12 +23,12 @@ module.exports = merge(commonConfig, {
     new BundleTracker({ filename: 'frontend/static/builds/webpack-stats.prod.json' }),
     new CopyPlugin([
       {
-        from: resolve(__dirname, '../src/assets/icons/favicon.ico'),
+        from: resolve(__dirname, '../src/public/favicon.ico'),
         to: resolve(__dirname, '../static/builds/favicon.ico'),
         toType: 'file',
       },
       {
-        from: resolve(__dirname, '../src/assets/manifests/index.json'),
+        from: resolve(__dirname, '../src/public/index.json'),
         to: resolve(__dirname, '../static/builds/index.json'),
         toType: 'file',
       },]),

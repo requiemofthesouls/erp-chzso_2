@@ -2,9 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, withRouter } from 'react-router-dom';
 import BaseRouter from './routes';
 import 'antd/dist/antd.css';
-import '../assets/css/App.css';
-import RootLayout from '../containers/Layout';
+import '../public/css/App.css';
+import RootLayout from './Layout';
 import withAuth from './withAuth';
+import LoginForm from './Login';
 
 class App extends React.Component {
 
@@ -13,7 +14,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Router>
-          <RootLayout>
+          <RootLayout >
             <BaseRouter/>
           </RootLayout>
         </Router>

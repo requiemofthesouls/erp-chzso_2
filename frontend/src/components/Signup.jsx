@@ -3,8 +3,14 @@ import {
   Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,
 } from 'antd';
 
+import AuthService from './AuthService';
+
 
 class RegistrationForm extends React.Component {
+  Auth = new AuthService();
+
+  state = {};
+
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -42,79 +48,133 @@ class RegistrationForm extends React.Component {
 
 
     return (
-      <Form {...formItemLayout} >
+      <Form onChange={this.handleChange} onSubmit={this.handleSubmit} {...formItemLayout} >
         <Form.Item
           label="E-mail"
+
         >
           {getFieldDecorator('email', {
             rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
+              type: 'email',
+              message: 'Вы ввели некорректный E-mail!',
             }, {
-              required: true, message: 'Please input your E-mail!',
+              required: true,
+              message: 'Пожалуйста введите ваш E-mail!',
             }],
           })(
-            <Input />
+            <Input name="email"/>
           )}
         </Form.Item>
         <Form.Item
-          label="Password"
+          label="Пароль"
         >
           {getFieldDecorator('password', {
             rules: [{
-              required: true, message: 'Please input your password!',
+              required: true,
+              message: 'Пожалуйста введите пароль!',
             }, {
               validator: this.validateToNextPassword,
             }],
           })(
-            <Input type="password" />
+            <Input name="password" type="password"/>
           )}
         </Form.Item>
         <Form.Item
-          label="Confirm Password"
+          label="Подтвердите пароль"
         >
           {getFieldDecorator('confirm', {
             rules: [{
-              required: true, message: 'Please confirm your password!',
+              required: true,
+              message: 'Пожалуйста введите пароль ещё раз!',
             }, {
               validator: this.compareToFirstPassword,
             }],
           })(
-            <Input type="password" onBlur={this.handleConfirmBlur} />
+            <Input name="confirm_password" type="password" onBlur={this.handleConfirmBlur}/>
           )}
         </Form.Item>
         <Form.Item
           label={(
             <span>
-              Nickname&nbsp;
-              <Tooltip title="What do you want others to call you?">
-                <Icon type="question-circle-o" />
+              Уникальное имя&nbsp;
+              <Tooltip title="Как бы вы хотели чтобы другие звали вас?">
+                <Icon type="question-circle-o"/>
               </Tooltip>
             </span>
           )}
         >
           {getFieldDecorator('nickname', {
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            rules: [{
+              required: true,
+              message: 'Пожалуйста введите ваш никнейм!',
+              whitespace: true
+            }],
           })(
-            <Input />
+            <Input name="username"/>
           )}
         </Form.Item>
 
         <Form.Item
-          label="Phone Number"
+          label="Номер телефона"
         >
           {getFieldDecorator('phone', {
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            rules: [{
+              required: true,
+              message: 'Пожалуйста введите номер телефона!'
+            }],
           })(
-            <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+            <Input name="phone_number" addonBefore={prefixSelector} style={{ width: '100%' }}/>
           )}
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">Register</Button>
+          <Button block type="primary" htmlType="submit">Зарегистрироваться</Button>
         </Form.Item>
       </Form>
     );
   }
+
+  validateToNextPassword = (e) => {
+    let firstPassword = this.state.password;
+    let secondPassword = this.state.confirm_password;
+    // TODO: Password validator
+    if (firstPassword !== secondPassword) {
+      // console.log('Пароли не совпадают');
+    }
+  };
+
+  compareToFirstPassword = (e) => {
+    let firstPassword = this.state.password;
+    let secondPassword = this.state.confirm_password;
+    // TODO: Password validator
+    if (secondPassword !== firstPassword) {
+      // console.log('Пароли не совпадают');
+    }
+  };
+
+
+  handleChange = (e) => {
+    this.setState(
+      {
+        [e.target.name]: e.target.value
+      }
+    );
+    console.log(this.state);
+
+  };
+
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.Auth.register(this.state.username, this.state.password)
+      .then(res => {
+        alert(`Пользователь ${res.username} успешно зарегистрирован.`);
+        this.props.history.push('/projects');
+      })
+      .catch(err => {
+        alert(err);
+      });
+  };
 }
 
 const SignupForm = Form.create({ name: 'register' })(RegistrationForm);

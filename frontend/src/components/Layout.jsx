@@ -1,20 +1,21 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb, Icon, } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, } from 'antd/lib/index';
 import { Link, Redirect, withRouter } from 'react-router-dom';
-import AuthService from '../components/AuthService';
+import AuthService from './AuthService';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
-import withAuth from '../components/withAuth';
+import withAuth from './withAuth';
 
 
 class RootLayout extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.Auth = new AuthService();
-  }
+  Auth = new AuthService();
+
+  state = {
+    user: null,
+  };
 
 
   render() {
@@ -36,7 +37,7 @@ class RootLayout extends React.Component {
             <Menu.Item key="3">
               {this.Auth.loggedIn() ?
                 <Link to='/logout'>Выйти</Link>
-                :<Link to='/login'>Войти</Link>
+                : <Link to='/login'>Войти</Link>
               }
             </Menu.Item>
 
@@ -94,5 +95,4 @@ class RootLayout extends React.Component {
 }
 
 
-
-export default RootLayout;
+export default withRouter(RootLayout);

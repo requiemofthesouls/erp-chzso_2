@@ -26,17 +26,6 @@ module.exports = {
         ],
       },
       {
-        test: /\.scss$/,
-        loaders: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: { importLoaders: 1 }
-          },
-          'sass-loader',
-        ],
-      },
-      {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [
           'file-loader?hash=sha512&digest=hex&name=img/[hash].[ext]',
@@ -46,7 +35,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: 'index.html', }),
+    new HtmlWebpackPlugin({ template: 'public/index.html', }),
   ],
   externals: {
     'react': 'React',

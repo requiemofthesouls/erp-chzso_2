@@ -1,19 +1,16 @@
 import React from 'react';
 import axios from 'axios';
 
-import HOST_ADDR from '../CONSTANTS';
 import { Form, Input, Button, Modal, Radio, } from 'antd';
 import AuthService from './AuthService';
 
-class CustomForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.Auth = new AuthService();
-    this.auth_header = { 'Authorization': `JWT ${this.Auth.getToken()}` };
-    this.state = {
-      projects: [],
-    };
-  }
+class CreateDeleteUpdateProjectForm extends React.Component {
+  Auth = new AuthService();
+
+
+  state = {
+    projects: [],
+  };
 
 
   handleFormSubmit = (event, requestMethod) => {
@@ -32,7 +29,7 @@ class CustomForm extends React.Component {
           'priority': 2,
           'old_id': 0
         }, {
-          headers: this.auth_header
+          headers: this.Auth.auth_header
         })
           .catch(err => console.error(err));
       case 'put':
@@ -44,7 +41,7 @@ class CustomForm extends React.Component {
           'priority': 2,
           'old_id': 0
         }, {
-          headers: this.auth_header
+          headers: this.Auth.auth_header
         })
           .catch(err => console.error(err));
     }
@@ -70,4 +67,4 @@ class CustomForm extends React.Component {
   }
 }
 
-export default CustomForm;
+export default CreateDeleteUpdateProjectForm;
