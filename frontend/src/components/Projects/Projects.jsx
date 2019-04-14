@@ -9,7 +9,7 @@ const columns = [
   },
   {
     title: 'Ответственный',
-    dataIndex: 'manager'
+    dataIndex: 'manager_id'
   },
   {
     title: 'Приоритет',

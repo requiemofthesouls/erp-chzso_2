@@ -13,6 +13,7 @@ class ProjectList extends React.Component {
 
   state = {
     projects: [],
+    users: [],
     visible: false,
   };
 
@@ -34,6 +35,10 @@ class ProjectList extends React.Component {
     });
   };
 
+  handleCurrentUser = () => {
+    console.log(this.state);
+    // TODO: Подставлять в состояние не user_id, а его username
+  };
 
   componentDidMount() {
     axios.get(`http://127.0.0.1:8000/api/projects/`, {
@@ -44,6 +49,16 @@ class ProjectList extends React.Component {
           projects: res.data
         });
       });
+
+    axios.get(`http://127.0.0.1:8000/auth/users/`, {
+      headers: this.Auth.auth_header
+    })
+      .then(res => {
+          this.setState({
+            users: res.data
+          }, () => this.handleCurrentUser());
+        }
+      );
   };
 
   render() {

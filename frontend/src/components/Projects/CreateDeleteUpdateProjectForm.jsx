@@ -16,18 +16,16 @@ class CreateDeleteUpdateProjectForm extends React.Component {
 
   handleFormSubmit = (event, requestMethod) => {
     event.preventDefault();
-    let title = event.target.elements.title.value;
-    let description = event.target.elements.description.value;
     let projectID = this.props.projectID;
 
     switch (requestMethod) {
       case 'post':
         return axios.post(`http://127.0.0.1:8000/api/projects/`, {
-          'title': title,
+          'title': this.state.title,
           'active': true,
-          'description': description,
-          'entry': 'fasgfa',
-          'priority': 2,
+          'description': this.state.description,
+          'entry': this.state.entry,
+          'priority': this.state.priority,
           'old_id': 0
         }, {
           headers: this.Auth.auth_header
@@ -35,11 +33,11 @@ class CreateDeleteUpdateProjectForm extends React.Component {
           .catch(err => console.error(err));
       case 'put':
         return axios.put(`http://127.0.0.1:8000/api/projects/${projectID}/`, {
-          'title': title,
+          'title': this.state.title,
           'active': true,
-          'description': description,
-          'entry': 'fasgfa',
-          'priority': 2,
+          'description': this.state.description,
+          'entry': this.state.entry,
+          'priority': this.state.priority,
           'old_id': 0
         }, {
           headers: this.Auth.auth_header
@@ -58,6 +56,12 @@ class CreateDeleteUpdateProjectForm extends React.Component {
           <Form.Item label="Описание">
             <Input name="description" placeholder="Введите описание"/>
           </Form.Item>
+          <Form.Item label="Entry">
+            <Input name="entry" placeholder="Введите entry"/>
+          </Form.Item>
+          <Form.Item label="Приоритет">
+            <Input name="priority" placeholder="Введите приоритет" />
+          </Form.Item>
           <Form.Item>
             <Button block type="primary" htmlType="submit">{this.props.btnText}</Button>
           </Form.Item>
@@ -66,8 +70,12 @@ class CreateDeleteUpdateProjectForm extends React.Component {
     );
   }
 
-  handleChange = () => {
-    // console.log(this.props)
+  handleChange = (e) => {
+    this.setState(
+      {
+        [e.target.name]: e.target.value
+      }
+    );
   }
 }
 
