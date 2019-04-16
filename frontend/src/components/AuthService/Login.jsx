@@ -1,9 +1,8 @@
 import React from 'react';
-import { Button, Checkbox, Form, Icon, Input, } from 'antd/lib/index';
+import { message, Button, Checkbox, Form, Icon, Input, } from 'antd/lib/index';
 
 import AuthServiceLogic from './AuthServiceLogic';
 import { Link } from 'react-router-dom';
-
 
 
 class NormalLoginForm extends React.Component {
@@ -27,6 +26,7 @@ class NormalLoginForm extends React.Component {
   }
 
   render() {
+
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onChange={this.handleChange} onSubmit={this.handleFormSubmit} className="login-form">
@@ -80,8 +80,8 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.Auth.login(this.state.username, this.state.password)
       .then(res => {
+        message.info(`Привет, ${this.state.username}`, 2.5);
         this.props.history.push('/projects');
-        alert(`Привет, ${this.state.username}`);
         this.setUsername(this.state.username);
       })
       .catch(err => {

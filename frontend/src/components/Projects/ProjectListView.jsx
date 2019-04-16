@@ -1,11 +1,11 @@
 import React from 'react';
-import axios from 'axios/index';
+import axios from 'axios';
+import { Button, Modal } from 'antd';
 
 import Projects from './Projects';
 import CreateDeleteUpdateProjectForm from './CreateDeleteUpdateProjectForm';
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
-import { Alert, Button, Modal } from 'antd/lib/index';
-import { Link } from 'react-router-dom';
+
 
 class ProjectList extends React.Component {
 
@@ -19,8 +19,6 @@ class ProjectList extends React.Component {
       visible: false,
 
     };
-
-
   }
 
   showModal = () => {
@@ -41,49 +39,52 @@ class ProjectList extends React.Component {
     });
   };
 
-
-  handleCurrentUser = () => {
-    for (let project of this.state.projects) {
-      for (let user of this.state.users) {
-        if (project.manager_id === user.id) {
-          project['manager_username'] = user.username;
-        }
-      }
-    }
-  };
-
-  // TODO: fix username appearance for manager
-
-
-  componentWillMount() {
+  updateProjects = () => {
+    console.log('updating projects');
+    // Get all Projects and put them to the redux
     axios.get(`http://127.0.0.1:8000/api/projects/`, {
       headers: this.Auth.auth_header
     })
       .then(res => {
-        this.setState({
-          projects: res.data
-        });
-
-        axios.get(`http://127.0.0.1:8000/auth/users/`, {
-          headers: this.Auth.auth_header
-        })
-          .then(res => {
-              this.setState({
-                users: res.data
-              }, () => this.handleCurrentUser());
-            }
-          );
+        this.setProjects(res.data);
       });
   };
 
-    render() {
+  setProjects = (projects) => {
+    this.props.setProjects(projects);
+  };
+
+
+  componentWillMount() {
+    this.updateProjects();
+  };
+
+  render() {
     return (
       <div>
-        <Projects data={this.state.projects}/>
-        <Button onClick={this.showModal} htmlType="submit"
-                type="primary" block icon="folder-add">
-          Создать проект
+        <Button
+          onClick={this.showModal}
+          htmlType="submit"
+          icon="folder-add"
+          style={{ marginBottom: 10 }}
+        >
         </Button>
+
+        <Button
+          htmlType="submit"
+          icon="delete"
+          style={{
+            marginBottom: 10,
+            marginLeft: 10
+          }}
+        >
+        </Button>
+
+        <Projects
+          projects={this.props.projects}
+          history={this.props.history}
+
+        />
 
         <Modal centered
                title="Создание проекта"
@@ -94,7 +95,10 @@ class ProjectList extends React.Component {
           <CreateDeleteUpdateProjectForm
             requestMethod="post"
             projectID={null}
-            btnText="Создать"/>
+            btnText="Создать"
+            updateProjects={this.updateProjects}
+            closeModal={this.handleOk}
+          />
         </Modal>
       </div>
     );

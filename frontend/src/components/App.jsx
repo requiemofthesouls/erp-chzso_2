@@ -9,7 +9,7 @@ import RootLayout from './Layout';
 class App extends React.Component {
 
   render() {
-    const { username, setGlobalUsername } = this.props;
+    const { username, setGlobalUsername, projects, setProjects } = this.props;
 
     return (
       <div className="App">
@@ -17,6 +17,8 @@ class App extends React.Component {
           <RootLayout
             username={username}
             setGlobalUsername={setGlobalUsername}
+            projects={projects}
+            setProjects={setProjects}
           >
             <BaseRouter/>
           </RootLayout>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Form, Input, Tooltip, Icon, Select, Button,
+  Form, Input, Tooltip, Icon, Select, Button, message,
 } from 'antd';
 
 import AuthServiceLogic from './AuthServiceLogic';
@@ -52,7 +52,7 @@ class RegistrationForm extends React.Component {
 
 
     return (
-      <Form onChange={this.handleChange} onSubmit={this.handleSubmit} {...formItemLayout} >
+      <Form onChange={this.handleChange} onSubmit={this.handleSubmit} >
         <Form.Item
           label="E-mail"
 
@@ -131,7 +131,7 @@ class RegistrationForm extends React.Component {
           )}
         </Form.Item>
 
-        <Form.Item {...tailFormItemLayout}>
+        <Form.Item>
           <Button block type="primary" htmlType="submit">Зарегистрироваться</Button>
         </Form.Item>
       </Form>
@@ -170,9 +170,9 @@ class RegistrationForm extends React.Component {
     e.preventDefault();
     this.Auth.register(this.state.username, this.state.password)
       .then(res => {
-        alert(`Пользователь ${res.username} успешно зарегистрирован.`);
+        message.success(`Пользователь ${this.state.username} успешно зарегистрирован.`, 2.5);
         this.props.history.push('/projects');
-        this.setUsername(this.state.username)
+        this.setUsername(this.state.username);
       })
       .catch(err => {
         alert(err);

@@ -54,7 +54,7 @@ class ProjectDetail extends React.Component {
     axios.delete(`http://127.0.0.1:8000/api/projects/${projectID}/`, {
       headers: this.Auth.auth_header
     });
-    this.props.history.push('/projects');
+    this.props.history.push('/Projects');
     this.forceUpdate();
   };
 

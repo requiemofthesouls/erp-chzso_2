@@ -15,44 +15,53 @@ const columns = [
     title: 'Приоритет',
     dataIndex: 'priority'
   },
-  {
-    title: 'old ID',
-    dataIndex: 'old_id'
-  }];
-
-
-// routeChange(rowIndex) {
-//     let path = `newPath`;
-//     this.props.history.push(path);
-//   }
+];
 
 
 class Projects extends React.Component {
 
-  componentWillReceiveProps(nextProps, nextContent) {
-    if (nextProps.data !== this.state.data) {
-      this.setState({ data: nextProps.data });
-    }
+  componentWillReceiveProps(nextProps, nextContext) {
+    console.log('received newprops', nextProps);
+    this.setState({
+      data: nextProps.projects
+    });
   }
 
   state = {
-    data: this.props.data
+    data: this.props.projects,
+    selectedRowKeys: [],
+  };
+
+
+  onSelectChange = (selectedRowKeys) => {
+    console.log(this.state)
+    this.setState({ selectedRowKeys });
   };
 
   render() {
+    const { selectedRowKeys } = this.state;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
+      hideDefaultSelections: true,
+      onSelection: this.onSelection,
+    };
 
     return (
       <Table
+        rowSelection={rowSelection}
         columns={columns}
         dataSource={this.state.data}
         rowKey="id"
         onChange={this.onChange}
-        pagination={{ pageSize: 10 }}
+        pagination={{
+          pageSize: 10,
+          hideOnSinglePage: true
+        }}
         bordered={true}
         onRow={(record, rowIndex) => {
           return {
             onClick: (event) => {
-              // this.routeChange(rowIndex);
               this.props.history.push(`/projects/${record.id}`);
             },
             onDoubleClick: (event) => {
@@ -74,4 +83,4 @@ class Projects extends React.Component {
 }
 
 
-export default withRouter(Projects);
+export default Projects;

@@ -1,8 +1,7 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb, Icon, } from 'antd/lib/index';
+import { Layout, Menu, Breadcrumb, Icon, Button, message } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
 import AuthServiceLogic from './AuthService/AuthServiceLogic';
-import { Button } from 'antd';
 
 const { Header, Content, Sider } = Layout;
 
@@ -33,26 +32,33 @@ class RootLayout extends React.Component {
           <Menu
             theme="dark"
             mode="horizontal"
+            defaultSelectedKeys={['title']}
             style={{
               lineHeight: '64px',
-              float: 'right'
             }}
           >
+            <Menu.Item key='title' style={{ float: 'left' }}><Icon type="sliders"/>ERP ЧЗСО</Menu.Item>
 
-            {this.Auth.loggedIn() ? <Menu.Item key='user'><Icon type="user"/>{username}</Menu.Item> :
-              <span/>}
 
-            <Menu.Item key="login/logout">
+            <Menu.Item key="login/logout" style={{ float: 'right' }}>
               {this.Auth.loggedIn() ?
                 <Link to='/logout' onClick={this.handleLogout}><Icon type="logout"/>Выйти</Link>
                 : <Link to='/login'><Icon type="login"/>Войти</Link>
               }
             </Menu.Item>
 
+            {this.Auth.loggedIn() ?
+              <Menu.Item style={{ float: 'right' }} key='user'><Icon type="user"/>{username}</Menu.Item> :
+              <span/>}
+
           </Menu>
         </Header>
         <Layout>
-          <Sider width={200} style={{ background: '#fff' }}>
+          <Sider
+            breakpoint="lg"
+            collapsedWidth="0"
+            width={180}
+            style={{ background: '#fff' }}>
 
             <Menu
               mode="inline"
@@ -115,8 +121,8 @@ class RootLayout extends React.Component {
   }
 
   handleLogout = () => {
+    message.success(`Сессия завершена`, 2.5);
     this.Auth.logout();
-    alert('Сессия завершена.');
     this.setUsername('');
   };
 }
