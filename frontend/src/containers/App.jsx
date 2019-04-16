@@ -1,15 +1,16 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import App from '../components/App';
-import { setUsernameText } from '../store/registration/actions';
+import { setGlobalUsername } from '../store/auth/actions';
 
 
 class MyAppContainer extends React.Component {
   render() {
+    const { username, setGlobalUsername} = this.props;
     return (
       <App
-        username={this.props.username}
-        setUsernameText={this.props.setUsernameText}
+        username={username}
+        setGlobalUsername={setGlobalUsername}
       />);
   }
 
@@ -18,13 +19,13 @@ class MyAppContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    username: state.registration.username,
+    username: state.auth.username,
   };
 
 };
 
 const mapDispatchToProps = {
-  setUsernameText,
+  setGlobalUsername,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAppContainer);

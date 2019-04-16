@@ -15,7 +15,7 @@ class RootLayout extends React.Component {
 
 
   setUsername = (username) => {
-    this.props.setUsernameText(username);
+    this.props.setGlobalUsername(username);
   };
 
 
@@ -24,6 +24,7 @@ class RootLayout extends React.Component {
   }
 
   render() {
+    const { username } = this.props;
 
     return (
       <Layout>
@@ -38,7 +39,7 @@ class RootLayout extends React.Component {
             }}
           >
 
-            {this.Auth.loggedIn() ? <Menu.Item key='user'><Icon type="user"/>{this.props.username}</Menu.Item> :
+            {this.Auth.loggedIn() ? <Menu.Item key='user'><Icon type="user"/>{username}</Menu.Item> :
               <span/>}
 
             <Menu.Item key="login/logout">

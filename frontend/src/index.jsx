@@ -8,7 +8,6 @@ import './public/css/index.css';
 import './public/css/App.css';
 
 import rootReducer from './store/reducers';
-import App from './components/App';
 import MyAppContainer from './containers/App';
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import SignupForm from '../components/AuthService/Signup';
+import SignupForm from '../../components/AuthService/Signup';
 import { connect } from 'react-redux';
-import { setUsernameText } from '../store/registration/actions';
+import { setGlobalUsername } from '../../store/auth/actions';
 
 
 class RegistrationFormContainer extends React.Component {
@@ -9,7 +9,7 @@ class RegistrationFormContainer extends React.Component {
     return (
       <SignupForm
         username={this.props.username}
-        setUsernameText={this.props.setUsernameText}
+        setGlobalUsername={this.props.setGlobalUsername}
         history={this.props.history}
 
       />);
@@ -19,13 +19,13 @@ class RegistrationFormContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    username: state.registration.username,
+    username: state.auth.username,
   };
 
 };
 
 const mapDispatchToProps = {
-  setUsernameText,
+  setGlobalUsername,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationFormContainer);

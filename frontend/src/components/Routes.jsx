@@ -2,8 +2,8 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import ProjectList from './Projects/ProjectListView';
 import ProjectDetail from './Projects/ProjectDetailView';
-import LoginFormContainer from '../containers/Login';
-import RegistrationFormContainer from '../containers/Signup';
+import LoginFormContainer from '../containers/AuthService/Login';
+import RegistrationFormContainer from '../containers/AuthService/Signup';
 
 const BaseRouter = () => {
 

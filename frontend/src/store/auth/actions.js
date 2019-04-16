@@ -1,8 +1,8 @@
-export const LOGIN_CHANGE_USERNAME_TEXT = 'LOGIN_CHANGE_USERNAME_TEXT';
+export const SET_GLOBAL_USERNAME = 'SET_GLOBAL_USERNAME';
 
 
-export const setUsernameText = username => ({
-  type: LOGIN_CHANGE_USERNAME_TEXT,
+export const setGlobalUsername = username => ({
+  type: SET_GLOBAL_USERNAME,
   payload: username
 });
 

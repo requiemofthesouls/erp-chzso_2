@@ -15,7 +15,7 @@ class NormalLoginForm extends React.Component {
   };
 
   setUsername = (username) => {
-    this.props.setUsernameText(username);
+    this.props.setGlobalUsername(username);
   };
 
 

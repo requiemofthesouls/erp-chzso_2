@@ -14,7 +14,7 @@ class RegistrationForm extends React.Component {
 
 
   setUsername = (username) => {
-    this.props.setUsernameText(username);
+    this.props.setGlobalUsername(username);
   };
 
   render() {
@@ -114,7 +114,7 @@ class RegistrationForm extends React.Component {
               whitespace: true
             }],
           })(
-            <Input name="username" value={this.props.username}/>
+            <Input name="username"/>
           )}
         </Form.Item>
 
@@ -133,8 +133,6 @@ class RegistrationForm extends React.Component {
 
         <Form.Item {...tailFormItemLayout}>
           <Button block type="primary" htmlType="submit">Зарегистрироваться</Button>
-                <Button onClick={() => console.log(this.state)}>Show state</Button>
-
         </Form.Item>
       </Form>
     );
