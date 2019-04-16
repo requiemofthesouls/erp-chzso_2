@@ -1,27 +1,26 @@
 import React from 'react';
 import { Layout, Menu, Breadcrumb, Icon, } from 'antd/lib/index';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import AuthServiceLogic from './AuthService/AuthServiceLogic';
+import { Button } from 'antd';
 
-const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
-
-import authServiceWrapper from './AuthService/AuthServiceWrapper';
 
 
 class RootLayout extends React.Component {
 
   Auth = new AuthServiceLogic();
 
-  state = {
-    user: null,
+  state = {};
+
+
+  setUsername = (username) => {
+    this.props.setUsernameText(username);
   };
 
+
   componentWillMount() {
-    if (this.Auth.loggedIn()) {
-      const { username } = this.Auth.getProfile();
-      this.setState({ user: username });
-    }
+
   }
 
   render() {
@@ -38,7 +37,9 @@ class RootLayout extends React.Component {
               float: 'right'
             }}
           >
-            {this.state.user ? <Menu.Item key='user'><Icon type="user"/>{this.state.user}</Menu.Item> : <span/>}
+
+            {this.Auth.loggedIn() ? <Menu.Item key='user'><Icon type="user"/>{this.props.username}</Menu.Item> :
+              <span/>}
 
             <Menu.Item key="login/logout">
               {this.Auth.loggedIn() ?
@@ -103,6 +104,8 @@ class RootLayout extends React.Component {
               minHeight: 280,
             }}>
               {this.props.children}
+              <Button onClick={() => console.log(this.props)}>props</Button>
+              <Button onClick={() => console.log(this.state)}>state</Button>
             </Content>
           </Layout>
         </Layout>
@@ -112,6 +115,8 @@ class RootLayout extends React.Component {
 
   handleLogout = () => {
     this.Auth.logout();
+    alert('Сессия завершена.');
+    this.setUsername('');
   };
 }
 

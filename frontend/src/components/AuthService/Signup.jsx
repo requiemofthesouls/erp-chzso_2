@@ -1,20 +1,24 @@
 import React from 'react';
 import {
-  Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,
-} from 'antd/lib/index';
+  Form, Input, Tooltip, Icon, Select, Button,
+} from 'antd';
 
 import AuthServiceLogic from './AuthServiceLogic';
 
 
 class RegistrationForm extends React.Component {
+
   Auth = new AuthServiceLogic();
 
   state = {};
 
 
+  setUsername = (username) => {
+    this.props.setUsernameText(username);
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
-
 
     const formItemLayout = {
       labelCol: {
@@ -62,7 +66,7 @@ class RegistrationForm extends React.Component {
               message: 'Пожалуйста введите ваш E-mail!',
             }],
           })(
-            <Input name="email"/>
+            <Input autoFocus name="email"/>
           )}
         </Form.Item>
         <Form.Item
@@ -110,7 +114,7 @@ class RegistrationForm extends React.Component {
               whitespace: true
             }],
           })(
-            <Input name="username"/>
+            <Input name="username" value={this.props.username}/>
           )}
         </Form.Item>
 
@@ -129,6 +133,8 @@ class RegistrationForm extends React.Component {
 
         <Form.Item {...tailFormItemLayout}>
           <Button block type="primary" htmlType="submit">Зарегистрироваться</Button>
+                <Button onClick={() => console.log(this.state)}>Show state</Button>
+
         </Form.Item>
       </Form>
     );
@@ -159,8 +165,6 @@ class RegistrationForm extends React.Component {
         [e.target.name]: e.target.value
       }
     );
-    console.log(this.state);
-
   };
 
 
@@ -170,6 +174,7 @@ class RegistrationForm extends React.Component {
       .then(res => {
         alert(`Пользователь ${res.username} успешно зарегистрирован.`);
         this.props.history.push('/projects');
+        this.setUsername(this.state.username)
       })
       .catch(err => {
         alert(err);

@@ -1,24 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './public/css/index.css';
-import './public/css/App.css'
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
-import App from './components/App';
 
-const renderApp = App => {
+import './public/css/index.css';
+import './public/css/App.css';
+
+import rootReducer from './store/reducers';
+import App from './components/App';
+import MyAppContainer from './containers/App';
+
+
+const store = createStore(rootReducer);
+
+const renderApp = MyAppContainer => {
   ReactDOM.render(
     <AppContainer>
-      <App/>
+      <Provider store={store}>
+        <MyAppContainer/>
+      </Provider>
     </AppContainer>,
     document.getElementById('root')
   );
 };
 
-renderApp(App);
+renderApp(MyAppContainer);
 
 // Hot Module Replacement API
 if (module.hot) {
   module.hot.accept('./components/App', () => {
-    renderApp(App);
+    renderApp(MyAppContainer);
   });
 }

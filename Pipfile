@@ -20,6 +20,7 @@ uwsgi = "*"
 django-extensions = "*"
 pyparsing = "*"
 pydot = "*"
+pgadmin4 = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"

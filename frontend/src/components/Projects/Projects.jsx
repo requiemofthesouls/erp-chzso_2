@@ -9,7 +9,7 @@ const columns = [
   },
   {
     title: 'Ответственный',
-    dataIndex: 'manager_id'
+    dataIndex: 'manager_username'
   },
   {
     title: 'Приоритет',
@@ -29,13 +29,22 @@ const columns = [
 
 class Projects extends React.Component {
 
+  componentWillReceiveProps(nextProps, nextContent) {
+    if (nextProps.data !== this.state.data) {
+      this.setState({ data: nextProps.data });
+    }
+  }
+
+  state = {
+    data: this.props.data
+  };
 
   render() {
 
     return (
       <Table
         columns={columns}
-        dataSource={this.props.data}
+        dataSource={this.state.data}
         rowKey="id"
         onChange={this.onChange}
         pagination={{ pageSize: 10 }}

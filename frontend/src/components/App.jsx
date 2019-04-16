@@ -1,20 +1,22 @@
 import React from 'react';
-import { BrowserRouter as Router, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import BaseRouter from './Routes';
 import 'antd/dist/antd.css';
 import '../public/css/App.css';
 import RootLayout from './Layout';
-import authServiceWrapper from './AuthService/AuthServiceWrapper';
-import LoginForm from './AuthService/Login';
+
 
 class App extends React.Component {
 
-
   render() {
+
     return (
       <div className="App">
         <Router>
-          <RootLayout >
+          <RootLayout
+            username={this.props.username}
+            setUsernameText={this.props.setUsernameText}
+          >
             <BaseRouter/>
           </RootLayout>
         </Router>
@@ -24,3 +26,4 @@ class App extends React.Component {
 }
 
 export default App;
+

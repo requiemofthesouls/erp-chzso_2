@@ -51,7 +51,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
       <div>
         <Form onChange={this.handleChange} onSubmit={(e) => this.handleFormSubmit(e, this.props.requestMethod)}>
           <Form.Item label="Название">
-            <Input name="title" placeholder="Введите название" /> {/*TODO: почему не передается свойство defaultData*/}
+            <Input autoFocus name="title" placeholder="Введите название" /> {/*TODO: почему не передается свойство defaultData*/}
           </Form.Item>
           <Form.Item label="Описание">
             <Input name="description" placeholder="Введите описание"/>

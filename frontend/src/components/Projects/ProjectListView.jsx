@@ -11,11 +11,17 @@ class ProjectList extends React.Component {
 
   Auth = new AuthServiceLogic();
 
-  state = {
-    projects: [],
-    users: [],
-    visible: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      projects: [],
+      users: [],
+      visible: false,
+
+    };
+
+
+  }
 
   showModal = () => {
     this.setState({
@@ -35,12 +41,21 @@ class ProjectList extends React.Component {
     });
   };
 
+
   handleCurrentUser = () => {
-    console.log(this.state);
-    // TODO: Подставлять в состояние не user_id, а его username
+    for (let project of this.state.projects) {
+      for (let user of this.state.users) {
+        if (project.manager_id === user.id) {
+          project['manager_username'] = user.username;
+        }
+      }
+    }
   };
 
-  componentDidMount() {
+  // TODO: fix username appearance for manager
+
+
+  componentWillMount() {
     axios.get(`http://127.0.0.1:8000/api/projects/`, {
       headers: this.Auth.auth_header
     })
@@ -48,26 +63,27 @@ class ProjectList extends React.Component {
         this.setState({
           projects: res.data
         });
-      });
 
-    axios.get(`http://127.0.0.1:8000/auth/users/`, {
-      headers: this.Auth.auth_header
-    })
-      .then(res => {
-          this.setState({
-            users: res.data
-          }, () => this.handleCurrentUser());
-        }
-      );
+        axios.get(`http://127.0.0.1:8000/auth/users/`, {
+          headers: this.Auth.auth_header
+        })
+          .then(res => {
+              this.setState({
+                users: res.data
+              }, () => this.handleCurrentUser());
+            }
+          );
+      });
   };
 
-  render() {
+    render() {
     return (
       <div>
         <Projects data={this.state.projects}/>
-        <Button onClick={this.showModal} htmlType="submit" type="primary" block
-                icon="folder-add">Создать
-          проект</Button>
+        <Button onClick={this.showModal} htmlType="submit"
+                type="primary" block icon="folder-add">
+          Создать проект
+        </Button>
 
         <Modal centered
                title="Создание проекта"

@@ -5,9 +5,18 @@ import AuthServiceLogic from './AuthServiceLogic';
 import { Link } from 'react-router-dom';
 
 
+
 class NormalLoginForm extends React.Component {
 
   Auth = new AuthServiceLogic();
+
+  state = {
+    user: null
+  };
+
+  setUsername = (username) => {
+    this.props.setUsernameText(username);
+  };
 
 
   componentWillMount() {
@@ -28,7 +37,7 @@ class NormalLoginForm extends React.Component {
               message: 'Пожалуйста введите имя пользователя!'
             }],
           })(
-            <Input name='username' prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
+            <Input autoFocus name='username' prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }}/>}
                    placeholder="Имя пользователя"/>
           )}
         </Form.Item>
@@ -73,15 +82,12 @@ class NormalLoginForm extends React.Component {
       .then(res => {
         this.props.history.push('/projects');
         alert(`Привет, ${this.state.username}`);
+        this.setUsername(this.state.username);
       })
       .catch(err => {
         alert(err);
       });
   };
-
-
-
-
 }
 
 const LoginForm = Form.create({ name: 'normal_login' })(NormalLoginForm);
