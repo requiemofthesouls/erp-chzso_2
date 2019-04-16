@@ -31,6 +31,14 @@ class CreateDeleteUpdateProjectForm extends React.Component {
   };
 
 
+  componentWillReceiveProps(nextProps, nextContext) {
+    console.log('--- received new props ---', nextProps);
+    this.setState({
+      defaultData: nextProps.defaultData,
+    }, () => console.log('--- new state ---', this.state));
+
+  }
+
   handlePriorityChange = (value) => {
     this.setState({
       priority: {
@@ -44,7 +52,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
     event.preventDefault();
     let projectID = this.props.projectID;
     const { updateProjects, closeModal } = this.props;
-    console.log(this.state);
+    console.log(this.props);
     const { title, description, entry, priority } = this.state;
 
     switch (requestMethod) {
@@ -77,14 +85,14 @@ class CreateDeleteUpdateProjectForm extends React.Component {
           headers: this.Auth.auth_header
         })
           .then((res) => {
-            message.success(`Проект ${title} добавлен`, 2.5);
+            message.success(`Проект ${title} обновлён`, 2.5);
+            this.props.history.push('/projects');
             updateProjects();
-            closeModal();
-
           })
           .catch(err => console.error(err));
     }
   };
+
 
   render() {
     const formItemLayout = {
@@ -92,16 +100,18 @@ class CreateDeleteUpdateProjectForm extends React.Component {
       wrapperCol: { span: 12 },
     };
 
-    const { priority } = this.state;
+    const { priority, defaultData } = this.state;
     const tips = <span>от 1 до 9</span>;
     const initialDescription = '<h1>Опишите ваш проект здесь, используя возможности редактора wysiwig.</h1>';
+
 
     return (
       <div>
         <Form onChange={this.handleChange} onSubmit={(e) => this.handleFormSubmit(e, this.props.requestMethod)}>
           <Form.Item label="Заголовок">
             <Input autoFocus name="title"
-                   placeholder="Введите заголовок"/> {/*TODO: почему не передается свойство defaultData*/}
+                   placeholder="Введите заголовок" />
+            {/*TODO: при переходе на форму изменения проекта подставлять текущие данные каждого поля*/}
           </Form.Item>
           <Form.Item label="Описание">
             <CKEditor
@@ -124,7 +134,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
               <InputNumber
                 min={1}
                 max={9}
-                defaultValue={1}
+                defaultValue=""
                 value={priority.value}
                 onChange={this.handlePriorityChange}
                 name="priority"

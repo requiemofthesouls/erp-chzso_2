@@ -69,6 +69,7 @@
     "react-redux": "^7.0.2",
     "redux": "^4.0.1",
     "uglifyjs-webpack-plugin": "^2.1.2",
-    "@ckeditor/ckeditor5-build-classic": "latest"
+    "@ckeditor/ckeditor5-build-classic": "latest",
+    "@ckeditor/ckeditor5-react": "latest"
   }
 }

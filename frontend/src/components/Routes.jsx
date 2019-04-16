@@ -4,6 +4,7 @@ import ProjectDetail from './Projects/ProjectDetailView';
 import LoginFormContainer from '../containers/AuthService/Login';
 import RegistrationFormContainer from '../containers/AuthService/Signup';
 import ProjectListContainer from '../containers/Projects/ProjectListView';
+import ProjectDetailContainer from '../containers/Projects/ProjectDetailView';
 
 
 const BaseRouter = () => {
@@ -15,7 +16,7 @@ const BaseRouter = () => {
         <Route exact path='/signup' component={RegistrationFormContainer}/>
 
         <Route exact path='/projects' component={ProjectListContainer}/>
-        <Route exact path='/projects/:projectID' component={ProjectDetail}/>
+        <Route exact path='/projects/:projectID' component={ProjectDetailContainer}/>
 
 
         <Redirect from='*' to='/'/>

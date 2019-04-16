@@ -1,5 +1,4 @@
 // production config
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const merge = require('webpack-merge');
 const { resolve } = require('path');
 const BundleTracker = require('webpack-bundle-tracker');
@@ -15,9 +14,6 @@ module.exports = merge(commonConfig, {
     filename: 'js/bundle.[hash].min.js',
     path: resolve(__dirname, '../static/builds'),
     publicPath: '/',
-  },
-   optimization: {
-    minimizer: [new UglifyJsPlugin()],
   },
   plugins: [
     new BundleTracker({ filename: 'frontend/static/builds/webpack-stats.prod.json' }),

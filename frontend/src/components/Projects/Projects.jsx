@@ -21,7 +21,6 @@ const columns = [
 class Projects extends React.Component {
 
   componentWillReceiveProps(nextProps, nextContext) {
-    console.log('received newprops', nextProps);
     this.setState({
       data: nextProps.projects
     });
@@ -34,7 +33,6 @@ class Projects extends React.Component {
 
 
   onSelectChange = (selectedRowKeys) => {
-    console.log(this.state)
     this.setState({ selectedRowKeys });
   };
 

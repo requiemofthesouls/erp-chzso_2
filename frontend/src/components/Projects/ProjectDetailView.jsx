@@ -12,7 +12,7 @@ class ProjectDetail extends React.Component {
     project: [],
   };
 
-  componentWillMount() {
+  getCurrentProject = () => {
     const projectID = this.props.match.params.projectID;
     axios.get(`http://127.0.0.1:8000/api/projects/${projectID}/`, {
       headers: this.Auth.auth_header
@@ -20,9 +20,29 @@ class ProjectDetail extends React.Component {
       .then(res => {
         this.setState({
           project: res.data
-        });
-      });
+        }, () => console.log('--- state ---', this.state));
 
+      });
+  };
+
+  updateProjects = () => {
+    console.log('updating projects');
+    // Get all Projects and put them to the redux
+    axios.get(`http://127.0.0.1:8000/api/projects/`, {
+      headers: this.Auth.auth_header
+    })
+      .then(res => {
+        this.setProjects(res.data);
+      });
+  };
+
+  setProjects = (projects) => {
+    this.props.setProjects(projects);
+  };
+
+
+  componentWillMount() {
+    this.getCurrentProject();
   };
 
 
@@ -55,7 +75,7 @@ class ProjectDetail extends React.Component {
       headers: this.Auth.auth_header
     });
     this.props.history.push('/Projects');
-    this.forceUpdate();
+    this.updateProjects();
   };
 
 }
