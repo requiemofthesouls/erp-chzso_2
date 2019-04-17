@@ -98,6 +98,7 @@ class ProjectList extends React.Component {
             btnText="Создать"
             updateProjects={this.updateProjects}
             closeModal={this.handleOk}
+            history={this.props.history}
           />
         </Modal>
       </div>

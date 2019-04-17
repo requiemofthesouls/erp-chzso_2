@@ -1,6 +1,5 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import ProjectDetail from './Projects/ProjectDetailView';
 import LoginFormContainer from '../containers/AuthService/Login';
 import RegistrationFormContainer from '../containers/AuthService/Signup';
 import ProjectListContainer from '../containers/Projects/ProjectListView';

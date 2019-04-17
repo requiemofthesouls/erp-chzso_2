@@ -72,33 +72,37 @@ class RootLayout extends React.Component {
               <Menu.Item key="nav1">
                 <Icon type="project"/>
                 Проекты
-                <Link to={'/projects'}/>
+                <Link to='/projects'/>
               </Menu.Item>
 
               <Menu.Item key="nav2">
                 <Icon type="pic-center"/>
                 Задачи
-                <Link to={'/tasks'}/>
+                <Link to='/tasks'/>
               </Menu.Item>
 
               <Menu.Item key="nav3">
                 <Icon type="usergroup-add"/>
                 Пользователи
+                <Link to='/users'/>
               </Menu.Item>
 
               <Menu.Item key="nav4">
                 <Icon type="user"/>
                 Работники цеха
+                <Link to='/workers'/>
               </Menu.Item>
 
               <Menu.Item key="nav5">
                 <Icon type="setting"/>
                 Операции
+                <Link to='/jobitems'/>
               </Menu.Item>
 
               <Menu.Item key="nav6">
                 <Icon type="database"/>
                 Логи операций
+                <Link to='/joblogitems'/>
               </Menu.Item>
             </Menu>
           </Sider>

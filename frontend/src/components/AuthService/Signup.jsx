@@ -30,6 +30,7 @@ class RegistrationForm extends React.Component {
         sm: { span: 16 },
       },
     };
+
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
@@ -42,6 +43,7 @@ class RegistrationForm extends React.Component {
         },
       },
     };
+
     const prefixSelector = getFieldDecorator('prefix', {
       initialValue: '+7',
     })(
@@ -66,7 +68,7 @@ class RegistrationForm extends React.Component {
               message: 'Пожалуйста введите ваш E-mail!',
             }],
           })(
-            <Input autoFocus name="email"/>
+            <Input autoFocus name="email" type='email'/>
           )}
         </Form.Item>
         <Form.Item
@@ -127,7 +129,7 @@ class RegistrationForm extends React.Component {
               message: 'Пожалуйста введите номер телефона!'
             }],
           })(
-            <Input name="phone_number" addonBefore={prefixSelector} style={{ width: '100%' }}/>
+            <Input name="phone_number" type='number' addonBefore={prefixSelector} style={{ width: '100%' }}/>
           )}
         </Form.Item>
 
