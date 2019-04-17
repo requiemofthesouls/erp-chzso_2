@@ -1,24 +1,19 @@
 import React from 'react';
 import axios from 'axios';
 
-import { Form, Input, Button, InputNumber, Tooltip, message } from 'antd';
+import { Form, Input, Button, InputNumber, Tooltip, message, Spin } from 'antd';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
 
-
-function validatePriority(priority) {
-  if (0 < priority < 9) {
-    return {
-      validateStatus: 'success',
-      errorMsg: null,
-    };
-  }
-  return {
-    validateStatus: 'error',
-    errorMsg: 'Приоритет должен быть от 0 до 9!',
-  };
-}
+const emptyProject = {
+  'title': '',
+  'active': '',
+  'description': '',
+  'entry': '',
+  'priority': 1,
+  'old_id': '',
+};
 
 class CreateDeleteUpdateProjectForm extends React.Component {
   Auth = new AuthServiceLogic();
@@ -26,34 +21,31 @@ class CreateDeleteUpdateProjectForm extends React.Component {
 
   state = {
     projects: [],
-    defaultData: [],
-    priority: 1,
+    defaultData: this.props.current_project ? this.props.current_project : emptyProject,
   };
 
+
+  componentWillMount() {
+    console.log('--- current props before render ---', this.props);
+    console.log('--- current state before render ---', this.state);
+  }
 
   componentWillReceiveProps(nextProps, nextContext) {
     console.log('--- received new props ---', nextProps);
     this.setState({
-      defaultData: nextProps.defaultData,
+      defaultData: nextProps.current_project,
     }, () => console.log('--- new state ---', this.state));
 
   }
 
-  handlePriorityChange = (value) => {
-    this.setState({
-      priority: {
-        ...validatePriority(value),
-        value,
-      }
-    });
-  };
 
   handleFormSubmit = (event, requestMethod) => {
     event.preventDefault();
-    let projectID = this.props.projectID;
+    const projectID = this.props.projectID;
     const { updateProjects, closeModal } = this.props;
-    console.log(this.props);
-    const { title, description, entry, priority } = this.state;
+    const { title, description, entry, priority } = this.state.defaultData;
+
+    console.log('--- PUT ---', this.state.defaultData);
 
     switch (requestMethod) {
       case 'post':
@@ -62,7 +54,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
           'active': true,
           'description': description,
           'entry': entry,
-          'priority': priority.value,
+          'priority': priority,
           'old_id': 0
         }, {
           headers: this.Auth.auth_header
@@ -79,7 +71,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
           'active': true,
           'description': description,
           'entry': entry,
-          'priority': priority.value,
+          'priority': priority,
           'old_id': 0
         }, {
           headers: this.Auth.auth_header
@@ -93,6 +85,9 @@ class CreateDeleteUpdateProjectForm extends React.Component {
     }
   };
 
+  componentDidMount() {
+    console.log('current state after render ---', this.state);
+  }
 
   render() {
     const formItemLayout = {
@@ -110,13 +105,15 @@ class CreateDeleteUpdateProjectForm extends React.Component {
         <Form onChange={this.handleChange} onSubmit={(e) => this.handleFormSubmit(e, this.props.requestMethod)}>
           <Form.Item label="Заголовок">
             <Input autoFocus name="title"
-                   placeholder="Введите заголовок" />
+                   placeholder="Введите заголовок"
+                   defaultValue={defaultData.title}
+            />
             {/*TODO: при переходе на форму изменения проекта подставлять текущие данные каждого поля*/}
           </Form.Item>
           <Form.Item label="Описание">
             <CKEditor
               editor={ClassicEditor}
-              data={initialDescription}
+              data={defaultData.description}
               onBlur={(event, editor) => {
                 const data = editor.getData();
                 this.setState({ description: data });
@@ -124,18 +121,20 @@ class CreateDeleteUpdateProjectForm extends React.Component {
             />
           </Form.Item>
           <Form.Item label="Артикул">
-            <Input name="entry" placeholder="Введите артикул"/>
+            <Input
+              name="entry"
+              placeholder="Введите артикул"
+              defaultValue={defaultData.entry}
+            />
           </Form.Item>
           <Form.Item
             label="Приоритет"
-            validateStatus={priority.validateStatus}
           >
             <Tooltip placement='right' title={tips}>
               <InputNumber
                 min={1}
                 max={9}
-                defaultValue=""
-                value={priority.value}
+                defaultValue={defaultData.priority}
                 onChange={this.handlePriorityChange}
                 name="priority"
               />
@@ -149,13 +148,12 @@ class CreateDeleteUpdateProjectForm extends React.Component {
     );
   }
 
+  handlePriorityChange = (value) => {
+    this.state.defaultData['priority'] = value;
+  };
 
   handleChange = (e) => {
-    this.setState(
-      {
-        [e.target.name]: e.target.value
-      }
-    );
+    this.state.defaultData[e.target.name] = e.target.value;
   };
 
 

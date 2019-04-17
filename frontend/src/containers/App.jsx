@@ -7,13 +7,20 @@ import { setProjects } from '../store/projects/actions';
 
 class MyAppContainer extends React.Component {
   render() {
-    const { username, setGlobalUsername, projects } = this.props;
+    const {
+      username,
+      setGlobalUsername,
+      setProjects,
+      projects,
+      current_project,
+    } = this.props;
     return (
       <App
         username={username}
         setGlobalUsername={setGlobalUsername}
         projects={projects}
-        getAllProjects={setProjects}
+        setProjects={setProjects}
+        current_project={current_project}
       />);
   }
 
@@ -23,7 +30,7 @@ class MyAppContainer extends React.Component {
 const mapStateToProps = (state) => {
   return {
     username: state.auth.username,
-    projects: state.projects.data
+    projects: state.projects.data,
   };
 
 };

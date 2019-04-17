@@ -37,7 +37,7 @@ class Projects extends React.Component {
   };
 
   render() {
-    const { selectedRowKeys } = this.state;
+    const { selectedRowKeys, data } = this.state;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -49,7 +49,7 @@ class Projects extends React.Component {
       <Table
         rowSelection={rowSelection}
         columns={columns}
-        dataSource={this.state.data}
+        dataSource={data}
         rowKey="id"
         onChange={this.onChange}
         pagination={{

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios/index';
 
-import { Button, Card, Modal } from 'antd';
+import { Button, Card, Modal, message, Spin } from 'antd';
 import CreateDeleteUpdateProjectForm from './CreateDeleteUpdateProjectForm';
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
 
@@ -10,19 +10,45 @@ class ProjectDetail extends React.Component {
 
   state = {
     project: [],
+    isLoading: true
   };
 
-  getCurrentProject = () => {
+
+  render() {
+    return (
+
+      <div>
+
+        <CreateDeleteUpdateProjectForm
+          current_project={this.props.current_project}
+          requestMethod="put"
+          projectID={this.props.match.params.projectID}
+          btnText="Изменить"
+          history={this.props.history}
+          updateProjects={this.updateProjects}
+        />
+
+        <Button block onClick={this.handleDelete} type="danger" htmlType="submit">Удалить</Button>
+
+      </div>
+    );
+  }
+
+
+  handleDelete = () => {
     const projectID = this.props.match.params.projectID;
-    axios.get(`http://127.0.0.1:8000/api/projects/${projectID}/`, {
+    axios.delete(`http://127.0.0.1:8000/api/projects/${projectID}/`, {
       headers: this.Auth.auth_header
     })
-      .then(res => {
-        this.setState({
-          project: res.data
-        }, () => console.log('--- state ---', this.state));
-
-      });
+      .then(
+        () => {
+          this.updateProjects();
+          this.props.history.push('/projects');
+          message.success(`Проект был успешно удалён!`, 2.5);
+        }, () => {
+          message.error(`Не удалось удалить проект.`, 2.5);
+          this.props.history.push('/projects');
+        });
   };
 
   updateProjects = () => {
@@ -38,44 +64,6 @@ class ProjectDetail extends React.Component {
 
   setProjects = (projects) => {
     this.props.setProjects(projects);
-  };
-
-
-  componentWillMount() {
-    this.getCurrentProject();
-  };
-
-
-  render() {
-    return (
-      <div>
-        {/*TODO: Неизменяемые поля при загрузке, при нажатии на кнопку изменить появляется возможность редактирования*/}
-        {/*<Card title={this.state.project.title}>*/}
-        {/*  <p>{this.state.project.description}</p>*/}
-        {/*</Card>*/}
-        {/*<Button onClick={this.showModal} htmlType="submit" type="primary" block*/}
-        {/*        icon="folder-add">Изменить проект</Button>*/}
-        {/*TODO: Не передается аргумент*/}
-        <CreateDeleteUpdateProjectForm
-          defaultData={this.state.project}
-          requestMethod="put"
-          projectID={this.props.match.params.projectID}
-          btnText="Изменить"/>
-
-        <Button block onClick={this.handleDelete} type="danger" htmlType="submit">Удалить</Button>
-
-      </div>
-    );
-  }
-
-
-  handleDelete = () => {
-    const projectID = this.props.match.params.projectID;
-    axios.delete(`http://127.0.0.1:8000/api/projects/${projectID}/`, {
-      headers: this.Auth.auth_header
-    });
-    this.props.history.push('/Projects');
-    this.updateProjects();
   };
 
 }
