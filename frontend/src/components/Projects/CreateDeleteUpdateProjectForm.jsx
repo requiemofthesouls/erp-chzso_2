@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import { Form, Input, Button, InputNumber, Tooltip, message, Spin } from 'antd';
+import { Button, Form, Input, InputNumber, message, Select, Tooltip } from 'antd';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
@@ -18,11 +18,17 @@ const emptyProject = {
 class CreateDeleteUpdateProjectForm extends React.Component {
   Auth = new AuthServiceLogic();
 
+  constructor(props) {
+    super(props);
 
-  state = {
-    projects: [],
-    defaultData: this.props.current_project ? this.props.current_project : emptyProject,
-  };
+
+    this.state = {
+      projects: [],
+      new_manager: null,
+      defaultData: this.props.current_project ? this.props.current_project : emptyProject,
+    };
+
+  }
 
 
   componentWillMount() {
@@ -33,7 +39,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
   componentWillReceiveProps(nextProps, nextContext) {
     console.log('--- received new props ---', nextProps);
     this.setState({
-      defaultData: nextProps.current_project,
+      defaultData: nextProps.current_project ? nextProps.current_project : emptyProject,
     }, () => console.log('--- new state ---', this.state));
 
   }
@@ -60,9 +66,9 @@ class CreateDeleteUpdateProjectForm extends React.Component {
           headers: this.Auth.auth_header
         })
           .then((res) => {
+            closeModal();
             message.success(`Проект ${title} добавлен`, 2.5);
             updateProjects();
-            closeModal();
           })
           .catch(err => console.error(err));
       case 'put':
@@ -95,9 +101,9 @@ class CreateDeleteUpdateProjectForm extends React.Component {
       wrapperCol: { span: 12 },
     };
 
-    const { priority, defaultData } = this.state;
+    const { defaultData } = this.state;
     const tips = <span>от 1 до 9</span>;
-    const initialDescription = '<h1>Опишите ваш проект здесь, используя возможности редактора wysiwig.</h1>';
+    const last_modified = new Date(defaultData.last_modified);
 
 
     return (
@@ -108,15 +114,25 @@ class CreateDeleteUpdateProjectForm extends React.Component {
                    placeholder="Введите заголовок"
                    defaultValue={defaultData.title}
             />
-            {/*TODO: при переходе на форму изменения проекта подставлять текущие данные каждого поля*/}
+          </Form.Item>
+          <Form.Item label="Ответственный">
+            <Select
+              name="manager"
+              mode="single"
+              placeholder="Выберите ответственного."
+              defaultValue={defaultData.manager_username}
+              onChange={this.handleManagerChange}
+            >
+              {/*TODO: USER LIST*/}
+              <Option value="red">Red</Option>
+            </Select>
           </Form.Item>
           <Form.Item label="Описание">
             <CKEditor
               editor={ClassicEditor}
               data={defaultData.description}
-              onBlur={(event, editor) => {
-                const data = editor.getData();
-                this.setState({ description: data });
+              onChange={(event, editor) => {
+                defaultData['description'] = editor.getData();
               }}
             />
           </Form.Item>
@@ -140,6 +156,21 @@ class CreateDeleteUpdateProjectForm extends React.Component {
               />
             </Tooltip>
           </Form.Item>
+          {this.props.btnText === 'Изменить' ?
+            <div>
+              <Form.Item label='Последнее изменение'>
+                <Input readOnly defaultValue={last_modified.toLocaleDateString('ru', {
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric'
+                })
+                }/>
+              </Form.Item>
+            </div>
+            : <span/>}
           <Form.Item>
             <Button block type="primary" htmlType="submit">{this.props.btnText}</Button>
           </Form.Item>
@@ -147,6 +178,10 @@ class CreateDeleteUpdateProjectForm extends React.Component {
       </div>
     );
   }
+
+  handleManagerChange = (value) => {
+    this.setState({ new_manager: value });
+  };
 
   handlePriorityChange = (value) => {
     this.state.defaultData['priority'] = value;

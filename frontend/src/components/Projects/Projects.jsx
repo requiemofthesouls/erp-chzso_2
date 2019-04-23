@@ -1,22 +1,7 @@
 import React from 'react';
 import { Table } from 'antd/lib/index';
-import { withRouter } from 'react-router-dom';
-
-const columns = [
-  {
-    title: 'Название',
-    dataIndex: 'title'
-  },
-  {
-    title: 'Ответственный',
-    dataIndex: 'manager_username'
-  },
-  {
-    title: 'Приоритет',
-    dataIndex: 'priority'
-  },
-];
-
+import Highlighter from 'react-highlight-words';
+import { Button, Icon, Input, message } from 'antd';
 
 class Projects extends React.Component {
 
@@ -29,6 +14,8 @@ class Projects extends React.Component {
   state = {
     data: this.props.projects,
     selectedRowKeys: [],
+    searchText: '',
+    loading: false,
   };
 
 
@@ -36,8 +23,93 @@ class Projects extends React.Component {
     this.setState({ selectedRowKeys });
   };
 
+  getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+                       setSelectedKeys, selectedKeys, confirm, clearFilters,
+                     }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+              this.searchInput = node;
+          }}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+          style={{
+            width: 188,
+            marginBottom: 8,
+            display: 'block'
+          }}
+        />
+        <Button
+          type="primary"
+          onClick={() => this.handleSearch(selectedKeys, confirm)}
+          icon="search"
+          size="small"
+          style={{
+            width: 90,
+            marginRight: 8
+          }}
+        >
+          Найти
+        </Button>
+        <Button
+          onClick={() => this.handleReset(clearFilters)}
+          size="small"
+          style={{ width: 90 }}
+        >
+          Сброс
+        </Button>
+      </div>
+    ),
+    filterIcon: filtered => <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }}/>,
+    onFilter: (value, record) => record[dataIndex].toString()
+      .toLowerCase()
+      .includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select());
+      }
+    },
+    render: (text) => (
+      <Highlighter
+        highlightStyle={{
+          backgroundColor: '#ffc069',
+          padding: 0
+        }}
+        searchWords={[this.state.searchText]}
+        autoEscape
+        textToHighlight={text.toString()}
+      />
+    ),
+  });
+
+  handleSearch = (selectedKeys, confirm) => {
+    confirm();
+    this.setState({ searchText: selectedKeys[0] });
+  };
+
+  handleReset = (clearFilters) => {
+    clearFilters();
+    this.setState({ searchText: '' });
+  };
+
+  handleDeleteSelected = (e) => {
+    this.setState({ loading: true });
+    // ajax request after empty completing
+    console.log(e);
+    setTimeout(() => {
+      this.setState({
+        selectedRowKeys: [],
+        loading: false,
+      });
+      message.success('Success');
+    }, 1000);
+  };
+
+
   render() {
-    const { selectedRowKeys, data } = this.state;
+    const { selectedRowKeys, data, loading } = this.state;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -45,33 +117,79 @@ class Projects extends React.Component {
       onSelection: this.onSelection,
     };
 
+    const columns = [
+      {
+        title: 'Название',
+        dataIndex: 'title',
+        ...this.getColumnSearchProps('title'),
+      },
+      {
+        title: 'Ответственный',
+        dataIndex: 'manager_username',
+        width: '20%',
+        ...this.getColumnSearchProps('manager_username'),
+      },
+      {
+        title: 'Приоритет',
+        dataIndex: 'priority',
+        width: '10%',
+        sorter: true,
+      },
+    ];
+
+    const hasSelected = selectedRowKeys.length > 0;
+
     return (
-      <Table
-        rowSelection={rowSelection}
-        columns={columns}
-        dataSource={data}
-        rowKey="id"
-        onChange={this.onChange}
-        pagination={{
-          pageSize: 10,
-          hideOnSinglePage: true
-        }}
-        bordered={true}
-        onRow={(record, rowIndex) => {
-          return {
-            onClick: (event) => {
-              this.props.history.push(`/projects/${record.id}`);
-            },
-            onDoubleClick: (event) => {
-            }, // double click row
-            onContextMenu: (event) => {
-            },  // right button click row
-            onMouseEnter: (event) => {
-            },   // mouse enter row
-            onMouseLeave: (event) => {
-            }   // mouse leave row
-          };
-        }}/>
+      <div>
+        <Button
+          onClick={this.props.showModal}
+          htmlType="submit"
+          icon="folder-add"
+          style={{ marginBottom: 10 }}
+        >
+        </Button>
+
+        <Button
+          htmlType="submit"
+          icon="delete"
+          style={{
+            marginBottom: 10,
+            marginLeft: 10
+          }}
+          disabled={!hasSelected}
+          onClick={this.handleDeleteSelected}
+          loading={loading}
+          hidden={!hasSelected}
+        >
+        </Button>
+
+        <Table
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={data}
+          rowKey="id"
+          onChange={this.onChange}
+          pagination={{
+            pageSize: 10,
+            hideOnSinglePage: true
+          }}
+          bordered={true}
+          onRow={(record, rowIndex) => {
+            return {
+              onClick: (event) => {
+                this.props.history.push(`/projects/${record.id}`);
+              },
+              onDoubleClick: (event) => {
+              }, // double click row
+              onContextMenu: (event) => {
+              },  // right button click row
+              onMouseEnter: (event) => {
+              },   // mouse enter row
+              onMouseLeave: (event) => {
+              }   // mouse leave row
+            };
+          }}/>
+      </div>
     );
   };
 

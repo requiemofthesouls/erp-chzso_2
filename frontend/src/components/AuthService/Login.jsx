@@ -3,27 +3,31 @@ import { message, Button, Checkbox, Form, Icon, Input, } from 'antd/lib/index';
 
 import AuthServiceLogic from './AuthServiceLogic';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 class NormalLoginForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    if (this.Auth.loggedIn()) {
+      message.info(`Вы уже вошли!`, 2.5);
+      this.props.history.push('/');
+    }
+
+    this.state = {
+      user: null,
+      loading: false,
+    };
+  }
+
 
   Auth = new AuthServiceLogic();
 
-  state = {
-    user: null
-  };
 
   setUsername = (username) => {
     this.props.setGlobalUsername(username);
   };
-
-
-  componentWillMount() {
-    if (this.Auth.loggedIn()) {
-      alert(`Вы уже вошли!`);
-      this.props.history.push('/');
-    }
-  }
 
   render() {
 
@@ -61,7 +65,16 @@ class NormalLoginForm extends React.Component {
           )}
           <Link className="login-form-forgot" to="">Забыли пароль?</Link>
 
-          <Button icon="login" type="primary" htmlType="submit" className="login-form-button" block>Войти </Button>
+          <Button
+            icon="login"
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+            loading={this.state.loading}
+            block
+          >
+            Войти
+          </Button>
           <Button type="primary" href="/signup" htmlType="submit" icon="user-add" block>Зарегистрироваться</Button>
         </Form.Item>
       </Form>
@@ -78,14 +91,17 @@ class NormalLoginForm extends React.Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
+    this.setState({ loading: true });
     this.Auth.login(this.state.username, this.state.password)
       .then(res => {
         message.info(`Привет, ${this.state.username}`, 2.5);
+        this.setState({ loading: false });
         this.props.history.push('/projects');
         this.setUsername(this.state.username);
       })
       .catch(err => {
-        alert(err);
+        message.error(err.toString(), 2.5);
+        this.setState({ loading: false });
       });
   };
 }

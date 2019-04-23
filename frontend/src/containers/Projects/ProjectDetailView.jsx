@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setProjects } from '../../store/projects/actions';
 import axios from 'axios';
 import AuthServiceLogic from '../../components/AuthService/AuthServiceLogic';
-import { message, Spin } from 'antd';
+import { Alert, Icon, message, Spin } from 'antd';
 
 
 class ProjectDetailContainer extends React.Component {
@@ -17,9 +17,17 @@ class ProjectDetailContainer extends React.Component {
       project: null,
       isLoading: true,
     };
+    this.getUserlist();
     this.getCurrentProject();
   }
 
+  getUserlist = () => {
+    axios.get('http://127.0.0.1:8000/auth/users/')
+      .then(
+        (res) => {
+          this.setState({ userlist: res.data });
+        });
+  };
 
   getCurrentProject = () => {
     console.log('loading');
@@ -47,18 +55,22 @@ class ProjectDetailContainer extends React.Component {
 
   render() {
     const { isLoading } = this.state;
+
+    const indicator = <Icon type="loading" style={{ fontSize: 24 }} spin/>;
+
+    const project_detail_form = <ProjectDetailView
+      projects={this.props.projects}
+      setProjects={this.props.setProjects}
+      history={this.props.history}
+      match={this.props.match}
+      current_project={this.state.project}
+      userlist={this.state.userlist}
+    />;
+
     return (
       <div>
-        {isLoading && <Spin size='large'/>}
-        {!isLoading &&
-        <ProjectDetailView
-          projects={this.props.projects}
-          setProjects={this.props.setProjects}
-          history={this.props.history}
-          match={this.props.match}
-          current_project={this.state.project}
-        />
-        }
+        {isLoading && <Spin size='large' indicator={indicator}> {project_detail_form} </Spin>}
+        {!isLoading && project_detail_form}
       </div>
     );
   }

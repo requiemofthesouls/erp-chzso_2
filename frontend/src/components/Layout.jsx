@@ -115,8 +115,6 @@ class RootLayout extends React.Component {
               minHeight: 280,
             }}>
               {this.props.children}
-              <Button onClick={() => console.log(this.props)}>props</Button>
-              <Button onClick={() => console.log(this.state)}>state</Button>
             </Content>
           </Layout>
         </Layout>

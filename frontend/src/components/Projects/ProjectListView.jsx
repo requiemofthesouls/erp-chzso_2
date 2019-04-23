@@ -11,15 +11,11 @@ class ProjectList extends React.Component {
 
   Auth = new AuthServiceLogic();
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      projects: [],
-      users: [],
-      visible: false,
-
-    };
-  }
+  state = {
+    projects: [],
+    users: [],
+    visible: false,
+  };
 
   showModal = () => {
     this.setState({
@@ -62,27 +58,12 @@ class ProjectList extends React.Component {
   render() {
     return (
       <div>
-        <Button
-          onClick={this.showModal}
-          htmlType="submit"
-          icon="folder-add"
-          style={{ marginBottom: 10 }}
-        >
-        </Button>
 
-        <Button
-          htmlType="submit"
-          icon="delete"
-          style={{
-            marginBottom: 10,
-            marginLeft: 10
-          }}
-        >
-        </Button>
 
         <Projects
           projects={this.props.projects}
           history={this.props.history}
+          showModal={this.showModal}
 
         />
 

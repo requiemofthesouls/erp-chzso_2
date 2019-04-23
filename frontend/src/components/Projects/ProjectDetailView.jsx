@@ -20,6 +20,7 @@ class ProjectDetail extends React.Component {
       <div>
 
         <CreateDeleteUpdateProjectForm
+          userlist={this.props.userlist}
           current_project={this.props.current_project}
           requestMethod="put"
           projectID={this.props.match.params.projectID}
