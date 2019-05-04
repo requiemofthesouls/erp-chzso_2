@@ -2,8 +2,12 @@ import React from 'react';
 import { Table } from 'antd/lib/index';
 import Highlighter from 'react-highlight-words';
 import { Button, Icon, Input, message } from 'antd';
+import axios from 'axios';
+import AuthServiceLogic from '../AuthService/AuthServiceLogic';
 
 class Projects extends React.Component {
+
+  Auth = new AuthServiceLogic();
 
   componentWillReceiveProps(nextProps, nextContext) {
     this.setState({
@@ -30,7 +34,7 @@ class Projects extends React.Component {
       <div style={{ padding: 8 }}>
         <Input
           ref={node => {
-              this.searchInput = node;
+            this.searchInput = node;
           }}
           value={selectedKeys[0]}
           onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
@@ -94,16 +98,34 @@ class Projects extends React.Component {
     this.setState({ searchText: '' });
   };
 
+  updateProjects = () => {
+    axios.get(`http://127.0.0.1:8000/api/projects/`, {
+      headers: this.Auth.auth_header
+    })
+      .then(res => {
+        this.setState({ data: res.data });
+      });
+  };
+
+  handleDelete = (id) => {
+    axios.delete(`http://127.0.0.1:8000/api/projects/${id}/`, {
+      headers: this.Auth.auth_header
+    });
+  };
+
   handleDeleteSelected = (e) => {
     this.setState({ loading: true });
-    // ajax request after empty completing
-    console.log(e);
+    const deleteIDs = this.state.selectedRowKeys;
+    for (let id of deleteIDs) {
+      this.handleDelete(id);
+    }
     setTimeout(() => {
+      this.updateProjects();
       this.setState({
         selectedRowKeys: [],
         loading: false,
       });
-      message.success('Success');
+      message.success('Успешно');
     }, 1000);
   };
 
