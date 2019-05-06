@@ -4,6 +4,8 @@ import LoginFormContainer from '../containers/AuthService/Login';
 import RegistrationFormContainer from '../containers/AuthService/Signup';
 import ProjectListContainer from '../containers/Projects/ProjectListView';
 import ProjectDetailContainer from '../containers/Projects/ProjectDetailView';
+import TaskListContainer from '../containers/Tasks/TasksListView';
+import TaskDetailContainer from '../containers/Tasks/TasksDetailView';
 
 
 const BaseRouter = () => {
@@ -16,6 +18,9 @@ const BaseRouter = () => {
 
         <Route exact path='/projects' component={ProjectListContainer}/>
         <Route exact path='/projects/:projectID' component={ProjectDetailContainer}/>
+
+        <Route exact path='/tasks' component={TaskListContainer}/>
+        <Route exact path='/tasks/:taskID' component={TaskDetailContainer}/>
 
 
         <Redirect from='*' to='/'/>

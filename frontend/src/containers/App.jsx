@@ -10,7 +10,7 @@ class MyAppContainer extends React.Component {
     const {
       username,
       setGlobalUsername,
-      setProjects,
+      setTasks,
       projects,
       current_project,
     } = this.props;

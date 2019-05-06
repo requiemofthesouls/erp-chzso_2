@@ -15,14 +15,19 @@ const emptyProject = {
   'old_id': '',
 };
 
+let emptyUserlist = [{
+  'id': '',
+  'username': ''
+}];
+
 class CreateDeleteUpdateProjectForm extends React.Component {
   Auth = new AuthServiceLogic();
 
   constructor(props) {
     super(props);
 
-
     this.state = {
+      userlist: this.props.userlist ? this.props.userlist : emptyUserlist,
       projects: [],
       new_manager: null,
       defaultData: this.props.current_project ? this.props.current_project : emptyProject,
@@ -39,6 +44,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
   componentWillReceiveProps(nextProps, nextContext) {
     console.log('--- received new props ---', nextProps);
     this.setState({
+      userlist: nextProps.userlist ? nextProps.userlist : emptyUserlist,
       defaultData: nextProps.current_project ? nextProps.current_project : emptyProject,
     }, () => console.log('--- new state ---', this.state));
 
@@ -48,7 +54,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
   handleFormSubmit = (event, requestMethod) => {
     event.preventDefault();
     const projectID = this.props.projectID;
-    const { updateProjects, closeModal } = this.props;
+    const { updateTasks, closeModal } = this.props;
     const { title, description, entry, priority } = this.state.defaultData;
 
     console.log('--- PUT ---', this.state.defaultData);
@@ -105,6 +111,10 @@ class CreateDeleteUpdateProjectForm extends React.Component {
     const tips = <span>от 1 до 9</span>;
     const last_modified = new Date(defaultData.last_modified);
 
+    const users = this.state.userlist.map((user) =>
+      <Option value={user.id.toString()}>{user.username}</Option>
+    );
+
 
     return (
       <div>
@@ -123,8 +133,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
               defaultValue={defaultData.manager_username}
               onChange={this.handleManagerChange}
             >
-              {/*TODO: USER LIST*/}
-              <Option value="red">Red</Option>
+              {users}
             </Select>
           </Form.Item>
           <Form.Item label="Описание">

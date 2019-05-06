@@ -22,7 +22,9 @@ class ProjectDetailContainer extends React.Component {
   }
 
   getUserlist = () => {
-    axios.get('http://127.0.0.1:8000/auth/users/')
+    axios.get('http://127.0.0.1:8000/api/users/', {
+      headers: this.Auth.auth_header
+    })
       .then(
         (res) => {
           this.setState({ userlist: res.data });
@@ -48,9 +50,6 @@ class ProjectDetailContainer extends React.Component {
 
 
   componentDidMount() {
-
-    console.log('finished loading');
-
   }
 
   render() {

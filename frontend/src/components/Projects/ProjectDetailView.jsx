@@ -30,6 +30,7 @@ class ProjectDetail extends React.Component {
         />
 
         <Button block onClick={this.handleDelete} type="danger" htmlType="submit">Удалить</Button>
+        <Button block onClick={() => console.log(this.props)} type="danger" htmlType="submit">props</Button>
 
       </div>
     );
@@ -54,7 +55,7 @@ class ProjectDetail extends React.Component {
 
   updateProjects = () => {
     console.log('updating projects');
-    // Get all Projects and put them to the redux
+    // Get all Tasks and put them to the redux
     axios.get(`http://127.0.0.1:8000/api/projects/`, {
       headers: this.Auth.auth_header
     })
@@ -64,7 +65,7 @@ class ProjectDetail extends React.Component {
   };
 
   setProjects = (projects) => {
-    this.props.setProjects(projects);
+    this.props.setTasks(projects);
   };
 
 }

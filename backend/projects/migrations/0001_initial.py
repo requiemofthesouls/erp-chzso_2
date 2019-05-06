@@ -29,8 +29,8 @@ class Migration(migrations.Migration):
                 ('manager', models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Ответственный')),
             ],
             options={
-                'verbose_name': 'Projects',
-                'verbose_name_plural': 'Projects',
+                'verbose_name': 'Tasks',
+                'verbose_name_plural': 'Tasks',
                 'ordering': ['-id'],
             },
         ),
@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
                 ('time_required', models.IntegerField(blank=True, null=True, verbose_name='Time required')),
                 ('time_spent', models.IntegerField(blank=True, null=True, verbose_name='Time spent')),
                 ('assigned_on', models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Assigned on')),
-                ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='projects.Project', verbose_name='Projects')),
+                ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='projects.Project', verbose_name='Tasks')),
             ],
             options={
                 'verbose_name': 'Task',

@@ -13,6 +13,9 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    assigned_on_username = serializers.CharField(source='assigned_on.username', read_only=True)
+    project_title = serializers.CharField(source='project.title', read_only=True)
+
     class Meta:
         model = Task
-        fields = Task.listview_fields()
+        fields = Task.listview_fields() + ['project', 'assigned_on', 'assigned_on_username', 'project_title']

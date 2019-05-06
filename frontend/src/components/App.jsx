@@ -14,6 +14,8 @@ class App extends React.Component {
       setGlobalUsername,
       projects,
       setProjects,
+      tasks,
+      setTasks
     } = this.props;
 
     return (
@@ -24,7 +26,8 @@ class App extends React.Component {
             setGlobalUsername={setGlobalUsername}
             projects={projects}
             setProjects={setProjects}
-
+            tasks={tasks}
+            setTasks={setTasks}
           >
             <BaseRouter/>
           </RootLayout>

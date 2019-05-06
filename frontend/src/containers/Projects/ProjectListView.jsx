@@ -1,5 +1,5 @@
 import React from 'react';
-import ProjectListView from '../../components/Projects/ProjectListView';
+import ProjectList from '../../components/Projects/ProjectListView';
 import { connect } from 'react-redux';
 import { setProjects } from '../../store/projects/actions';
 
@@ -7,7 +7,7 @@ import { setProjects } from '../../store/projects/actions';
 class ProjectListContainer extends React.Component {
   render() {
     return (
-      <ProjectListView
+      <ProjectList
         projects={this.props.projects}
         setProjects={this.props.setProjects}
         history={this.props.history}
