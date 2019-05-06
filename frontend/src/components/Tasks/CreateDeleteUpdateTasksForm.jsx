@@ -1,0 +1,206 @@
+import React from 'react';
+import axios from 'axios';
+
+import { Button, Form, Input, InputNumber, message, Select, Tooltip } from 'antd';
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import AuthServiceLogic from '../AuthService/AuthServiceLogic';
+
+const emptyTask = {
+  'title': '',
+  'active': '',
+  'description': '',
+  'entry': '',
+  'priority': 1,
+  'old_id': '',
+};
+
+let emptyUserlist = [{
+  'id': '',
+  'username': ''
+}];
+
+class CreateDeleteUpdateTaskForm extends React.Component {
+  Auth = new AuthServiceLogic();
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      userlist: this.props.userlist ? this.props.userlist : emptyUserlist,
+      tasks: [],
+      new_manager: null,
+      defaultData: this.props.current_task ? this.props.current_task : emptyTask,
+    };
+
+  }
+
+
+  componentWillMount() {
+    console.log('--- current props before render ---', this.props);
+    console.log('--- current state before render ---', this.state);
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    console.log('--- received new props ---', nextProps);
+    this.setState({
+      userlist: nextProps.userlist ? nextProps.userlist : emptyUserlist,
+      defaultData: nextProps.current_task ? nextProps.current_task : emptyTask,
+    }, () => console.log('--- new state ---', this.state));
+
+  }
+
+
+  handleFormSubmit = (event, requestMethod) => {
+    event.preventDefault();
+    const taskID = this.props.taskID;
+    const { updateTasks, closeModal } = this.props;
+    const { title, description, entry, priority } = this.state.defaultData;
+
+    console.log('--- PUT ---', this.state.defaultData);
+
+    switch (requestMethod) {
+      case 'post':
+        return axios.post(`http://127.0.0.1:8000/api/tasks/`, {
+          'title': title,
+          'active': true,
+          'description': description,
+          'entry': entry,
+          'priority': priority,
+          'old_id': 0
+        }, {
+          headers: this.Auth.auth_header
+        })
+          .then((res) => {
+            closeModal();
+            message.success(`Проект ${title} добавлен`, 2.5);
+            updateTasks();
+          })
+          .catch(err => console.error(err));
+      case 'put':
+        return axios.put(`http://127.0.0.1:8000/api/tasks/${taskID}/`, {
+          'title': title,
+          'active': true,
+          'description': description,
+          'entry': entry,
+          'priority': priority,
+          'old_id': 0
+        }, {
+          headers: this.Auth.auth_header
+        })
+          .then((res) => {
+            message.success(`Проект ${title} обновлён`, 2.5);
+            this.props.history.push('/tasks');
+            updateTasks();
+          })
+          .catch(err => console.error(err));
+    }
+  };
+
+  componentDidMount() {
+    console.log('current state after render ---', this.state);
+  }
+
+  render() {
+    const formItemLayout = {
+      labelCol: { span: 7 },
+      wrapperCol: { span: 12 },
+    };
+
+    const { defaultData } = this.state;
+    const tips = <span>от 1 до 9</span>;
+    const last_modified = new Date(defaultData.last_modified);
+
+    const users = this.state.userlist.map((user) =>
+      <Option value={user.id.toString()}>{user.username}</Option>
+    );
+
+
+    return (
+      <div>
+        <Form onChange={this.handleChange} onSubmit={(e) => this.handleFormSubmit(e, this.props.requestMethod)}>
+          <Form.Item label="Заголовок">
+            <Input autoFocus name="title"
+                   placeholder="Введите заголовок"
+                   defaultValue={defaultData.title}
+            />
+          </Form.Item>
+          <Form.Item label="Ответственный">
+            <Select
+              name="manager"
+              mode="single"
+              placeholder="Выберите ответственного."
+              defaultValue={defaultData.manager_username}
+              onChange={this.handleManagerChange}
+            >
+              {users}
+            </Select>
+          </Form.Item>
+          <Form.Item label="Описание">
+            <CKEditor
+              editor={ClassicEditor}
+              data={defaultData.description}
+              onChange={(event, editor) => {
+                defaultData['description'] = editor.getData();
+              }}
+            />
+          </Form.Item>
+          <Form.Item label="Артикул">
+            <Input
+              name="entry"
+              placeholder="Введите артикул"
+              defaultValue={defaultData.entry}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Приоритет"
+          >
+            <Tooltip placement='right' title={tips}>
+              <InputNumber
+                min={1}
+                max={9}
+                defaultValue={defaultData.priority}
+                onChange={this.handlePriorityChange}
+                name="priority"
+              />
+            </Tooltip>
+          </Form.Item>
+          {this.props.btnText === 'Изменить' ?
+            <div>
+              <Form.Item label='Последнее изменение'>
+                <Input readOnly defaultValue={last_modified.toLocaleDateString('ru', {
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric'
+                })
+                }/>
+              </Form.Item>
+            </div>
+            : <span/>}
+          <Form.Item>
+            <Button block type="primary" htmlType="submit">{this.props.btnText}</Button>
+          </Form.Item>
+        </Form>
+      </div>
+    );
+  }
+
+  handleManagerChange = (value) => {
+    this.setState({ new_manager: value });
+  };
+
+  handlePriorityChange = (value) => {
+    this.state.defaultData['priority'] = value;
+  };
+
+  handleChange = (e) => {
+    this.state.defaultData[e.target.name] = e.target.value;
+  };
+
+
+}
+
+export default CreateDeleteUpdateTaskForm;
