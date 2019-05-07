@@ -13,6 +13,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    assigned_on = serializers.HiddenField(default=serializers.CurrentUserDefault())
     assigned_on_username = serializers.CharField(source='assigned_on.username', read_only=True)
     project_title = serializers.CharField(source='project.title', read_only=True)
 
