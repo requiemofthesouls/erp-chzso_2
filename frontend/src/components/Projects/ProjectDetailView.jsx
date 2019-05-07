@@ -65,7 +65,7 @@ class ProjectDetail extends React.Component {
   };
 
   setProjects = (projects) => {
-    this.props.setTasks(projects);
+    this.props.setProjects(projects);
   };
 
 }

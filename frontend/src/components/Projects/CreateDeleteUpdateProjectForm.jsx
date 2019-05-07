@@ -54,7 +54,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
   handleFormSubmit = (event, requestMethod) => {
     event.preventDefault();
     const projectID = this.props.projectID;
-    const { updateTasks, closeModal } = this.props;
+    const { updateProjects, closeModal } = this.props;
     const { title, description, entry, priority } = this.state.defaultData;
 
     console.log('--- PUT ---', this.state.defaultData);

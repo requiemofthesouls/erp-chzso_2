@@ -158,11 +158,11 @@ class Tasks extends React.Component {
       },
       {
         title: 'Назначено на',
-        dataIndex: 'priority',
+        dataIndex: 'assigned_on_username',
       },
       {
         title: 'Выполнить до',
-        dataIndex: 'priority',
+        dataIndex: 'due',
       },
     ];
 

@@ -9,10 +9,15 @@ import AuthServiceLogic from '../AuthService/AuthServiceLogic';
 const emptyTask = {
   'title': '',
   'active': '',
+  'slug': '',
   'description': '',
-  'entry': '',
   'priority': 1,
-  'old_id': '',
+  'status': '',
+  'assigned_on': '',
+  'time_start': '',
+  'time_due': '',
+  'time_required': '',
+  'time_spent': '',
 };
 
 let emptyUserlist = [{
@@ -28,6 +33,7 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
     this.state = {
       userlist: this.props.userlist ? this.props.userlist : emptyUserlist,
+      projectList: [],
       tasks: [],
       new_manager: null,
       defaultData: this.props.current_task ? this.props.current_task : emptyTask,
@@ -115,6 +121,10 @@ class CreateDeleteUpdateTaskForm extends React.Component {
       <Option value={user.id.toString()}>{user.username}</Option>
     );
 
+    const projects = this.state.projectList.map((project) =>
+      <Option value={project.id.toString()}>{project.title}</Option>
+    );
+
 
     return (
       <div>
@@ -125,12 +135,23 @@ class CreateDeleteUpdateTaskForm extends React.Component {
                    defaultValue={defaultData.title}
             />
           </Form.Item>
+          <Form.Item label="Проект">
+            <Select
+              name="project"
+              mode="single"
+              placeholder="Выберите проект."
+              defaultValue={defaultData.project_title}
+              onChange={this.handleProjectChange}
+            >
+              {projects}
+            </Select>
+          </Form.Item>
           <Form.Item label="Ответственный">
             <Select
               name="manager"
               mode="single"
               placeholder="Выберите ответственного."
-              defaultValue={defaultData.manager_username}
+              defaultValue={defaultData.assigned_on_username}
               onChange={this.handleManagerChange}
             >
               {users}
@@ -190,6 +211,10 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
   handleManagerChange = (value) => {
     this.setState({ new_manager: value });
+  };
+
+  handleProjectChange = (value) => {
+    this.setState({ new_project: value });
   };
 
   handlePriorityChange = (value) => {
