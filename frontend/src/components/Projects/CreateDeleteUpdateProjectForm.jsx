@@ -55,7 +55,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
     event.preventDefault();
     const projectID = this.props.projectID;
     const { updateProjects, closeModal } = this.props;
-    const { title, description, entry, priority } = this.state.defaultData;
+    const { title, description, entry, priority, manager_id } = this.state.defaultData;
 
     console.log('--- PUT ---', this.state.defaultData);
 
@@ -67,6 +67,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
           'description': description,
           'entry': entry,
           'priority': priority,
+          'manager_id': manager_id,
           'old_id': 0
         }, {
           headers: this.Auth.auth_header
@@ -84,6 +85,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
           'description': description,
           'entry': entry,
           'priority': priority,
+          'manager_id': manager_id,
           'old_id': 0
         }, {
           headers: this.Auth.auth_header
@@ -189,7 +191,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
   }
 
   handleManagerChange = (value) => {
-    this.setState({ new_manager: value });
+    this.state.defaultData.manager_id = value;
   };
 
   handlePriorityChange = (value) => {

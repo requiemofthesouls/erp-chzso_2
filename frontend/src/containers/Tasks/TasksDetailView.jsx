@@ -1,10 +1,10 @@
 import React from 'react';
 import TaskDetail from '../../components/Tasks/TasksDetailView';
-import { connect } from 'react-redux';
-import { setTasks } from '../../store/tasks/actions';
+import {connect} from 'react-redux';
+import {setTasks} from '../../store/tasks/actions';
 import axios from 'axios';
 import AuthServiceLogic from '../../components/AuthService/AuthServiceLogic';
-import { Alert, Icon, message, Spin } from 'antd';
+import {Alert, Icon, message, Spin} from 'antd';
 
 
 class TaskDetailContainer extends React.Component {
@@ -27,7 +27,7 @@ class TaskDetailContainer extends React.Component {
     })
       .then(
         (res) => {
-          this.setState({ userlist: res.data });
+          this.setState({userlist: res.data});
         });
   };
 
@@ -40,7 +40,7 @@ class TaskDetailContainer extends React.Component {
       .then(res => {
         this.setState({
           task: res.data,
-        }, () => this.setState({ isLoading: false }));
+        }, () => this.setState({isLoading: false}));
 
       }, (res) => {
         message.error(`Ошибка ${res}`, 2.5);
@@ -50,20 +50,21 @@ class TaskDetailContainer extends React.Component {
 
 
   componentDidMount() {
+    console.log('container props', this.props)
   }
 
   render() {
-    const { isLoading } = this.state;
+    const {isLoading} = this.state;
 
-    const indicator = <Icon type="loading" style={{ fontSize: 24 }} spin/>;
+    const indicator = <Icon type="loading" style={{fontSize: 24}} spin/>;
 
     const task_detail_form = <TaskDetail
-      tasks={this.props.tasks}
       setTasks={this.props.setTasks}
       history={this.props.history}
       match={this.props.match}
       current_task={this.state.task}
       userlist={this.state.userlist}
+      projects={this.props.projects}
     />;
 
     return (
@@ -77,8 +78,10 @@ class TaskDetailContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log('global state', state)
   return {
     tasks: state.tasks.data,
+    projects: state.projects.data,
   };
 
 };

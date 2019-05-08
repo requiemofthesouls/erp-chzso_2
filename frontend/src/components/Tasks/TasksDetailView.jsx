@@ -27,10 +27,10 @@ class TaskDetail extends React.Component {
           btnText="Изменить"
           history={this.props.history}
           updateTasks={this.updateTasks}
+          projects={this.props.projects}
         />
 
         <Button block onClick={this.handleDelete} type="danger" htmlType="submit">Удалить</Button>
-        <Button block onClick={() => console.log(this.props)} type="danger" htmlType="submit">props</Button>
 
       </div>
     );
