@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from projects.models import Project, Task
@@ -13,7 +14,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    assigned_on = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    assigned_on = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     assigned_on_username = serializers.CharField(source='assigned_on.username', read_only=True)
     project_title = serializers.CharField(source='project.title', read_only=True)
 

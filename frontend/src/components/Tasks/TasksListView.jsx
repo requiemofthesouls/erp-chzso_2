@@ -18,6 +18,7 @@ class TaskList extends React.Component {
   };
 
   showModal = () => {
+    // TODO: Сюда передавать список юзеров и проектов для choice fields.
     this.setState({
       visible: true,
     });

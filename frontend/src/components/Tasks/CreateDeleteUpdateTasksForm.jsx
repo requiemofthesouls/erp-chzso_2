@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import moment from 'moment';
-import 'moment/locale/ru'
+import 'moment/locale/ru';
 import locale from 'antd/lib/date-picker/locale/ru_RU';
 
 import {
@@ -77,7 +77,7 @@ class CreateDeleteUpdateTaskForm extends React.Component {
   handleFormSubmit = (event, requestMethod) => {
     event.preventDefault();
     const taskID = this.props.taskID;
-    const {updateTasks, closeModal} = this.props;
+    const { updateTasks, closeModal } = this.props;
     const {
       title,
       active,
@@ -107,7 +107,8 @@ class CreateDeleteUpdateTaskForm extends React.Component {
           'description': description,
           'priority': priority,
           'status': status,
-          'assigned_on_id': assigned_on_id,
+          'assigned_on': assigned_on_id,
+          'assigned_on_username': assigned_on_username,
           'start': start,
           'due': due,
           'time_required': time_required,
@@ -129,7 +130,8 @@ class CreateDeleteUpdateTaskForm extends React.Component {
           'project': project,
           'priority': priority,
           'status': status,
-          'assigned_on_id': assigned_on_id,
+          'assigned_on': assigned_on_id,
+          'assigned_on_username': assigned_on_username,
           'start': start,
           'due': due,
           'time_required': time_required,
@@ -152,12 +154,12 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
   render() {
     const formItemLayout = {
-      labelCol: {span: 7},
-      wrapperCol: {span: 12},
+      labelCol: { span: 7 },
+      wrapperCol: { span: 12 },
     };
 
     const RangePicker = DatePicker.RangePicker;
-    const {defaultData} = this.state;
+    const { defaultData } = this.state;
     const tips = <span>от 1 до 9</span>;
 
     const today = new Date();
@@ -252,8 +254,10 @@ class CreateDeleteUpdateTaskForm extends React.Component {
               locale={locale}
               defaultValue={[moment(), moment()]}
               ranges={{
-                "Сегодня": [moment(), moment()],
-                "Этот месяц": [moment().startOf('month'), moment().endOf('month')]
+                'Сегодня': [moment(), moment()],
+                'Этот месяц': [moment()
+                  .startOf('month'), moment()
+                  .endOf('month')]
               }}
               showTime
               format="YYYY/MM/DD HH:mm:ss"
@@ -302,8 +306,9 @@ class CreateDeleteUpdateTaskForm extends React.Component {
     );
   }
 
-  handleManagerChange = (value) => {
-    this.state.defaultData.assigned_on_id = value;
+  handleManagerChange = (value, event) => {
+    this.state.defaultData.assigned_on_id = parseInt(value);
+    this.state.defaultData.assigned_on_username = event.props.children;
   };
 
   handleProjectChange = (value) => {
@@ -316,11 +321,11 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
   handleChange = (e) => {
     this.state.defaultData[e.target.name] = e.target.value;
-    console.log(this.state.defaultData)
+    console.log(this.state.defaultData);
   };
 
   handleActiveChange = () => {
-    this.state.defaultData.active = !this.state.defaultData.active
+    this.state.defaultData.active = !this.state.defaultData.active;
   };
 
   handleDateRangeChange = (moment, date) => {
@@ -334,7 +339,7 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
   handleTimeSpentChange = (value) => {
     this.state.defaultData.time_spent = value;
-  }
+  };
 
 }
 
