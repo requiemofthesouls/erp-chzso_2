@@ -173,7 +173,7 @@ class RegistrationForm extends React.Component {
     this.Auth.register(this.state.username, this.state.password)
       .then(res => {
         message.success(`Пользователь ${this.state.username} успешно зарегистрирован.`, 2.5);
-        this.props.history.push('/projects');
+        this.props.history.push('/');
         this.setUsername(this.state.username);
       })
       .catch(err => {

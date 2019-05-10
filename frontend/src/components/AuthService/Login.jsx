@@ -96,7 +96,7 @@ class NormalLoginForm extends React.Component {
       .then(res => {
         message.info(`Привет, ${this.state.username}`, 2.5);
         this.setState({ loading: false });
-        this.props.history.push('/projects');
+        this.props.history.push('/');
         this.setUsername(this.state.username);
       })
       .catch(err => {
