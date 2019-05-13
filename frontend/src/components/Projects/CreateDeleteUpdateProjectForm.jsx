@@ -27,6 +27,9 @@ class CreateDeleteUpdateProjectForm extends React.Component {
     super(props);
 
     this.state = {
+      // TODO: Список пользователей не обновляется, т.к.
+      //  при открытии модального окна пересобирается сама форма, а не контейнер.
+      //  Можно вынести обработку этого действия сюда.
       userlist: this.props.userlist ? this.props.userlist : emptyUserlist,
       projects: [],
       new_manager: null,
