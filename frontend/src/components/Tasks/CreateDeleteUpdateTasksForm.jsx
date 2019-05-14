@@ -62,6 +62,7 @@ class CreateDeleteUpdateTaskForm extends React.Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
+    console.log("next props ---", nextProps)
     this.setState({
       userlist: nextProps.userlist ? nextProps.userlist : emptyUserlist,
       projectList: nextProps.projects ? nextProps.projects : [],
@@ -74,7 +75,7 @@ class CreateDeleteUpdateTaskForm extends React.Component {
   handleFormSubmit = (event, requestMethod) => {
     event.preventDefault();
     const taskID = this.props.taskID;
-    const { updateTasks, closeModal } = this.props;
+    const {updateTasks, closeModal} = this.props;
     const {
       title,
       active,
@@ -148,12 +149,12 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
   render() {
     const formItemLayout = {
-      labelCol: { span: 7 },
-      wrapperCol: { span: 12 },
+      labelCol: {span: 7},
+      wrapperCol: {span: 12},
     };
 
     const RangePicker = DatePicker.RangePicker;
-    const { defaultData } = this.state;
+    const {defaultData} = this.state;
     const tips = <span>от 1 до 9</span>;
 
     const today = new Date();
@@ -233,7 +234,8 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
           <Form.Item label="Статус">
             <div>
-              <Radio.Group name="status" defaultValue="new" buttonStyle="solid" onChange={() => console.log(this.state)}>
+              <Radio.Group name="status" defaultValue="new" buttonStyle="solid"
+                           onChange={() => console.log(this.state)}>
                 <Radio.Button value="new">Новая</Radio.Button>
                 <Radio.Button value="current">Текущая</Radio.Button>
                 <Radio.Button value="suspend">Заморожена</Radio.Button>

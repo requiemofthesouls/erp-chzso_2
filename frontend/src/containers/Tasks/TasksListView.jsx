@@ -1,7 +1,8 @@
 import React from 'react';
-import TaskList from '../../components/Tasks/TasksListView';
 import { connect } from 'react-redux';
+
 import { setTasks } from '../../store/tasks/actions';
+import TaskList from '../../components/Tasks/TasksListView';
 
 
 class TaskListContainer extends React.Component {

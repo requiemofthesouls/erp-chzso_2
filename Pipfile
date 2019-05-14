@@ -6,10 +6,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+pillow = "*"
 djangorestframework = "*"
 djangorestframework-jwt = "*"
 psycopg2-binary = "*"
-django = "*"
+django = "==2.2.1"
 dj-database-url = "*"
 whitenoise = "*"
 python-decouple = "*"
@@ -20,7 +21,6 @@ uwsgi = "*"
 django-extensions = "*"
 pyparsing = "*"
 pydot = "*"
-
 
 [dev-packages]
 django-debug-toolbar = "*"

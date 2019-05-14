@@ -75,7 +75,7 @@ class NormalLoginForm extends React.Component {
           >
             Войти
           </Button>
-          <Button type="primary" href="/signup" htmlType="submit" icon="user-add" block>Зарегистрироваться</Button>
+          <Button type="primary" onClick={() => this.props.history.push(`signup/`)} htmlType="submit" icon="user-add" block>Зарегистрироваться</Button>
         </Form.Item>
       </Form>
     );

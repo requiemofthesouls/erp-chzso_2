@@ -7,6 +7,11 @@ from rest_framework_jwt.serializers import User
 from main.mixins.models import ERPModel
 
 
+class Image(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    file = models.ImageField(upload_to='images', default='images/default_avatar.png')
+
+
 class Project(ERPModel):
     manager = models.ForeignKey(User, verbose_name='Ответственный', on_delete=models.CASCADE, default=None)
     description = models.TextField(blank=True, verbose_name=_('Description'))

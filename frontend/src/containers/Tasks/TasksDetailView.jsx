@@ -32,7 +32,6 @@ class TaskDetailContainer extends React.Component {
   };
 
   getCurrentTask = () => {
-    console.log('loading');
     const taskID = this.props.match.params.taskID;
     axios.get(`http://127.0.0.1:8000/api/tasks/${taskID}/`, {
       headers: this.Auth.auth_header
@@ -50,7 +49,6 @@ class TaskDetailContainer extends React.Component {
 
 
   componentDidMount() {
-    console.log('container props', this.props)
   }
 
   render() {

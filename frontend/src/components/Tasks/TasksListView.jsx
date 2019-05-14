@@ -1,11 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 
-import {
-  Button,
-  Modal,
-} from 'antd';
-
 import Tasks from './Tasks';
 import TaskModalContainer from '../../containers/Tasks/TaskModalView'
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
@@ -22,7 +17,6 @@ class TaskList extends React.Component {
   };
 
   showModal = () => {
-    // TODO: Сюда передавать список юзеров и проектов для choice fields.
     this.setState({
       visible: true,
     });

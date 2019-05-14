@@ -206,7 +206,7 @@ STATIC_ROOT = os.path.join(FRONTEND_DIR, 'staticfiles')
 
 MEDIA_URL = "/media/"
 
-# MEDIA_ROOT = os.path.join(os.path.dirname(FRONTEND_DIR), "media_cdn")
+MEDIA_ROOT = os.path.join(FRONTEND_DIR, "src", "public", "media")
 
 # Django REST framework
 # ------------------------------------------------------------------------------
@@ -226,7 +226,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-
 # Django REST-AUTH framework
 # ------------------------------------------------------------------------------
 # https://github.com/Tivix/django-rest-auth/
@@ -240,9 +239,7 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
 }
 
-
 GRAPH_MODELS = {
-  'all_applications': True,
-  'group_models': True,
+    'all_applications': True,
+    'group_models': True,
 }
-
