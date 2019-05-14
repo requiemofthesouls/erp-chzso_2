@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Modal } from 'antd';
+import {Button, Modal} from 'antd';
 
+import ProjectModalContainer from '../../containers/Projects/ProjectModalView'
 import Projects from './Projects';
 import CreateDeleteUpdateProjectForm from './CreateDeleteUpdateProjectForm';
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
@@ -67,21 +68,37 @@ class ProjectList extends React.Component {
 
         />
 
-        <Modal centered
-               title="Создание проекта"
-               visible={this.state.visible}
-               onOk={this.handleOk}
-               onCancel={this.handleCancel}
+        <ProjectModalContainer
+          title="Создание проекта"
+          visible={this.state.visible}
+          handleOk={this.handleOk}
+          handleCancel={this.handleCancel}
+
+          requestMethod="post"
+          projectID={null}
+          history={this.props.history}
+          btnText="Создать"
+          updateProjects={this.updateProjects}
+          closeModal={this.handleOk}
         >
-          <CreateDeleteUpdateProjectForm
-            requestMethod="post"
-            projectID={null}
-            btnText="Создать"
-            updateProjects={this.updateProjects}
-            closeModal={this.handleOk}
-            history={this.props.history}
-          />
-        </Modal>
+        </ProjectModalContainer>
+
+        {/*<Modal centered*/}
+        {/*       title="Создание проекта"*/}
+        {/*       visible={this.state.visible}*/}
+        {/*       onOk={this.handleOk}*/}
+        {/*       onCancel={this.handleCancel}*/}
+        {/*>*/}
+        {/*  <CreateDeleteUpdateProjectForm*/}
+        {/*    requestMethod="post"*/}
+        {/*    projectID={null}*/}
+        {/*    btnText="Создать"*/}
+        {/*    updateProjects={this.updateProjects}*/}
+        {/*    closeModal={this.handleOk}*/}
+        {/*    history={this.props.history}*/}
+        {/*  />*/}
+        {/*</Modal>*/}
+
       </div>
     );
   }

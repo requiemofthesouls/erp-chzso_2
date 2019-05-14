@@ -139,6 +139,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
               onChange={this.handleManagerChange}
             >
               {users}
+              {/*TODO: Поправить в бекенде назначение ответственного.*/}
             </Select>
           </Form.Item>
           <Form.Item label="Описание">
