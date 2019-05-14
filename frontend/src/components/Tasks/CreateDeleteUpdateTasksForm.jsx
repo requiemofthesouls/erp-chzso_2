@@ -24,7 +24,7 @@ import AuthServiceLogic from '../AuthService/AuthServiceLogic';
 
 const emptyTask = {
   'title': '',
-  'active': '',
+  'active': false,
   'slug': '',
   'project': '',
   'description': '',
@@ -233,7 +233,7 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
           <Form.Item label="Статус">
             <div>
-              <Radio.Group name="status" defaultValue="new" buttonStyle="solid">
+              <Radio.Group name="status" defaultValue="new" buttonStyle="solid" onChange={() => console.log(this.state)}>
                 <Radio.Button value="new">Новая</Radio.Button>
                 <Radio.Button value="current">Текущая</Radio.Button>
                 <Radio.Button value="suspend">Заморожена</Radio.Button>

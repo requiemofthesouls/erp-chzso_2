@@ -1,9 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Modal } from 'antd';
+
+import {
+  Button,
+  Modal,
+} from 'antd';
 
 import Tasks from './Tasks';
-import CreateDeleteUpdateTaskForm from './CreateDeleteUpdateTasksForm';
+import TaskModalContainer from '../../containers/Tasks/TaskModalView'
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
 
 
@@ -37,7 +41,6 @@ class TaskList extends React.Component {
   };
 
   updateTasks = () => {
-    console.log('updating tasks');
     // Get all Tasks and put them to the redux
     axios.get(`http://127.0.0.1:8000/api/tasks/`, {
       headers: this.Auth.auth_header
@@ -68,21 +71,19 @@ class TaskList extends React.Component {
 
         />
 
-        <Modal centered
-               title="Создание задачи"
-               visible={this.state.visible}
-               onOk={this.handleOk}
-               onCancel={this.handleCancel}
+        <TaskModalContainer
+          modal_title="Создание задачи"
+          visible={this.state.visible}
+          handleOk={this.handleOk}
+          handleCancel={this.handleCancel}
+
+          requestMethod="post"
+          updateTasks={this.updateTasks}
+          closeModal={this.handleOk}
+          history={this.props.history}
         >
-          <CreateDeleteUpdateTaskForm
-            requestMethod="post"
-            taskID={null}
-            btnText="Создать"
-            updateTasks={this.updateTasks}
-            closeModal={this.handleOk}
-            history={this.props.history}
-          />
-        </Modal>
+        </TaskModalContainer>
+
       </div>
     );
   }
