@@ -5,7 +5,8 @@ from projects.models import Project, Task
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    manager = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    manager = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(),
+                                                 default=serializers.CurrentUserDefault())
     manager_username = serializers.CharField(source='manager.username', read_only=True)
 
     class Meta:

@@ -45,7 +45,7 @@ class ProjectModalContainer extends React.Component {
                                       title={this.props.title}
                                       visible={this.props.visible}
                                       onOk={this.props.handleOk}
-                                      onCancel={this.handleCancel}
+                                      onCancel={this.props.handleCancel}
     >
       <CreateDeleteUpdateProjectForm
         requestMethod="post"
