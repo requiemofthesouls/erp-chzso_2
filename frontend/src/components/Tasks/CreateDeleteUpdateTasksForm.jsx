@@ -59,17 +59,14 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
 
   componentWillMount() {
-    console.log('--- current props before render ---', this.props);
-    console.log('--- current state before render ---', this.state);
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    console.log('--- received new props ---', nextProps);
     this.setState({
       userlist: nextProps.userlist ? nextProps.userlist : emptyUserlist,
       projectList: nextProps.projects ? nextProps.projects : [],
       defaultData: nextProps.current_task ? nextProps.current_task : emptyTask,
-    }, () => console.log('--- new state ---', this.state));
+    });
 
   }
 
@@ -95,8 +92,6 @@ class CreateDeleteUpdateTaskForm extends React.Component {
       project_id,
       project_title,
     } = this.state.defaultData;
-
-    console.log('--- PUT ---', this.state.defaultData);
 
     switch (requestMethod) {
       case 'post':
@@ -149,7 +144,6 @@ class CreateDeleteUpdateTaskForm extends React.Component {
   };
 
   componentDidMount() {
-    console.log('current state after render ---', this.state);
   }
 
   render() {
@@ -321,7 +315,6 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
   handleChange = (e) => {
     this.state.defaultData[e.target.name] = e.target.value;
-    console.log(this.state.defaultData);
   };
 
   handleActiveChange = () => {

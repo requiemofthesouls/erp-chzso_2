@@ -37,7 +37,6 @@ class ProjectList extends React.Component {
   };
 
   updateProjects = () => {
-    console.log('updating projects');
     // Get all Tasks and put them to the redux
     axios.get(`http://127.0.0.1:8000/api/projects/`, {
       headers: this.Auth.auth_header

@@ -28,7 +28,8 @@ class ProjectModalContainer extends React.Component {
         (res) => {
           this.setState({
             userlist: res.data,
-            isLoading: false});
+            isLoading: false
+          });
         });
   };
 
@@ -41,22 +42,23 @@ class ProjectModalContainer extends React.Component {
 
     const indicator = <Icon type="loading" style={{fontSize: 24}} spin/>;
 
-    const project_modal_form = <Modal centered
-                                      title={this.props.title}
-                                      visible={this.props.visible}
-                                      onOk={this.props.handleOk}
-                                      onCancel={this.props.handleCancel}
-    >
-      <CreateDeleteUpdateProjectForm
-        requestMethod="post"
-        projectID={null}
-        btnText="Создать"
-        updateProjects={this.props.updateProjects}
-        closeModal={this.props.handleOk}
-        history={this.props.history}
-        userlist={this.state.userlist}
-      />
-    </Modal>;
+    const project_modal_form =
+      <Modal centered
+             title={this.props.title}
+             visible={this.props.visible}
+             onOk={this.props.handleOk}
+             onCancel={this.props.handleCancel}
+      >
+        <CreateDeleteUpdateProjectForm
+          requestMethod="post"
+          projectID={null}
+          btnText="Создать"
+          updateProjects={this.props.updateProjects}
+          closeModal={this.props.handleOk}
+          history={this.props.history}
+          userlist={this.state.userlist}
+        />
+      </Modal>;
 
     return (
       <div>

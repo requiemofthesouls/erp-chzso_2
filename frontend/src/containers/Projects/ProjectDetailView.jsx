@@ -32,7 +32,6 @@ class ProjectDetailContainer extends React.Component {
   };
 
   getCurrentProject = () => {
-    console.log('loading');
     const projectID = this.props.match.params.projectID;
     axios.get(`http://127.0.0.1:8000/api/projects/${projectID}/`, {
       headers: this.Auth.auth_header

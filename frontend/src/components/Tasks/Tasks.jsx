@@ -223,8 +223,7 @@ class Tasks extends React.Component {
   };
 
   onChange = (pagination, filters, sorter) => {
-    // console.log('params', pagination, filters, sorter);
-    console.log(this.state)
+    console.log('params', pagination, filters, sorter);
   };
 }
 

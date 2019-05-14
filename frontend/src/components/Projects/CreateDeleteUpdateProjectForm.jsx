@@ -1,7 +1,17 @@
 import React from 'react';
 import axios from 'axios';
 
-import { Button, Form, Input, InputNumber, message, Select, Tooltip } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Select,
+  Tooltip,
+  Switch
+} from 'antd';
+
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
@@ -37,16 +47,13 @@ class CreateDeleteUpdateProjectForm extends React.Component {
 
 
   componentWillMount() {
-    console.log('--- current props before render ---', this.props);
-    console.log('--- current state before render ---', this.state);
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    console.log('--- received new props ---', nextProps);
     this.setState({
       userlist: nextProps.userlist ? nextProps.userlist : emptyUserlist,
       defaultData: nextProps.current_project ? nextProps.current_project : emptyProject,
-    }, () => console.log('--- new state ---', this.state));
+    });
 
   }
 
@@ -54,16 +61,14 @@ class CreateDeleteUpdateProjectForm extends React.Component {
   handleFormSubmit = (event, requestMethod) => {
     event.preventDefault();
     const projectID = this.props.projectID;
-    const { updateProjects, closeModal } = this.props;
-    const { title, description, entry, priority, manager_id } = this.state.defaultData;
-
-    console.log('--- PUT ---', this.state.defaultData);
+    const {updateProjects, closeModal} = this.props;
+    const {title, description, entry, priority, manager_id, active} = this.state.defaultData;
 
     switch (requestMethod) {
       case 'post':
         return axios.post(`http://127.0.0.1:8000/api/projects/`, {
           'title': title,
-          'active': true,
+          'active': active,
           'description': description,
           'entry': entry,
           'priority': priority,
@@ -81,7 +86,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
       case 'put':
         return axios.put(`http://127.0.0.1:8000/api/projects/${projectID}/`, {
           'title': title,
-          'active': true,
+          'active': active,
           'description': description,
           'entry': entry,
           'priority': priority,
@@ -100,16 +105,15 @@ class CreateDeleteUpdateProjectForm extends React.Component {
   };
 
   componentDidMount() {
-    console.log('current state after render ---', this.state);
   }
 
   render() {
     const formItemLayout = {
-      labelCol: { span: 7 },
-      wrapperCol: { span: 12 },
+      labelCol: {span: 7},
+      wrapperCol: {span: 12},
     };
 
-    const { defaultData } = this.state;
+    const {defaultData} = this.state;
     const tips = <span>от 1 до 9</span>;
     const last_modified = new Date(defaultData.last_modified);
 
@@ -121,12 +125,18 @@ class CreateDeleteUpdateProjectForm extends React.Component {
     return (
       <div>
         <Form onChange={this.handleChange} onSubmit={(e) => this.handleFormSubmit(e, this.props.requestMethod)}>
+
           <Form.Item label="Заголовок">
             <Input autoFocus name="title"
                    placeholder="Введите заголовок"
                    defaultValue={defaultData.title}
             />
           </Form.Item>
+
+          <Form.Item label="Активный">
+            <Switch defaultChecked={defaultData.active} onChange={this.handleActiveChange}/>
+          </Form.Item>
+
           <Form.Item label="Ответственный">
             <Select
               name="manager"
@@ -139,6 +149,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
               {/*TODO: Поправить в бекенде назначение ответственного.*/}
             </Select>
           </Form.Item>
+
           <Form.Item label="Описание">
             <CKEditor
               editor={ClassicEditor}
@@ -148,6 +159,7 @@ class CreateDeleteUpdateProjectForm extends React.Component {
               }}
             />
           </Form.Item>
+
           <Form.Item label="Артикул">
             <Input
               name="entry"
@@ -203,6 +215,9 @@ class CreateDeleteUpdateProjectForm extends React.Component {
     this.state.defaultData[e.target.name] = e.target.value;
   };
 
+  handleActiveChange = () => {
+    this.state.defaultData.active = !this.state.defaultData.active;
+  };
 
 }
 

@@ -5,7 +5,6 @@ venv
 /db/
 
 # Python files
-*.pyc
 __pycache__
 
 # Python Notebook dot files
@@ -28,14 +27,10 @@ media_cdn
 # Ignore sqlite
 db.sqlite3
 
-# Apple files
-.DS_Store
-
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
 /.pnp
 .pnp.js
 
@@ -46,7 +41,6 @@ db.sqlite3
 /build
 
 # misc
-.DS_Store
 .env.local
 .env.development.local
 .env.test.local
@@ -58,4 +52,8 @@ yarn-error.log*
 
 
 frontend/static/builds/*
-frontend/static/builds-development/*
+
+.idea
+Pipfile.lock
+frontend/static/builds/
+package-lock.json

@@ -78,7 +78,6 @@ class TaskDetailContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('global state', state)
   return {
     tasks: state.tasks.data,
     projects: state.projects.data,
