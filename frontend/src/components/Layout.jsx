@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
+import axios from 'axios';
 
 import locale from 'antd/lib/date-picker/locale/ru_RU';
 import {
@@ -10,12 +11,13 @@ import {
   Button,
   message,
   Calendar,
-  Badge
+  Badge,
+  Spin
 } from 'antd';
 
 import AuthServiceLogic from './AuthService/AuthServiceLogic';
 
-const { Header, Content, Sider } = Layout;
+const {Header, Content, Sider} = Layout;
 
 
 function getListData(value) {
@@ -106,7 +108,26 @@ class RootLayout extends React.Component {
 
   Auth = new AuthServiceLogic();
 
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true
+    };
+    this.updateProjects();
+  }
+
+  updateProjects = () => {
+    axios.get(`http://127.0.0.1:8000/api/projects/`, {
+      headers: this.Auth.auth_header
+    })
+      .then(res => {
+        this.setState({projects: res.data},
+          () => this.setState({isLoading: false}));
+      }, (err) => {
+        message.error(err.toString(), 2);
+        this.setState({isLoading: false})
+      });
+  };
 
 
   setUsername = (username) => {
@@ -114,119 +135,124 @@ class RootLayout extends React.Component {
   };
 
 
-  componentWillMount() {
-
+  componentDidUpdate() {
+    console.log(this.state)
   }
 
   render() {
-    const { username, children } = this.props;
+    const {username, children} = this.props;
     const calendar = <Calendar
-
       locale={locale}
       dateCellRender={dateCellRender}
       monthCellRender={monthCellRender}/>;
+    const indicator = <Icon type="loading" style={{fontSize: 24}} spin/>;
+    const {isLoading} = this.state;
+    const rootLayout = <Layout>
+      <Header className="header">
+        <div className="logo"/>
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={['title']}
+          style={{
+            lineHeight: '64px',
+          }}
+        >
+          <Menu.Item
+            key='title'
+            style={{float: 'left'}}>
+            <Link to='/'>
+              <Icon type="sliders"/>
+              ERP ЧЗСО
+            </Link>
+          </Menu.Item>
 
-    return (
+
+          <Menu.Item key="login/logout" style={{float: 'right'}}>
+            {this.Auth.loggedIn() ?
+              <Link to='/logout' onClick={this.handleLogout}><Icon type="logout"/>Выйти</Link>
+              : <Link to='/login'><Icon type="login"/>Войти</Link>
+            }
+          </Menu.Item>
+
+          {this.Auth.loggedIn() ?
+            <Menu.Item style={{float: 'right'}} key='user'><Icon type="user"/>{username}</Menu.Item> :
+            <span/>}
+
+        </Menu>
+      </Header>
       <Layout>
-        <Header className="header">
-          <div className="logo"/>
+        <Sider
+          breakpoint="lg"
+          collapsedWidth="0"
+          width={180}
+          style={{background: '#fff'}}>
+
           <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={['title']}
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['sub1']}
             style={{
-              lineHeight: '64px',
+              height: '100%',
+              borderRight: 0
             }}
           >
-            <Menu.Item
-              key='title'
-              style={{ float: 'left' }}>
-              <Link to='/'>
-                <Icon type="sliders"/>
-                ERP ЧЗСО
-              </Link>
+            <Menu.Item key="nav1">
+              <Icon type="project"/>
+              Проекты
+              <Link to='/projects'/>
             </Menu.Item>
 
-
-            <Menu.Item key="login/logout" style={{ float: 'right' }}>
-              {this.Auth.loggedIn() ?
-                <Link to='/logout' onClick={this.handleLogout}><Icon type="logout"/>Выйти</Link>
-                : <Link to='/login'><Icon type="login"/>Войти</Link>
-              }
+            <Menu.Item key="nav2">
+              <Icon type="pic-center"/>
+              Задачи
+              <Link to='/tasks'/>
             </Menu.Item>
 
-            {this.Auth.loggedIn() ?
-              <Menu.Item style={{ float: 'right' }} key='user'><Icon type="user"/>{username}</Menu.Item> :
-              <span/>}
+            <Menu.Item key="nav3">
+              <Icon type="usergroup-add"/>
+              Пользователи
+              <Link to='/users'/>
+            </Menu.Item>
 
+            <Menu.Item key="nav4">
+              <Icon type="user"/>
+              Работники цеха
+              <Link to='/workers'/>
+            </Menu.Item>
+
+            <Menu.Item key="nav5">
+              <Icon type="setting"/>
+              Операции
+              <Link to='/jobitems'/>
+            </Menu.Item>
+
+            <Menu.Item key="nav6">
+              <Icon type="database"/>
+              Логи операций
+              <Link to='/joblogitems'/>
+            </Menu.Item>
           </Menu>
-        </Header>
-        <Layout>
-          <Sider
-            breakpoint="lg"
-            collapsedWidth="0"
-            width={180}
-            style={{ background: '#fff' }}>
-
-            <Menu
-              mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
-              style={{
-                height: '100%',
-                borderRight: 0
-              }}
-            >
-              <Menu.Item key="nav1">
-                <Icon type="project"/>
-                Проекты
-                <Link to='/projects'/>
-              </Menu.Item>
-
-              <Menu.Item key="nav2">
-                <Icon type="pic-center"/>
-                Задачи
-                <Link to='/tasks'/>
-              </Menu.Item>
-
-              <Menu.Item key="nav3">
-                <Icon type="usergroup-add"/>
-                Пользователи
-                <Link to='/users'/>
-              </Menu.Item>
-
-              <Menu.Item key="nav4">
-                <Icon type="user"/>
-                Работники цеха
-                <Link to='/workers'/>
-              </Menu.Item>
-
-              <Menu.Item key="nav5">
-                <Icon type="setting"/>
-                Операции
-                <Link to='/jobitems'/>
-              </Menu.Item>
-
-              <Menu.Item key="nav6">
-                <Icon type="database"/>
-                Логи операций
-                <Link to='/joblogitems'/>
-              </Menu.Item>
-            </Menu>
-          </Sider>
-          <Layout style={{ padding: '0 24px 24px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}/>
-            <Content style={{
-              background: '#fff',
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-            }}>
-              {this.props.location.pathname === '/' ? calendar : children}
-            </Content>
-          </Layout>
+        </Sider>
+        <Layout style={{padding: '0 24px 24px'}}>
+          <Breadcrumb style={{margin: '16px 0'}}/>
+          <Content style={{
+            background: '#fff',
+            padding: 24,
+            margin: 0,
+            minHeight: 280,
+          }}>
+            {this.props.location.pathname === '/' ? calendar : children}
+          </Content>
         </Layout>
       </Layout>
+    </Layout>;
+
+    return (
+      <div>
+        {isLoading && <Spin size='large' indicator={indicator}> {rootLayout} </Spin>}
+        {!isLoading && rootLayout}
+      </div>
     );
   }
 
