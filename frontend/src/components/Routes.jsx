@@ -8,6 +8,7 @@ import TaskListContainer from '../containers/Tasks/TasksListView';
 import TaskDetailContainer from '../containers/Tasks/TasksDetailView';
 import UserListView from "./Users/UserListView";
 import UserDetailContainer from "../containers/Users/UserDetailContainer";
+import Err404 from "./404";
 
 
 const BaseRouter = () => {
@@ -27,8 +28,9 @@ const BaseRouter = () => {
         <Route exact path='/users' component={UserListView}/>
         <Route exact path='/users/:userID' component={UserDetailContainer}/>
 
+        <Route exact path='/404' component={Err404}/>
 
-        <Redirect from='*' to='/'/>
+        <Redirect from='*' to='/404'/>
 
       </Switch>
     </div>
