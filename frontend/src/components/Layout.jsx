@@ -66,7 +66,7 @@ class RootLayout extends React.Component {
 
             <Menu.Item key="login/logout" style={{float: 'right'}}>
               {this.Auth.loggedIn() ?
-                <Link to='/logout' onClick={this.handleLogout}><Icon type="logout"/>Выйти</Link>
+                <Link to='' onClick={this.handleLogout}><Icon type="logout"/>Выйти</Link>
                 : <Link to='/login'><Icon type="login"/>Войти</Link>
               }
             </Menu.Item>
@@ -150,6 +150,7 @@ class RootLayout extends React.Component {
     message.success(`Сессия завершена`, 2.5);
     this.Auth.logout();
     this.setUsername('');
+    setTimeout(() => window.location.reload(), 1000)
   };
 }
 

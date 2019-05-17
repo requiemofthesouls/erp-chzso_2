@@ -114,7 +114,7 @@ class CreateDeleteUpdateTaskForm extends React.Component {
         })
           .then((res) => {
             closeModal();
-            message.success(`Проект ${title} добавлен`, 2.5);
+            message.success(`Задача ${title} добавлена`, 2.5);
             updateTasks();
           })
           .catch(err => console.error(err));
@@ -136,7 +136,7 @@ class CreateDeleteUpdateTaskForm extends React.Component {
           headers: this.Auth.auth_header
         })
           .then((res) => {
-            message.success(`Проект ${title} обновлён`, 2.5);
+            message.success(`Задача ${title} обновлена`, 2.5);
             this.props.history.push('/tasks');
             updateTasks();
           })
