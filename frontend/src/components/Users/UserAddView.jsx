@@ -8,12 +8,15 @@ import {
   Input,
   Select,
   DatePicker,
-  Icon,
+  Icon, Tooltip, message,
 } from 'antd';
+import AuthServiceLogic from '../AuthService/AuthServiceLogic';
 
 const { Option } = Select;
 
 class UserAddForm extends React.Component {
+
+  Auth = new AuthServiceLogic();
   state = { visible: false };
 
   showDrawer = () => {
@@ -30,6 +33,13 @@ class UserAddForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const prefixSelector = getFieldDecorator('prefix', {
+      initialValue: '+7',
+    })(
+      <Select style={{ width: 70 }}>
+        <Option value="+7">+7</Option>
+      </Select>
+    );
     return (
       <div>
         <div onClick={this.showDrawer}>
@@ -43,138 +53,115 @@ class UserAddForm extends React.Component {
           onClose={this.onClose}
           visible={this.state.visible}
         >
-          <Form layout="vertical" hideRequiredMark>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item label="Name">
-                  {getFieldDecorator('name', {
-                    rules: [{
-                      required: true,
-                      message: 'Please enter user name'
-                    }],
-                  })(<Input placeholder="Please enter user name"/>)}
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="Url">
-                  {getFieldDecorator('url', {
-                    rules: [{
-                      required: true,
-                      message: 'Please enter url'
-                    }],
-                  })(
-                    <Input
-                      style={{ width: '100%' }}
-                      addonBefore="http://"
-                      addonAfter=".com"
-                      placeholder="Please enter url"
-                    />,
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item label="Owner">
-                  {getFieldDecorator('owner', {
-                    rules: [{
-                      required: true,
-                      message: 'Please select an owner'
-                    }],
-                  })(
-                    <Select placeholder="Please select an owner">
-                      <Option value="xiao">Xiaoxiao Fu</Option>
-                      <Option value="mao">Maomao Zhou</Option>
-                    </Select>,
-                  )}
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="Type">
-                  {getFieldDecorator('type', {
-                    rules: [{
-                      required: true,
-                      message: 'Please choose the type'
-                    }],
-                  })(
-                    <Select placeholder="Please choose the type">
-                      <Option value="private">Private</Option>
-                      <Option value="public">Public</Option>
-                    </Select>,
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item label="Approver">
-                  {getFieldDecorator('approver', {
-                    rules: [{
-                      required: true,
-                      message: 'Please choose the approver'
-                    }],
-                  })(
-                    <Select placeholder="Please choose the approver">
-                      <Option value="jack">Jack Ma</Option>
-                      <Option value="tom">Tom Liu</Option>
-                    </Select>,
-                  )}
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="DateTime">
-                  {getFieldDecorator('dateTime', {
-                    rules: [{
-                      required: true,
-                      message: 'Please choose the dateTime'
-                    }],
-                  })(
-                    <DatePicker.RangePicker
-                      style={{ width: '100%' }}
-                      getPopupContainer={trigger => trigger.parentNode}
-                    />,
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={24}>
-                <Form.Item label="Description">
-                  {getFieldDecorator('description', {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'please enter url description',
-                      },
-                    ],
-                  })(<Input.TextArea rows={4} placeholder="please enter url description"/>)}
-                </Form.Item>
-              </Col>
-            </Row>
+          <Form onChange={this.handleChange} onSubmit={this.handleSubmit}>
+            <Form.Item
+              label="E-mail"
+
+            >
+              {getFieldDecorator('email', {
+                rules: [{
+                  type: 'email',
+                  message: 'Вы ввели некорректный E-mail!',
+                }, {
+                  required: true,
+                  message: 'Пожалуйста введите ваш E-mail!',
+                }],
+              })(
+                <Input autoFocus name="email" type='email'/>
+              )}
+            </Form.Item>
+            <Form.Item
+              label="Пароль"
+            >
+              {getFieldDecorator('password', {
+                rules: [{
+                  required: true,
+                  message: 'Пожалуйста введите пароль!',
+                }, {
+                  validator: this.validateToNextPassword,
+                }],
+              })(
+                <Input name="password" type="password"/>
+              )}
+            </Form.Item>
+            <Form.Item
+              label="Подтвердите пароль"
+            >
+              {getFieldDecorator('confirm', {
+                rules: [{
+                  required: true,
+                  message: 'Пожалуйста введите пароль ещё раз!',
+                }, {
+                  validator: this.compareToFirstPassword,
+                }],
+              })(
+                <Input name="confirm_password" type="password" onBlur={this.handleConfirmBlur}/>
+              )}
+            </Form.Item>
+            <Form.Item
+              label={(
+                <span>
+              Уникальное имя&nbsp;
+                  <Tooltip title="Как бы вы хотели чтобы другие звали вас?">
+                <Icon type="question-circle-o"/>
+              </Tooltip>
+            </span>
+              )}
+            >
+              {getFieldDecorator('nickname', {
+                rules: [{
+                  required: true,
+                  message: 'Пожалуйста введите ваш никнейм!',
+                  whitespace: true
+                }],
+              })(
+                <Input name="username"/>
+              )}
+            </Form.Item>
+
+            <Form.Item
+              label="Номер телефона"
+            >
+              {getFieldDecorator('phone', {
+                rules: [{
+                  required: true,
+                  message: 'Пожалуйста введите номер телефона!'
+                }],
+              })(
+                <Input name="phone_number" type='number' addonBefore={prefixSelector} style={{ width: '100%' }}/>
+              )}
+            </Form.Item>
+
+            <Form.Item>
+              <Button block type="primary" htmlType="submit">Создать</Button>
+            </Form.Item>
           </Form>
-          <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              bottom: 0,
-              width: '100%',
-              borderTop: '1px solid #e9e9e9',
-              padding: '10px 16px',
-              background: '#fff',
-              textAlign: 'right',
-            }}
-          >
-            <Button onClick={this.onClose} style={{ marginRight: 8 }}>
-              Cancel
-            </Button>
-            <Button onClick={this.onClose} type="primary">
-              Submit
-            </Button>
-          </div>
         </Drawer>
       </div>
     );
   }
+
+  handleChange = (e) => {
+    this.setState(
+      {
+        [e.target.name]: e.target.value
+      }
+    );
+  };
+
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.Auth.add_user(this.state.username, this.state.password)
+      .then(res => {
+        message.success(`Пользователь ${this.state.username} успешно добавлен.`, 2.5);
+        this.onClose();
+      })
+      .catch(err => {
+        alert(err);
+      });
+  };
+
 }
 
 const UserAddView = Form.create()(UserAddForm);
