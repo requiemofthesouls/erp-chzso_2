@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Project, Task, Image
+from .models import Project, Task
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -15,10 +15,3 @@ class TaskAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Task, TaskAdmin)
-
-
-class ImageAdmin(admin.ModelAdmin):
-    fields = ('user', 'file')
-
-
-admin.site.register(Image, ImageAdmin)

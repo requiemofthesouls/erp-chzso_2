@@ -8,26 +8,33 @@ import {
   Icon,
   Input,
   message,
-  Collapse,
+  Collapse, Avatar,
 } from 'antd';
 
+import AuthServiceLogic from '../AuthService/AuthServiceLogic';
+import axios from 'axios';
+
 const emptyUser = {
-  email: "",
-  first_name: "",
-  last_name: "",
-  username: "",
+  email: '',
+  first_name: '',
+  last_name: '',
+  username: '',
   is_active: false,
   is_staff: false,
   is_superuser: false,
 };
 
 class UserDetailView extends React.Component {
+  Auth = new AuthServiceLogic();
+
   constructor(props) {
     super(props);
     this.state = {
+      fileList: [],
+      avatar: null,
       imageUrl: '',
       defaultData: this.props.current_user ? this.props.current_user : emptyUser
-    }
+    };
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -38,8 +45,9 @@ class UserDetailView extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const userID = this.props.userID;
     const {
+      id,
+      avatar,
       first_name,
       last_name,
       username,
@@ -47,26 +55,42 @@ class UserDetailView extends React.Component {
       password,
       is_active,
       is_staff,
-      is_superuser
+      is_superuser,
+      new_avatar
     } = this.state.defaultData;
+
+    const body = new FormData();
+
+    new_avatar ? body.append('avatar', new_avatar) : null;
+    body.append('id', id);
+    body.append('email', email);
+    body.append('first_name', first_name);
+    body.append('last_name', last_name);
+    body.append('username', username);
+    body.append('password', password);
+    body.append('is_active', is_active);
+    body.append('is_staff', is_staff);
+    body.append('is_superuser', is_superuser);
+
+
+    axios.put(`http://127.0.0.1:8000/api/users/${id}/`, body,
+      {
+        headers: this.Auth.auth_header
+      })
+      .then((res) => {
+        this.props.history.push('/users');
+        message.success(`Пользователь ${username} изменён.`, 2.5);
+      })
+      .catch(err => console.error(err));
   };
 
   render() {
     const formItemLayout = {
-      labelCol: {span: 6},
-      wrapperCol: {span: 14},
+      labelCol: { span: 6 },
+      wrapperCol: { span: 14 },
     };
 
-    const imageUrl = this.state.imageUrl;
-
-    const uploadButton = (
-      <div>
-        <Icon type={this.state.loading ? 'loading' : 'plus'}/>
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
-
-    const {defaultData} = this.state;
+    const { defaultData } = this.state;
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -108,43 +132,58 @@ class UserDetailView extends React.Component {
         <Form.Item label="Суперпользователь">
           <Switch
             defaultChecked={defaultData.is_superuser}
-            onChange={() => this.state.defaultValue.is_superuser = !this.state.defaultValue.is_superuser}
+            onChange={this.handleIsSuperuserChange}
           />
         </Form.Item>
 
         <Form.Item label="Персонал">
           <Switch
             defaultChecked={defaultData.is_staff}
-            onChange={() => this.state.defaultValue.is_staff = !this.state.defaultValue.is_staff}
+            onChange={this.handleIsStaffChange}
           />
         </Form.Item>
 
         <Form.Item label="Активный">
           <Switch
             defaultChecked={defaultData.is_active}
-            onChange={() => this.state.defaultValue.is_active = !this.state.defaultValue.is_active}
+            onChange={this.handleIsActiveChange}
           />
         </Form.Item>
 
-        {/*TODO: Допилить аватарку*/}
-        {/*<Form.Item label="Фотография">*/}
-        {/*  <Upload*/}
-        {/*    name="avatar"*/}
-        {/*    listType="picture-card"*/}
-        {/*    className="avatar-uploader"*/}
-        {/*    showUploadList={false}*/}
-        {/*    beforeUpload={this.beforeUpload}*/}
-        {/*    onChange={this.handleAvatarChange}*/}
-        {/*  >*/}
-        {/*    {defaultData.avatar ? <img src={defaultData.avatar} alt="avatar"/> : uploadButton}*/}
-        {/*  </Upload>*/}
+        <Form.Item label="Фотография">
 
-        {/*</Form.Item>*/}
+          {defaultData.avatar ? <Avatar shape="square" size={64} src={defaultData.avatar}/> : <span/>}
 
-        <Form.Item wrapperCol={{span: 12, offset: 6}}>
-          <Button type="primary" htmlType="submit">
+
+          <Upload
+            name="avatar"
+            beforeUpload={this.beforeUpload}
+            onChange={this.handleAvatarChange}
+            listType="picture"
+            fileList={this.state.fileList}
+            onRemove={this.state.fileList = []}
+          >
+            <Button>
+              <Icon type="upload"/> Загрузить
+            </Button>
+
+          </Upload>
+
+
+        </Form.Item>
+
+        <Form.Item wrapperCol={{
+          span: 12,
+          offset: 6
+        }}>
+          <Button
+            block
+            type="primary"
+            htmlType="submit"
+          >
             Сохранить
           </Button>
+
         </Form.Item>
       </Form>
     );
@@ -162,12 +201,17 @@ class UserDetailView extends React.Component {
     if (!isLt2M) {
       message.error('Изображение должно быть меньше 2MB!');
     }
-    return (isJPG || isPNG) && isLt2M;
+    return false;
   };
 
-  handleAvatarChange = (avatar) => {
-    console.log('avatar', avatar)
-  }
+  handleAvatarChange = ({ file, fileList }) => {
+    this.setState({ fileList: [fileList.pop()] });
+    this.state.defaultData.new_avatar = file;
+  };
+
+  handleIsActiveChange = () => {
+    this.state.defaultData.is_active = !this.state.defaultData.is_active;
+  };
 }
 
 export default UserDetailView;

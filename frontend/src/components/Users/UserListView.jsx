@@ -1,8 +1,18 @@
 import React from 'react';
-import {List, Avatar, Button, Skeleton} from 'antd';
+import {
+  List,
+  Avatar,
+  Button,
+  Skeleton,
+  Icon,
+  Spin,
+  Popover,
+  Popconfirm,
+  message,
+} from 'antd';
 
 import axios from 'axios';
-import AuthServiceLogic from "../AuthService/AuthServiceLogic";
+import AuthServiceLogic from '../AuthService/AuthServiceLogic';
 
 class UserListView extends React.Component {
   Auth = new AuthServiceLogic();
@@ -34,43 +44,93 @@ class UserListView extends React.Component {
 
 
   render() {
-    const {initLoading, data} = this.state;
+    const { initLoading, data } = this.state;
+
 
     return (
-      <List
-        bordered
-        pagination={{
-          onChange: page => {
-            console.log(page);
-          },
-          pageSize: 3,
-          hideOnSinglePage: true,
-        }}
-        loading={initLoading}
-        itemLayout="horizontal"
-        dataSource={data}
-        footer={
-          <Button
-          onClick={() => console.log("create user")}
-          htmlType="submit"
-          icon="user-add"
-        />}
-        renderItem={item => (
-          <List.Item>
-            <Skeleton avatar title={false} loading={item.loading} active>
-              <List.Item.Meta
-                avatar={
-                  <Avatar src={item.avatar}/>
-                }
-                title={<a onClick={() => this.props.history.push(`users/${item.id}/`)}>{item.username}</a>}
-                description={`id ${item.id}`}
-              />
-            </Skeleton>
-          </List.Item>
-        )}
-      />
+      <div>
+
+        <List
+          pagination={{
+            onChange: page => {
+              console.log(page);
+            },
+            pageSize: 5,
+            hideOnSinglePage: true,
+          }}
+          loading={initLoading}
+          itemLayout="horizontal"
+          dataSource={data}
+          renderItem={item => (
+
+            <List.Item>
+              <Skeleton avatar title={false} loading={item.loading} active>
+
+                <Popover
+                  title={`Пользователь ${item.username}`}
+                  placement={'topLeft'}
+                  content={
+                    <div>
+
+                      <Button
+                        block
+                        onClick={() => this.props.history.push(`users/${item.id}/`)}
+                        htmlType="submit"
+                        icon="edit"
+                        style={{ marginBottom: '0.7em' }}
+                      >
+                        Редактировать
+                      </Button>
+
+                      <Popconfirm
+                        title="Вы уверены что хотите удалить данного пользователя?"
+                        onConfirm={this.handlePopconfirmDeleteUser}
+                        onCancel={this.handlePopconfirmCancel}
+                        okText="Да"
+                        cancelText="Нет"
+                      >
+                        <Button
+                          block
+                          onClick={() => console.log('popover delete user')}
+                          htmlType="submit"
+                          icon="user-delete"
+                          style={{ marginBottom: '0.7em' }}
+                        >
+                          Удалить
+                        </Button>
+
+                      </Popconfirm>
+
+                    </div>
+                  }
+                >
+                  <List.Item.Meta
+                    avatar={
+                      <Avatar src={item.avatar}/>
+                    }
+                    title={<a onClick={() => this.props.history.push(`users/${item.id}/`)}>{item.username}</a>}
+                    description={`id ${item.id}`}
+                  />
+                </Popover>
+              </Skeleton>
+            </List.Item>
+
+          )}
+        />
+      </div>
     );
   }
+
+  handlePopconfirmDeleteUser = () => {
+    message.loading("Удаление", 1)
+      .then(
+        () => message.success('Пользователь удалён.', 2));
+    console.log('delete');
+  };
+
+  handlePopconfirmCancel = () => {
+    console.log('cancel');
+  };
 }
 
 export default UserListView;

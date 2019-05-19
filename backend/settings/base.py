@@ -75,6 +75,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'core',
     'projects',
+    'users'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -153,6 +154,8 @@ DATABASES['default']['ATOMIC_REQUESTS'] = True
 # PASSWORD VALIDATION
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'users.UserProfile'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
