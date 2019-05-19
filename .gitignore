@@ -1,6 +1,9 @@
 # virtual environments
 venv
 
+# Migrations
+migrations
+
 # Database files
 /db/
 
@@ -51,9 +54,12 @@ yarn-debug.log*
 yarn-error.log*
 
 
-frontend/static/builds/*
-
 .idea
 Pipfile.lock
 frontend/static/builds/
 package-lock.json
+backend/socket/
+frontend/src/public/media/
+frontend/static/builds-development/favicon.ico
+frontend/static/builds-development/index.json
+gitlab-ci.yml

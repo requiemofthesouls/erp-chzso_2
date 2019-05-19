@@ -42,6 +42,10 @@ class UserListView extends React.Component {
       });
   };
 
+  updateUsers = () => {
+    this.getData(res => this.setState({ data: res.data }));
+  };
+
 
   render() {
     const { initLoading, data } = this.state;
@@ -84,14 +88,12 @@ class UserListView extends React.Component {
 
                       <Popconfirm
                         title="Вы уверены что хотите удалить данного пользователя?"
-                        onConfirm={this.handlePopconfirmDeleteUser}
-                        onCancel={this.handlePopconfirmCancel}
+                        onConfirm={() => this.handlePopconfirmDeleteUser(item.id)}
                         okText="Да"
                         cancelText="Нет"
                       >
                         <Button
                           block
-                          onClick={() => console.log('popover delete user')}
                           htmlType="submit"
                           icon="user-delete"
                           style={{ marginBottom: '0.7em' }}
@@ -121,16 +123,21 @@ class UserListView extends React.Component {
     );
   }
 
-  handlePopconfirmDeleteUser = () => {
-    message.loading("Удаление", 1)
+  handlePopconfirmDeleteUser = (user_id) => {
+    axios.delete(`http://127.0.0.1:8000/api/users/${user_id}/`, {
+      headers: this.Auth.auth_header
+    })
       .then(
-        () => message.success('Пользователь удалён.', 2));
-    console.log('delete');
+        () => {
+          message.success('Пользователь удалён.', 2);
+          this.updateUsers();
+        },
+        () => {
+          message.error(`Не удалось удалить пользователя.`, 2.5);
+        });
+
   };
 
-  handlePopconfirmCancel = () => {
-    console.log('cancel');
-  };
 }
 
 export default UserListView;

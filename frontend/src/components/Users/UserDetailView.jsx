@@ -212,6 +212,44 @@ class UserDetailView extends React.Component {
   handleIsActiveChange = () => {
     this.state.defaultData.is_active = !this.state.defaultData.is_active;
   };
+
+  handleIsStaffChange = () => {
+    this.state.defaultData.is_staff = !this.state.defaultData.is_staff;
+  };
+
+  handleIsSuperuserChange = () => {
+    this.state.defaultData.is_superuser = !this.state.defaultData.is_superuser;
+  };
+
+  handleFirstNameChange = (event) => {
+    this.state.defaultData.first_name = event.target.value;
+  };
+
+  handleLastNameChange = (event) => {
+    this.state.defaultData.last_name = event.target.value;
+  };
+
+  handleEmailChange = (event) => {
+    this.state.defaultData.email = event.target.value;
+  };
+
+  handleUsernameChange = (event) => {
+    this.state.defaultData.username = event.target.value;
+  };
+
+  handleOldPasswordChange = (event) => {
+    console.log(event.target.value);
+  };
+
+  handleNewPasswordChange = (event) => {
+    console.log(event.target.value);
+  };
+
+  handleConfirmPasswordChange = (event) => {
+    console.log(event.target.value);
+  };
+
+
 }
 
 export default UserDetailView;
