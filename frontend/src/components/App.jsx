@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import BaseRouter from './Routes';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.less';
 import '../public/css/App.css';
 import RootLayout from './Layout';
 

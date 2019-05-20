@@ -1,12 +1,21 @@
-#components-form-demo-normal-login .login-form {
-  max-width: 300px;
+.login-form-wrapper, .signup-form-wrapper {
+  text-align: center;
 }
 
-#components-form-demo-normal-login .login-form-forgot {
+.login-form {
+  display: inline-block;
+}
+
+.signup-form {
+  display: inline-block;
+}
+
+
+.login-form-forgot {
   float: right;
 }
 
-#components-form-demo-normal-login .login-form-button {
-  width: 100%;
+.login-form-rememberme {
+  float: left;
 }
 

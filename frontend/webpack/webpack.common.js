@@ -16,14 +16,24 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
+        test: /\.less$/,
+        use: [{
+          loader: 'style-loader',
+        }, {
+          loader: 'css-loader', // translates CSS into CommonJS
+        }, {
+          loader: 'less-loader', // compiles Less to CSS
+          options: {
+            modifyVars: {
+              'border-radius-base': '0px',
+            },
+            javascriptEnabled: true,
+          },
+        }],
+      },
+      {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: { importLoaders: 1 }
-          }
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,

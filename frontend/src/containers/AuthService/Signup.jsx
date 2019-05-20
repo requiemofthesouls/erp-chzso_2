@@ -7,12 +7,14 @@ import { setGlobalUsername } from '../../store/auth/actions';
 class RegistrationFormContainer extends React.Component {
   render() {
     return (
-      <SignupForm
-        username={this.props.username}
-        setGlobalUsername={this.props.setGlobalUsername}
-        history={this.props.history}
-
-      />);
+      <div className={"signup-form-wrapper"}>
+        <SignupForm
+          username={this.props.username}
+          setGlobalUsername={this.props.setGlobalUsername}
+          history={this.props.history}
+        />
+      </div>
+    );
   }
 
 }

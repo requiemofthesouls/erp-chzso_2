@@ -32,8 +32,27 @@ class NormalLoginForm extends React.Component {
   render() {
 
     const { getFieldDecorator } = this.props.form;
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
+
+
     return (
-      <Form onChange={this.handleChange} onSubmit={this.handleFormSubmit} className="login-form">
+      <Form
+        {...formItemLayout}
+        onChange={this.handleChange}
+        onSubmit={this.handleFormSubmit}
+        className="login-form"
+
+      >
         <Form.Item>
           {getFieldDecorator('username', {
             rules: [{
@@ -61,7 +80,7 @@ class NormalLoginForm extends React.Component {
             valuePropName: 'checked',
             initialValue: true,
           })(
-            <Checkbox>Запомнить меня</Checkbox>
+            <Checkbox className={"login-form-rememberme"}>Запомнить меня</Checkbox>
           )}
           <Link className="login-form-forgot" to="">Забыли пароль?</Link>
 
