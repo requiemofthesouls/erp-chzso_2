@@ -61,8 +61,8 @@ class CreateDeleteUpdateProjectForm extends React.Component {
   handleFormSubmit = (event, requestMethod) => {
     event.preventDefault();
     const projectID = this.props.projectID;
-    const {updateProjects, closeModal} = this.props;
-    const {title, description, entry, priority, manager_id, active} = this.state.defaultData;
+    const { updateProjects, closeModal } = this.props;
+    const { title, description, entry, priority, manager_id, active } = this.state.defaultData;
 
     switch (requestMethod) {
       case 'post':
@@ -109,11 +109,17 @@ class CreateDeleteUpdateProjectForm extends React.Component {
 
   render() {
     const formItemLayout = {
-      labelCol: {span: 7},
-      wrapperCol: {span: 12},
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 5 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 12 },
+      }
     };
 
-    const {defaultData} = this.state;
+    const { defaultData } = this.state;
     const tips = <span>от 1 до 9</span>;
     const last_modified = new Date(defaultData.last_modified);
 
@@ -124,7 +130,12 @@ class CreateDeleteUpdateProjectForm extends React.Component {
 
     return (
       <div>
-        <Form onChange={this.handleChange} onSubmit={(e) => this.handleFormSubmit(e, this.props.requestMethod)}>
+        <Form
+          {...formItemLayout}
+          className={'add-delete-update-project-form'}
+          onChange={this.handleChange}
+          onSubmit={(e) => this.handleFormSubmit(e, this.props.requestMethod)}
+        >
 
           <Form.Item label="Заголовок">
             <Input autoFocus name="title"
@@ -133,8 +144,12 @@ class CreateDeleteUpdateProjectForm extends React.Component {
             />
           </Form.Item>
 
-          <Form.Item label="Активный">
-            <Switch defaultChecked={defaultData.active} onChange={this.handleActiveChange}/>
+          <Form.Item
+            label="Активный"
+          >
+            <Switch
+              defaultChecked={defaultData.active}
+              onChange={this.handleActiveChange}/>
           </Form.Item>
 
           <Form.Item label="Ответственный">

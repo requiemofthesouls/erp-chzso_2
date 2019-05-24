@@ -4,6 +4,7 @@ import { message, Button, Checkbox, Form, Icon, Input, } from 'antd/lib/index';
 import AuthServiceLogic from './AuthServiceLogic';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { PageHeader } from 'antd';
 
 
 class NormalLoginForm extends React.Component {
@@ -80,7 +81,7 @@ class NormalLoginForm extends React.Component {
             valuePropName: 'checked',
             initialValue: true,
           })(
-            <Checkbox className={"login-form-rememberme"}>Запомнить меня</Checkbox>
+            <Checkbox className={'login-form-rememberme'}>Запомнить меня</Checkbox>
           )}
           <Link className="login-form-forgot" to="">Забыли пароль?</Link>
 
@@ -94,7 +95,8 @@ class NormalLoginForm extends React.Component {
           >
             Войти
           </Button>
-          <Button type="primary" onClick={() => this.props.history.push(`signup/`)} htmlType="submit" icon="user-add" block>Зарегистрироваться</Button>
+          <Button type="primary" onClick={() => this.props.history.push(`signup/`)} htmlType="submit" icon="user-add"
+                  block>Зарегистрироваться</Button>
         </Form.Item>
       </Form>
     );

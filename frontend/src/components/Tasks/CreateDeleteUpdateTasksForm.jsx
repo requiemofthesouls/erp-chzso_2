@@ -149,8 +149,8 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
   render() {
     const formItemLayout = {
-      labelCol: {span: 7},
-      wrapperCol: {span: 12},
+      labelCol: {span: 6},
+      wrapperCol: {span: 24},
     };
 
     const RangePicker = DatePicker.RangePicker;
@@ -171,7 +171,11 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
     return (
       <div>
-        <Form onChange={this.handleChange} onSubmit={(e) => this.handleFormSubmit(e, this.props.requestMethod)}>
+        <Form
+
+          onChange={this.handleChange}
+          onSubmit={(e) => this.handleFormSubmit(e, this.props.requestMethod)}
+        >
 
           <Form.Item label="Заголовок">
             <Input autoFocus name="title"
@@ -181,7 +185,10 @@ class CreateDeleteUpdateTaskForm extends React.Component {
           </Form.Item>
 
           <Form.Item label="Активная">
-            <Switch defaultChecked={defaultData.active} onChange={this.handleActiveChange}/>
+            <Switch
+              defaultChecked={defaultData.active}
+              onChange={this.handleActiveChange}
+            />
           </Form.Item>
 
           <Form.Item label="Проект">

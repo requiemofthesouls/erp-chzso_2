@@ -82,22 +82,6 @@ class ProjectList extends React.Component {
         >
         </ProjectModalContainer>
 
-        {/*<Modal centered*/}
-        {/*       title="Создание проекта"*/}
-        {/*       visible={this.state.visible}*/}
-        {/*       onOk={this.handleOk}*/}
-        {/*       onCancel={this.handleCancel}*/}
-        {/*>*/}
-        {/*  <CreateDeleteUpdateProjectForm*/}
-        {/*    requestMethod="post"*/}
-        {/*    projectID={null}*/}
-        {/*    btnText="Создать"*/}
-        {/*    updateProjects={this.updateProjects}*/}
-        {/*    closeModal={this.handleOk}*/}
-        {/*    history={this.props.history}*/}
-        {/*  />*/}
-        {/*</Modal>*/}
-
       </div>
     );
   }

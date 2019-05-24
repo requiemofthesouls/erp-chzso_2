@@ -7,7 +7,7 @@ import {
   Icon,
   message,
   Spin,
-  Modal,
+  Modal, Drawer,
 } from 'antd';
 
 import CreateDeleteUpdateTaskForm from "../../components/Tasks/CreateDeleteUpdateTasksForm";
@@ -55,11 +55,12 @@ class TaskModalContainer extends React.Component {
 
   render() {
     const task_modal_form =
-      <Modal centered
+      <Drawer
              title={this.props.modal_title}
+             width={700}
              visible={this.props.visible}
              onOk={this.props.handleOk}
-             onCancel={this.props.handleCancel}
+             onClose={this.props.handleCancel}
       >
         <CreateDeleteUpdateTaskForm
           requestMethod="post"
@@ -71,7 +72,7 @@ class TaskModalContainer extends React.Component {
           userlist={this.state.userlist}
           projects={this.state.projects}
         />
-      </Modal>;
+      </Drawer>;
 
     return (
       <div>

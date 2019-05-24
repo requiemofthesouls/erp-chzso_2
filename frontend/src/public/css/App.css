@@ -1,4 +1,9 @@
-.login-form-wrapper, .signup-form-wrapper {
+/* ==================================== */
+/* LOGIN AND SIGNUP FORM */
+/* ==================================== */
+
+.login-form-wrapper,
+.signup-form-wrapper {
   text-align: center;
 }
 
@@ -19,3 +24,14 @@
   float: left;
 }
 
+/* ==================================== */
+/* ADD PROJECT FORM */
+/* ==================================== */
+
+.add-delete-update-project-form {
+}
+
+.add-delete-update-project-form-label-active,
+.add-delete-update-project-form-switch-active {
+
+}

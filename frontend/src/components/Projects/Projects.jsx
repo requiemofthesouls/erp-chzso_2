@@ -1,7 +1,7 @@
 import React from 'react';
-import { Table } from 'antd/lib/index';
+import { PageHeader, Table } from 'antd/lib/index';
 import Highlighter from 'react-highlight-words';
-import { Button, Icon, Input, message } from 'antd';
+import { Button, Icon, Input, message, Popconfirm, Tooltip } from 'antd';
 import axios from 'axios';
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
 
@@ -163,27 +163,58 @@ class Projects extends React.Component {
 
     return (
       <div>
-        <Button
-          onClick={this.props.showModal}
-          htmlType="submit"
-          icon="folder-add"
-          style={{ marginBottom: 10 }}
-        >
-        </Button>
+        <PageHeader
+          onBack={() => this.props.history.goBack()}
+          title="Проекты"
+          subTitle="Список проектов предприятия"
+          extra={
+            [
+              <Tooltip title="Создать новый проект">
+                <Button
+                  onClick={this.props.showModal}
+                  htmlType="submit"
+                  icon="folder-add"
+                  style={{ marginBottom: 10 }}
+                >
+                  Новый
+                </Button>
+              </Tooltip>,
 
-        <Button
-          htmlType="submit"
-          icon="delete"
-          style={{
-            marginBottom: 10,
-            marginLeft: 10
-          }}
-          disabled={!hasSelected}
-          onClick={this.handleDeleteSelected}
-          loading={loading}
-          hidden={!hasSelected}
+              <Popconfirm
+                placement={'bottomLeft'}
+                title="Вы уверены что хотите удалить выбранные проекты?"
+                onConfirm={this.handleDeleteSelected}
+                okText="Да"
+                cancelText="Нет"
+              >
+
+                <Tooltip title="Удалить выбранные проекты">
+                  <Button
+                    htmlType="submit"
+                    icon="delete"
+                    style={{
+                      marginBottom: 10,
+                      marginLeft: 10
+                    }}
+                    disabled={!hasSelected}
+                    // onClick={}
+                    loading={loading}
+                    hidden={!hasSelected}
+                  >
+                    Удалить
+                  </Button>
+                </Tooltip>
+
+              </Popconfirm>,
+
+
+            ]
+          }
         >
-        </Button>
+
+
+        </PageHeader>
+
 
         <Table
           rowSelection={rowSelection}

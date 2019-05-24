@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {setProjects} from '../../store/projects/actions';
 import axios from 'axios';
 import AuthServiceLogic from '../../components/AuthService/AuthServiceLogic';
-import {Alert, Icon, message, Spin, Modal} from 'antd';
+import { Alert, Icon, message, Spin, Modal, Drawer } from 'antd';
 import CreateDeleteUpdateProjectForm from "../../components/Projects/CreateDeleteUpdateProjectForm";
 
 
@@ -43,11 +43,12 @@ class ProjectModalContainer extends React.Component {
     const indicator = <Icon type="loading" style={{fontSize: 24}} spin/>;
 
     const project_modal_form =
-      <Modal centered
+      <Drawer
              title={this.props.title}
+             width={700}
              visible={this.props.visible}
              onOk={this.props.handleOk}
-             onCancel={this.props.handleCancel}
+             onClose={this.props.handleCancel}
       >
         <CreateDeleteUpdateProjectForm
           requestMethod="post"
@@ -58,7 +59,7 @@ class ProjectModalContainer extends React.Component {
           history={this.props.history}
           userlist={this.state.userlist}
         />
-      </Modal>;
+      </Drawer>;
 
     return (
       <div>
