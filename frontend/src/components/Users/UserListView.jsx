@@ -53,8 +53,6 @@ class UserListView extends React.Component {
     const indicator = <Icon type="loading" style={{ fontSize: 24 }} spin/>;
 
     return (
-      <div>
-
         <Spin size='large'
               indicator={indicator}
               spinning={initLoading}
@@ -120,7 +118,6 @@ class UserListView extends React.Component {
             )}
           />
         </Spin>
-      </div>
     );
   }
 

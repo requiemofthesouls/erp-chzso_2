@@ -210,9 +210,9 @@ class CreateDeleteUpdateProjectForm extends React.Component {
               </Form.Item>
             </div>
             : <span/>}
-          <Form.Item>
+
             <Button block type="primary" htmlType="submit">{this.props.btnText}</Button>
-          </Form.Item>
+
         </Form>
       </div>
     );

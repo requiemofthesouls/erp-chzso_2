@@ -32,6 +32,14 @@ class UserAddForm extends React.Component {
   };
 
   render() {
+    const formItemLayout = {
+      labelCol: {
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        sm: { span: 16 },
+      },
+    };
     const { getFieldDecorator } = this.props.form;
     const prefixSelector = getFieldDecorator('prefix', {
       initialValue: '+7',
@@ -40,6 +48,7 @@ class UserAddForm extends React.Component {
         <Option value="+7">+7</Option>
       </Select>
     );
+
     return (
       <div>
         <div onClick={this.showDrawer}>
@@ -49,11 +58,14 @@ class UserAddForm extends React.Component {
 
         <Drawer
           title="Создание нового пользователя"
-          width={720}
+          width={400}
           onClose={this.onClose}
           visible={this.state.visible}
         >
-          <Form onChange={this.handleChange} onSubmit={this.handleSubmit}>
+          <Form
+            {...formItemLayout}
+            onChange={this.handleChange}
+            onSubmit={this.handleSubmit}>
             <Form.Item
               label="E-mail"
 
@@ -85,7 +97,7 @@ class UserAddForm extends React.Component {
               )}
             </Form.Item>
             <Form.Item
-              label="Подтвердите пароль"
+              label="Ещё раз"
             >
               {getFieldDecorator('confirm', {
                 rules: [{
@@ -100,8 +112,7 @@ class UserAddForm extends React.Component {
             </Form.Item>
             <Form.Item
               label={(
-                <span>
-              Уникальное имя&nbsp;
+                <span>Логин&nbsp;
                   <Tooltip title="Как бы вы хотели чтобы другие звали вас?">
                 <Icon type="question-circle-o"/>
               </Tooltip>
@@ -120,7 +131,7 @@ class UserAddForm extends React.Component {
             </Form.Item>
 
             <Form.Item
-              label="Номер телефона"
+              label="Телефон"
             >
               {getFieldDecorator('phone', {
                 rules: [{

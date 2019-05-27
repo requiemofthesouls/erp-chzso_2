@@ -6,9 +6,10 @@ import ProjectListContainer from '../containers/Projects/ProjectListView';
 import ProjectDetailContainer from '../containers/Projects/ProjectDetailView';
 import TaskListContainer from '../containers/Tasks/TasksListView';
 import TaskDetailContainer from '../containers/Tasks/TasksDetailView';
-import UserListView from "./Users/UserListView";
-import UserDetailContainer from "../containers/Users/UserDetailContainer";
-import Err404 from "./404";
+import UserListView from './Users/UserListView';
+import UserSearchView from './Users/UserSearchView'
+import UserDetailContainer from '../containers/Users/UserDetailContainer';
+import Err404 from './404';
 
 
 const BaseRouter = () => {
@@ -26,7 +27,9 @@ const BaseRouter = () => {
         <Route exact path='/tasks/:taskID' component={TaskDetailContainer}/>
 
         <Route exact path='/users' component={UserListView}/>
+        <Route exact path='/users/search' component={UserSearchView}/>
         <Route exact path='/users/:userID' component={UserDetailContainer}/>
+
 
         <Route exact path='/404' component={Err404}/>
 

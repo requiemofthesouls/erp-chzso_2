@@ -152,7 +152,7 @@ class Tasks extends React.Component {
       },
       {
         title: 'Статус',
-        dataIndex: 'status',
+        dataIndex: 'status_translate',
         width: '10%',
         sorter: true,
       },
@@ -162,7 +162,7 @@ class Tasks extends React.Component {
       },
       {
         title: 'Выполнить до',
-        dataIndex: 'due',
+        dataIndex: 'due_formatted',
       },
     ];
 
@@ -170,7 +170,6 @@ class Tasks extends React.Component {
 
     return (
       <div>
-
         <PageHeader
           onBack={() => this.props.history.goBack()}
           title="Задачи"
@@ -212,15 +211,10 @@ class Tasks extends React.Component {
                     Удалить
                   </Button>
                 </Tooltip>
-
               </Popconfirm>,
-
-
             ]
           }
         >
-
-
         </PageHeader>
 
         <Table
