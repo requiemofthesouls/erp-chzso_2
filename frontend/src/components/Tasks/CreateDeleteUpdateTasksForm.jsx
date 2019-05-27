@@ -16,7 +16,7 @@ import {
   Checkbox,
   Radio,
   Switch,
-  DatePicker
+  DatePicker, Icon
 } from 'antd';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -200,6 +200,8 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
           <Form.Item label="Активная">
             <Switch
+              checkedChildren={<Icon type="check"/>}
+              unCheckedChildren={<Icon type="close"/>}
               defaultChecked={defaultData.active}
               onChange={this.handleActiveChange}
             />

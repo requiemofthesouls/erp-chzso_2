@@ -131,6 +131,8 @@ class UserDetailView extends React.Component {
 
         <Form.Item label="Суперпользователь">
           <Switch
+            checkedChildren={<Icon type="check"/>}
+            unCheckedChildren={<Icon type="close"/>}
             defaultChecked={defaultData.is_superuser}
             onChange={this.handleIsSuperuserChange}
           />
@@ -138,6 +140,8 @@ class UserDetailView extends React.Component {
 
         <Form.Item label="Персонал">
           <Switch
+            checkedChildren={<Icon type="check"/>}
+            unCheckedChildren={<Icon type="close"/>}
             defaultChecked={defaultData.is_staff}
             onChange={this.handleIsStaffChange}
           />
@@ -145,6 +149,8 @@ class UserDetailView extends React.Component {
 
         <Form.Item label="Активный">
           <Switch
+            checkedChildren={<Icon type="check"/>}
+            unCheckedChildren={<Icon type="close"/>}
             defaultChecked={defaultData.is_active}
             onChange={this.handleIsActiveChange}
           />
