@@ -2,8 +2,9 @@ import React from 'react';
 import axios from 'axios';
 
 import Tasks from './Tasks';
-import TaskModalContainer from '../../containers/Tasks/TaskModalView'
+import TaskModalContainer from '../../containers/Tasks/TaskModalView';
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
+import { Icon, Spin } from 'antd';
 
 
 class TaskList extends React.Component {
@@ -14,6 +15,7 @@ class TaskList extends React.Component {
     tasks: [],
     users: [],
     visible: false,
+    isLoading: true,
   };
 
   showModal = () => {
@@ -41,6 +43,7 @@ class TaskList extends React.Component {
     })
       .then(res => {
         this.setTasks(res.data);
+        this.setState({ isLoading: false });
       });
   };
 
@@ -54,9 +57,15 @@ class TaskList extends React.Component {
   };
 
   render() {
-    return (
-      <div>
+    const { isLoading } = this.state;
+    const indicator = <Icon type="loading" style={{ fontSize: 24 }} spin/>;
 
+    return (
+
+      <Spin size='large'
+            indicator={indicator}
+            spinning={isLoading}
+      >
 
         <Tasks
           tasks={this.props.tasks}
@@ -78,7 +87,8 @@ class TaskList extends React.Component {
         >
         </TaskModalContainer>
 
-      </div>
+      </Spin>
+
     );
   }
 }

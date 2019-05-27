@@ -1,10 +1,10 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {setProjects} from '../../store/projects/actions';
+import { connect } from 'react-redux';
+import { setProjects } from '../../store/projects/actions';
 import axios from 'axios';
 import AuthServiceLogic from '../../components/AuthService/AuthServiceLogic';
 import { Alert, Icon, message, Spin, Modal, Drawer } from 'antd';
-import CreateDeleteUpdateProjectForm from "../../components/Projects/CreateDeleteUpdateProjectForm";
+import CreateDeleteUpdateProjectForm from '../../components/Projects/CreateDeleteUpdateProjectForm';
 
 
 class ProjectModalContainer extends React.Component {
@@ -38,17 +38,14 @@ class ProjectModalContainer extends React.Component {
   }
 
   render() {
-    const {isLoading} = this.state;
 
-    const indicator = <Icon type="loading" style={{fontSize: 24}} spin/>;
-
-    const project_modal_form =
+    return (
       <Drawer
-             title={this.props.title}
-             width={700}
-             visible={this.props.visible}
-             onOk={this.props.handleOk}
-             onClose={this.props.handleCancel}
+        title={this.props.title}
+        width={700}
+        visible={this.props.visible}
+        onOk={this.props.handleOk}
+        onClose={this.props.handleCancel}
       >
         <CreateDeleteUpdateProjectForm
           requestMethod="post"
@@ -59,13 +56,7 @@ class ProjectModalContainer extends React.Component {
           history={this.props.history}
           userlist={this.state.userlist}
         />
-      </Drawer>;
-
-    return (
-      <div>
-        {isLoading && <Spin size='large' indicator={indicator}> {project_modal_form} </Spin>}
-        {!isLoading && project_modal_form}
-      </div>
+      </Drawer>
     );
   }
 

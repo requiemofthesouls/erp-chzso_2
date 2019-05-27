@@ -1,11 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import {Button, Modal} from 'antd';
 
 import ProjectModalContainer from '../../containers/Projects/ProjectModalView'
 import Projects from './Projects';
-import CreateDeleteUpdateProjectForm from './CreateDeleteUpdateProjectForm';
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
+import { Icon, Spin } from 'antd';
 
 
 class ProjectList extends React.Component {
@@ -16,6 +15,7 @@ class ProjectList extends React.Component {
     projects: [],
     users: [],
     visible: false,
+    isLoading: true,
   };
 
   showModal = () => {
@@ -43,6 +43,7 @@ class ProjectList extends React.Component {
     })
       .then(res => {
         this.setProjects(res.data);
+        this.setState({isLoading: false})
       });
   };
 
@@ -56,8 +57,14 @@ class ProjectList extends React.Component {
   };
 
   render() {
+    const { isLoading } = this.state;
+    const indicator = <Icon type="loading" style={{ fontSize: 24 }} spin/>;
+
     return (
-      <div>
+      <Spin size='large'
+            indicator={indicator}
+            spinning={isLoading}
+      >
 
 
         <Projects
@@ -82,7 +89,7 @@ class ProjectList extends React.Component {
         >
         </ProjectModalContainer>
 
-      </div>
+        </Spin>
     );
   }
 }

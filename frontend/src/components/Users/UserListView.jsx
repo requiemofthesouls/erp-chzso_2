@@ -8,11 +8,12 @@ import {
   Spin,
   Popover,
   Popconfirm,
-  message,
+  message, Badge, Tag, Tooltip
 } from 'antd';
 
 import axios from 'axios';
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
+import { Link } from 'react-router-dom';
 
 class UserListView extends React.Component {
   Auth = new AuthServiceLogic();
@@ -49,76 +50,76 @@ class UserListView extends React.Component {
 
   render() {
     const { initLoading, data } = this.state;
-
+    const indicator = <Icon type="loading" style={{ fontSize: 24 }} spin/>;
 
     return (
       <div>
 
-        <List
-          pagination={{
-            onChange: page => {
-              console.log(page);
-            },
-            pageSize: 5,
-            hideOnSinglePage: true,
-          }}
-          loading={initLoading}
-          itemLayout="horizontal"
-          dataSource={data}
-          renderItem={item => (
-
-            <List.Item>
-              <Skeleton avatar title={false} loading={item.loading} active>
-
-                <Popover
-                  title={`Пользователь ${item.username}`}
-                  placement={'topLeft'}
-                  content={
-                    <div>
-
-                      <Button
-                        block
-                        onClick={() => this.props.history.push(`users/${item.id}/`)}
-                        htmlType="submit"
-                        icon="edit"
-                        style={{ marginBottom: '0.7em' }}
-                      >
-                        Редактировать
-                      </Button>
-
-                      <Popconfirm
-                        title="Вы уверены что хотите удалить данного пользователя?"
-                        onConfirm={() => this.handlePopconfirmDeleteUser(item.id)}
-                        okText="Да"
-                        cancelText="Нет"
-                      >
-                        <Button
-                          block
-                          htmlType="submit"
-                          icon="user-delete"
-                          style={{ marginBottom: '0.7em' }}
-                        >
-                          Удалить
-                        </Button>
-
-                      </Popconfirm>
-
-                    </div>
-                  }
+        <Spin size='large'
+              indicator={indicator}
+              spinning={initLoading}
+        >
+          <List
+            pagination={{
+              onChange: page => {
+                console.log(page);
+              },
+              pageSize: 5,
+              hideOnSinglePage: true,
+            }}
+            itemLayout="horizontal"
+            dataSource={data}
+            renderItem={item => (
+              <List.Item actions={[
+                <Button
+                  block
+                  onClick={() => this.props.history.push(`users/${item.id}/`)}
+                  htmlType="submit"
+                  icon="edit"
+                  style={{ marginBottom: '0.7em' }}
                 >
-                  <List.Item.Meta
-                    avatar={
-                      <Avatar src={item.avatar}/>
-                    }
-                    title={<a onClick={() => this.props.history.push(`users/${item.id}/`)}>{item.username}</a>}
-                    description={`id ${item.id}`}
-                  />
-                </Popover>
-              </Skeleton>
-            </List.Item>
+                  Редактировать
+                </Button>,
 
-          )}
-        />
+                <Popconfirm
+                  title="Вы уверены что хотите удалить данного пользователя?"
+                  onConfirm={() => this.handlePopconfirmDeleteUser(item.id)}
+                  okText="Да"
+                  cancelText="Нет"
+                >
+                  <Button
+                    block
+                    htmlType="submit"
+                    icon="user-delete"
+                    style={{ marginBottom: '0.7em' }}
+                  >
+                    Удалить
+                  </Button>
+
+                </Popconfirm>
+              ]}>
+
+
+                <List.Item.Meta
+                  avatar={<Avatar src={item.avatar}/>}
+                  title={<a onClick={() => this.props.history.push(`users/${item.id}/`)}>{item.username}</a>}
+                  description={`${item.first_name} ${item.last_name}`}
+                />
+
+
+                <div style={{marginLeft: '5em'}}>
+                  {item.is_superuser ?
+                    <Tooltip title={'Пользователь с повышенными привелегиями'}><Tag color="gold">Cуперпользователь</Tag></Tooltip> : null}
+                  {item.is_staff ?
+                    <Tooltip title={'Имеет доступ к интерфейсу администрирования'}><Tag color='geekblue'>Персонал</Tag></Tooltip> : null}
+                  {item.is_active ?
+                    <Tooltip title={'Данный аккаунт активен и готов к использованию'}><Tag color="green">Активный</Tag></Tooltip> :
+                    <Tooltip title={'Данный аккаунт временно отключен'}><Tag color="red">Не активный</Tag></Tooltip>}
+                </div>
+              </List.Item>
+            )}
+          />
+        </Spin>
       </div>
     );
   }

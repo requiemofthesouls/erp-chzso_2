@@ -197,7 +197,6 @@ class Projects extends React.Component {
                       marginLeft: 10
                     }}
                     disabled={!hasSelected}
-                    // onClick={}
                     loading={loading}
                     hidden={!hasSelected}
                   >

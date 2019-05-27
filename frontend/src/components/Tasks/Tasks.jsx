@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'antd/lib/index';
+import { PageHeader, Popconfirm, Table, Tooltip } from 'antd/lib/index';
 import Highlighter from 'react-highlight-words';
 import { Button, Icon, Input, message } from 'antd';
 import axios from 'axios';
@@ -170,27 +170,58 @@ class Tasks extends React.Component {
 
     return (
       <div>
-        <Button
-          onClick={this.props.showModal}
-          htmlType="submit"
-          icon="folder-add"
-          style={{ marginBottom: 10 }}
-        >
-        </Button>
 
-        <Button
-          htmlType="submit"
-          icon="delete"
-          style={{
-            marginBottom: 10,
-            marginLeft: 10
-          }}
-          disabled={!hasSelected}
-          onClick={this.handleDeleteSelected}
-          loading={loading}
-          hidden={!hasSelected}
+        <PageHeader
+          onBack={() => this.props.history.goBack()}
+          title="Задачи"
+          subTitle="Список задач предприятия"
+          extra={
+            [
+              <Tooltip title="Создать новую задачу">
+                <Button
+                  onClick={this.props.showModal}
+                  htmlType="submit"
+                  icon="folder-add"
+                  style={{ marginBottom: 10 }}
+                >
+                  Новая
+                </Button>
+              </Tooltip>,
+
+              <Popconfirm
+                placement={'bottomLeft'}
+                title="Вы уверены что хотите удалить выбранные задачи?"
+                onConfirm={this.handleDeleteSelected}
+                okText="Да"
+                cancelText="Нет"
+              >
+
+                <Tooltip title="Удалить выбранные задачи">
+                  <Button
+                    htmlType="submit"
+                    icon="delete"
+                    style={{
+                      marginBottom: 10,
+                      marginLeft: 10
+                    }}
+                    disabled={!hasSelected}
+                    onClick={this.handleDeleteSelected}
+                    loading={loading}
+                    hidden={!hasSelected}
+                  >
+                    Удалить
+                  </Button>
+                </Tooltip>
+
+              </Popconfirm>,
+
+
+            ]
+          }
         >
-        </Button>
+
+
+        </PageHeader>
 
         <Table
           rowSelection={rowSelection}

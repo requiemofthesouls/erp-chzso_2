@@ -52,9 +52,9 @@ class TaskDetailContainer extends React.Component {
   }
 
   render() {
-    const {isLoading} = this.state;
+    const { isLoading } = this.state;
 
-    const indicator = <Icon type="loading" style={{fontSize: 24}} spin/>;
+    const indicator = <Icon type="loading" style={{ fontSize: 24 }} spin/>;
 
     const task_detail_form = <TaskDetail
       setTasks={this.props.setTasks}
