@@ -1,18 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 
-import ProjectModalContainer from '../../containers/Projects/ProjectModalView'
-import Projects from './Projects';
+import Tasks from './Tasks';
+import TaskModalContainer from '../../containers/Tasks/TaskModalView';
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
 import { Icon, Spin } from 'antd';
 
 
-class ProjectList extends React.Component {
+class TaskList extends React.Component {
 
   Auth = new AuthServiceLogic();
 
   state = {
-    projects: [],
+    tasks: [],
     users: [],
     visible: false,
     isLoading: true,
@@ -36,24 +36,24 @@ class ProjectList extends React.Component {
     });
   };
 
-  updateProjects = () => {
+  updateTasks = () => {
     // Get all Tasks and put them to the redux
-    axios.get(`http://127.0.0.1:8000/api/projects/`, {
+    axios.get(`http://127.0.0.1:8000/api/tasks/`, {
       headers: this.Auth.auth_header
     })
       .then(res => {
-        this.setProjects(res.data);
-        this.setState({isLoading: false})
+        this.setTasks(res.data);
+        this.setState({ isLoading: false });
       });
   };
 
-  setProjects = (projects) => {
-    this.props.setProjects(projects);
+  setTasks = (tasks) => {
+    this.props.setTasks(tasks);
   };
 
 
   componentWillMount() {
-    this.updateProjects();
+    this.updateTasks();
   };
 
   render() {
@@ -61,37 +61,36 @@ class ProjectList extends React.Component {
     const indicator = <Icon type="loading" style={{ fontSize: 24 }} spin/>;
 
     return (
+
       <Spin size='large'
             indicator={indicator}
             spinning={isLoading}
       >
 
-
-        <Projects
-          projects={this.props.projects}
+        <Tasks
+          tasks={this.props.tasks}
           history={this.props.history}
           showModal={this.showModal}
 
         />
 
-        <ProjectModalContainer
-          title="Создание проекта"
+        <TaskModalContainer
+          modal_title="Создание задачи"
           visible={this.state.visible}
           handleOk={this.handleOk}
           handleCancel={this.handleCancel}
 
           requestMethod="post"
-          projectID={null}
-          history={this.props.history}
-          btnText="Создать"
-          updateProjects={this.updateProjects}
+          updateTasks={this.updateTasks}
           closeModal={this.handleOk}
+          history={this.props.history}
         >
-        </ProjectModalContainer>
+        </TaskModalContainer>
 
-        </Spin>
+      </Spin>
+
     );
   }
 }
 
-export default ProjectList;
+export default TaskList;

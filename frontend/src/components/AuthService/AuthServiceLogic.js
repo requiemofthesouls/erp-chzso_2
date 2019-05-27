@@ -10,8 +10,7 @@ export default class AuthServiceLogic {
     this.auth_header = { 'Authorization': `JWT ${this.getToken()}` };
   }
 
-
-  register(username, password) {
+  add_user(username, password) {
     // Registering user to backend using the fetch api
     return this.fetch(`${this.domain}/auth/users/`, {
       method: 'POST',
@@ -19,7 +18,11 @@ export default class AuthServiceLogic {
         username,
         password
       })
-    })
+    });
+  }
+
+  register(username, password) {
+    this.add_user(username, password)
       .then(res => {
         this.setToken(res.token); // Setting the token in localStorage
         return Promise.resolve(res);

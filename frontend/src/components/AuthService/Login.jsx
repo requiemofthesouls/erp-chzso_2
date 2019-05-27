@@ -3,33 +3,57 @@ import { message, Button, Checkbox, Form, Icon, Input, } from 'antd/lib/index';
 
 import AuthServiceLogic from './AuthServiceLogic';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { PageHeader } from 'antd';
 
 
 class NormalLoginForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    if (this.Auth.loggedIn()) {
+      message.info(`Вы уже вошли!`, 2.5);
+      this.props.history.push('/');
+    }
+
+    this.state = {
+      user: null,
+      loading: false,
+    };
+  }
+
 
   Auth = new AuthServiceLogic();
 
-  state = {
-    user: null
-  };
 
   setUsername = (username) => {
     this.props.setGlobalUsername(username);
   };
 
-
-  componentWillMount() {
-    if (this.Auth.loggedIn()) {
-      alert(`Вы уже вошли!`);
-      this.props.history.push('/');
-    }
-  }
-
   render() {
 
     const { getFieldDecorator } = this.props.form;
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
+
+
     return (
-      <Form onChange={this.handleChange} onSubmit={this.handleFormSubmit} className="login-form">
+      <Form
+        {...formItemLayout}
+        onChange={this.handleChange}
+        onSubmit={this.handleFormSubmit}
+        className="login-form"
+
+      >
         <Form.Item>
           {getFieldDecorator('username', {
             rules: [{
@@ -57,12 +81,22 @@ class NormalLoginForm extends React.Component {
             valuePropName: 'checked',
             initialValue: true,
           })(
-            <Checkbox>Запомнить меня</Checkbox>
+            <Checkbox className={'login-form-rememberme'}>Запомнить меня</Checkbox>
           )}
           <Link className="login-form-forgot" to="">Забыли пароль?</Link>
 
-          <Button icon="login" type="primary" htmlType="submit" className="login-form-button" block>Войти </Button>
-          <Button type="primary" href="/signup" htmlType="submit" icon="user-add" block>Зарегистрироваться</Button>
+          <Button
+            icon="login"
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+            loading={this.state.loading}
+            block
+          >
+            Войти
+          </Button>
+          <Button type="primary" onClick={() => this.props.history.push(`signup/`)} htmlType="submit" icon="user-add"
+                  block>Зарегистрироваться</Button>
         </Form.Item>
       </Form>
     );
@@ -78,14 +112,17 @@ class NormalLoginForm extends React.Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
+    this.setState({ loading: true });
     this.Auth.login(this.state.username, this.state.password)
       .then(res => {
         message.info(`Привет, ${this.state.username}`, 2.5);
-        this.props.history.push('/projects');
+        this.setState({ loading: false });
+        this.props.history.push('/');
         this.setUsername(this.state.username);
       })
       .catch(err => {
-        alert(err);
+        message.error(err.toString(), 2.5);
+        this.setState({ loading: false });
       });
   };
 }

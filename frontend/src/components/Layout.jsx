@@ -1,29 +1,44 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb, Icon, Button, message } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
+import axios from 'axios';
+
+import {
+  Layout,
+  Menu,
+  Breadcrumb,
+  Icon,
+  Button,
+  message,
+} from 'antd';
+
 import AuthServiceLogic from './AuthService/AuthServiceLogic';
+import GanttContainer from '../containers/Gantt';
+import UserAddView from './Users/UserAddView';
 
 const { Header, Content, Sider } = Layout;
-
 
 class RootLayout extends React.Component {
 
   Auth = new AuthServiceLogic();
 
-  state = {};
-
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
   setUsername = (username) => {
     this.props.setGlobalUsername(username);
   };
 
-
-  componentWillMount() {
-
+  componentDidUpdate() {
   }
 
+
   render() {
-    const { username } = this.props;
+
+    const { username, children } = this.props;
+    const gantt = <GanttContainer/>;
+
 
     return (
       <Layout>
@@ -37,12 +52,19 @@ class RootLayout extends React.Component {
               lineHeight: '64px',
             }}
           >
-            <Menu.Item key='title' style={{ float: 'left' }}><Icon type="sliders"/>ERP ЧЗСО</Menu.Item>
+            <Menu.Item
+              key='title'
+              style={{ float: 'left' }}>
+              <Link to='/'>
+                <Icon type="sliders"/>
+                ERP ЧЗСО
+              </Link>
+            </Menu.Item>
 
 
             <Menu.Item key="login/logout" style={{ float: 'right' }}>
               {this.Auth.loggedIn() ?
-                <Link to='/logout' onClick={this.handleLogout}><Icon type="logout"/>Выйти</Link>
+                <Link to='' onClick={this.handleLogout}><Icon type="logout"/>Выйти</Link>
                 : <Link to='/login'><Icon type="login"/>Войти</Link>
               }
             </Menu.Item>
@@ -61,7 +83,7 @@ class RootLayout extends React.Component {
             style={{ background: '#fff' }}>
 
             <Menu
-              mode="inline"
+              mode="vertical"
               defaultSelectedKeys={['1']}
               defaultOpenKeys={['sub1']}
               style={{
@@ -81,11 +103,34 @@ class RootLayout extends React.Component {
                 <Link to='/tasks'/>
               </Menu.Item>
 
-              <Menu.Item key="nav3">
-                <Icon type="usergroup-add"/>
-                Пользователи
-                <Link to='/users'/>
-              </Menu.Item>
+              <Menu.SubMenu
+                key="users"
+                title={
+                  <span>
+                    <Icon type="usergroup-add"/>
+                    <span>Пользователи</span>
+                  </span>
+                }
+              >
+                <Menu.Item key="userlist">
+                  <Icon type="unordered-list"/>
+                  Список
+                  <Link to='/users'/>
+                </Menu.Item>
+
+                <Menu.Item
+                  key="useradd">
+                  <UserAddView/>
+                </Menu.Item>
+
+                <Menu.Item key="finduser">
+                  <Icon type="search"/>
+                  Искать
+                  <Link to='/users/search'/>
+                </Menu.Item>
+
+              </Menu.SubMenu>
+
 
               <Menu.Item key="nav4">
                 <Icon type="user"/>
@@ -114,9 +159,7 @@ class RootLayout extends React.Component {
               margin: 0,
               minHeight: 280,
             }}>
-              {this.props.children}
-              <Button onClick={() => console.log(this.props)}>props</Button>
-              <Button onClick={() => console.log(this.state)}>state</Button>
+              {this.props.location.pathname === '/' ? gantt : children}
             </Content>
           </Layout>
         </Layout>
@@ -128,6 +171,7 @@ class RootLayout extends React.Component {
     message.success(`Сессия завершена`, 2.5);
     this.Auth.logout();
     this.setUsername('');
+    setTimeout(() => window.location.reload(), 1000);
   };
 }
 

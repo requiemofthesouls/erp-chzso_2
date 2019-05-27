@@ -1,22 +1,22 @@
 import React from 'react';
-import { PageHeader, Table } from 'antd/lib/index';
+import { PageHeader, Popconfirm, Table, Tooltip } from 'antd/lib/index';
 import Highlighter from 'react-highlight-words';
-import { Button, Icon, Input, message, Popconfirm, Tooltip } from 'antd';
+import { Button, Icon, Input, message } from 'antd';
 import axios from 'axios';
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
 
-class Projects extends React.Component {
+class Tasks extends React.Component {
 
   Auth = new AuthServiceLogic();
 
   componentWillReceiveProps(nextProps, nextContext) {
     this.setState({
-      data: nextProps.projects
+      data: nextProps.tasks
     });
   }
 
   state = {
-    data: this.props.projects,
+    data: this.props.tasks,
     selectedRowKeys: [],
     searchText: '',
     loading: false,
@@ -98,8 +98,8 @@ class Projects extends React.Component {
     this.setState({ searchText: '' });
   };
 
-  updateProjects = () => {
-    axios.get(`http://127.0.0.1:8000/api/projects/`, {
+  updateTasks = () => {
+    axios.get(`http://127.0.0.1:8000/api/tasks/`, {
       headers: this.Auth.auth_header
     })
       .then(res => {
@@ -108,7 +108,7 @@ class Projects extends React.Component {
   };
 
   handleDelete = (id) => {
-    axios.delete(`http://127.0.0.1:8000/api/projects/${id}/`, {
+    axios.delete(`http://127.0.0.1:8000/api/tasks/${id}/`, {
       headers: this.Auth.auth_header
     });
   };
@@ -120,7 +120,7 @@ class Projects extends React.Component {
       this.handleDelete(id);
     }
     setTimeout(() => {
-      this.updateProjects();
+      this.updateTasks();
       this.setState({
         selectedRowKeys: [],
         loading: false,
@@ -146,16 +146,23 @@ class Projects extends React.Component {
         ...this.getColumnSearchProps('title'),
       },
       {
-        title: 'Ответственный',
-        dataIndex: 'manager_username',
-        width: '20%',
-        ...this.getColumnSearchProps('manager_username'),
+        title: 'Проект',
+        dataIndex: 'project_title',
+        ...this.getColumnSearchProps('project_title'),
       },
       {
-        title: 'Приоритет',
-        dataIndex: 'priority',
+        title: 'Статус',
+        dataIndex: 'status',
         width: '10%',
         sorter: true,
+      },
+      {
+        title: 'Назначено на',
+        dataIndex: 'assigned_on_username',
+      },
+      {
+        title: 'Выполнить до',
+        dataIndex: 'due',
       },
     ];
 
@@ -163,32 +170,33 @@ class Projects extends React.Component {
 
     return (
       <div>
+
         <PageHeader
           onBack={() => this.props.history.goBack()}
-          title="Проекты"
-          subTitle="Список проектов предприятия"
+          title="Задачи"
+          subTitle="Список задач предприятия"
           extra={
             [
-              <Tooltip title="Создать новый проект">
+              <Tooltip title="Создать новую задачу">
                 <Button
                   onClick={this.props.showModal}
                   htmlType="submit"
                   icon="folder-add"
                   style={{ marginBottom: 10 }}
                 >
-                  Новый
+                  Новая
                 </Button>
               </Tooltip>,
 
               <Popconfirm
                 placement={'bottomLeft'}
-                title="Вы уверены что хотите удалить выбранные проекты?"
+                title="Вы уверены что хотите удалить выбранные задачи?"
                 onConfirm={this.handleDeleteSelected}
                 okText="Да"
                 cancelText="Нет"
               >
 
-                <Tooltip title="Удалить выбранные проекты">
+                <Tooltip title="Удалить выбранные задачи">
                   <Button
                     htmlType="submit"
                     icon="delete"
@@ -197,6 +205,7 @@ class Projects extends React.Component {
                       marginLeft: 10
                     }}
                     disabled={!hasSelected}
+                    onClick={this.handleDeleteSelected}
                     loading={loading}
                     hidden={!hasSelected}
                   >
@@ -214,7 +223,6 @@ class Projects extends React.Component {
 
         </PageHeader>
 
-
         <Table
           rowSelection={rowSelection}
           columns={columns}
@@ -229,7 +237,7 @@ class Projects extends React.Component {
           onRow={(record, rowIndex) => {
             return {
               onClick: (event) => {
-                this.props.history.push(`/projects/${record.id}`);
+                this.props.history.push(`/tasks/${record.id}`);
               },
               onDoubleClick: (event) => {
               }, // double click row
@@ -251,4 +259,4 @@ class Projects extends React.Component {
 }
 
 
-export default Projects;
+export default Tasks;

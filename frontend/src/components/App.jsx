@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import BaseRouter from './Routes';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.less';
 import '../public/css/App.css';
 import RootLayout from './Layout';
 
@@ -14,6 +14,8 @@ class App extends React.Component {
       setGlobalUsername,
       projects,
       setProjects,
+      tasks,
+      setTasks
     } = this.props;
 
     return (
@@ -24,7 +26,8 @@ class App extends React.Component {
             setGlobalUsername={setGlobalUsername}
             projects={projects}
             setProjects={setProjects}
-
+            tasks={tasks}
+            setTasks={setTasks}
           >
             <BaseRouter/>
           </RootLayout>

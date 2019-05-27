@@ -4,6 +4,11 @@ import LoginFormContainer from '../containers/AuthService/Login';
 import RegistrationFormContainer from '../containers/AuthService/Signup';
 import ProjectListContainer from '../containers/Projects/ProjectListView';
 import ProjectDetailContainer from '../containers/Projects/ProjectDetailView';
+import TaskListContainer from '../containers/Tasks/TasksListView';
+import TaskDetailContainer from '../containers/Tasks/TasksDetailView';
+import UserListView from "./Users/UserListView";
+import UserDetailContainer from "../containers/Users/UserDetailContainer";
+import Err404 from "./404";
 
 
 const BaseRouter = () => {
@@ -17,8 +22,15 @@ const BaseRouter = () => {
         <Route exact path='/projects' component={ProjectListContainer}/>
         <Route exact path='/projects/:projectID' component={ProjectDetailContainer}/>
 
+        <Route exact path='/tasks' component={TaskListContainer}/>
+        <Route exact path='/tasks/:taskID' component={TaskDetailContainer}/>
 
-        <Redirect from='*' to='/'/>
+        <Route exact path='/users' component={UserListView}/>
+        <Route exact path='/users/:userID' component={UserDetailContainer}/>
+
+        <Route exact path='/404' component={Err404}/>
+
+        <Redirect from='*' to='/404'/>
 
       </Switch>
     </div>

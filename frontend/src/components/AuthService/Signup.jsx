@@ -54,7 +54,13 @@ class RegistrationForm extends React.Component {
 
 
     return (
-      <Form onChange={this.handleChange} onSubmit={this.handleSubmit} >
+      <Form
+        {...formItemLayout}
+        onChange={this.handleChange}
+        onSubmit={this.handleSubmit}
+        className={"signup-form"}
+
+      >
         <Form.Item
           label="E-mail"
 
@@ -86,7 +92,7 @@ class RegistrationForm extends React.Component {
           )}
         </Form.Item>
         <Form.Item
-          label="Подтвердите пароль"
+          label="Ещё раз"
         >
           {getFieldDecorator('confirm', {
             rules: [{
@@ -102,7 +108,7 @@ class RegistrationForm extends React.Component {
         <Form.Item
           label={(
             <span>
-              Уникальное имя&nbsp;
+              Логин&nbsp;
               <Tooltip title="Как бы вы хотели чтобы другие звали вас?">
                 <Icon type="question-circle-o"/>
               </Tooltip>
@@ -112,7 +118,7 @@ class RegistrationForm extends React.Component {
           {getFieldDecorator('nickname', {
             rules: [{
               required: true,
-              message: 'Пожалуйста введите ваш никнейм!',
+              message: 'Пожалуйста введите ваш логин!',
               whitespace: true
             }],
           })(
@@ -121,7 +127,7 @@ class RegistrationForm extends React.Component {
         </Form.Item>
 
         <Form.Item
-          label="Номер телефона"
+          label="Телефон"
         >
           {getFieldDecorator('phone', {
             rules: [{
@@ -133,7 +139,7 @@ class RegistrationForm extends React.Component {
           )}
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item {...tailFormItemLayout}>
           <Button block type="primary" htmlType="submit">Зарегистрироваться</Button>
         </Form.Item>
       </Form>
@@ -173,7 +179,7 @@ class RegistrationForm extends React.Component {
     this.Auth.register(this.state.username, this.state.password)
       .then(res => {
         message.success(`Пользователь ${this.state.username} успешно зарегистрирован.`, 2.5);
-        this.props.history.push('/projects');
+        this.props.history.push('/');
         this.setUsername(this.state.username);
       })
       .catch(err => {
@@ -182,6 +188,6 @@ class RegistrationForm extends React.Component {
   };
 }
 
-const SignupForm = Form.create({ name: 'register' })(RegistrationForm);
+const SignupForm = Form.create({ name: 'signup-form' })(RegistrationForm);
 
 export default SignupForm;

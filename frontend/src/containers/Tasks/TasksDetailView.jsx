@@ -1,24 +1,24 @@
 import React from 'react';
-import ProjectDetailView from '../../components/Projects/ProjectDetailView';
-import { connect } from 'react-redux';
-import { setProjects } from '../../store/projects/actions';
+import TaskDetail from '../../components/Tasks/TasksDetailView';
+import {connect} from 'react-redux';
+import {setTasks} from '../../store/tasks/actions';
 import axios from 'axios';
 import AuthServiceLogic from '../../components/AuthService/AuthServiceLogic';
-import { Alert, Icon, message, Spin } from 'antd';
+import {Alert, Icon, message, Spin} from 'antd';
 
 
-class ProjectDetailContainer extends React.Component {
+class TaskDetailContainer extends React.Component {
 
   Auth = new AuthServiceLogic();
 
   constructor(props) {
     super(props);
     this.state = {
-      project: null,
+      task: null,
       isLoading: true,
     };
     this.getUserlist();
-    this.getCurrentProject();
+    this.getCurrentTask();
   }
 
   getUserlist = () => {
@@ -27,23 +27,23 @@ class ProjectDetailContainer extends React.Component {
     })
       .then(
         (res) => {
-          this.setState({ userlist: res.data });
+          this.setState({userlist: res.data});
         });
   };
 
-  getCurrentProject = () => {
-    const projectID = this.props.match.params.projectID;
-    axios.get(`http://127.0.0.1:8000/api/projects/${projectID}/`, {
+  getCurrentTask = () => {
+    const taskID = this.props.match.params.taskID;
+    axios.get(`http://127.0.0.1:8000/api/tasks/${taskID}/`, {
       headers: this.Auth.auth_header
     })
       .then(res => {
         this.setState({
-          project: res.data,
-        }, () => this.setState({ isLoading: false }));
+          task: res.data,
+        }, () => this.setState({isLoading: false}));
 
       }, (res) => {
         message.error(`Ошибка ${res}`, 2.5);
-        this.props.history.push('/projects');
+        this.props.history.push('/tasks');
       });
   };
 
@@ -56,19 +56,19 @@ class ProjectDetailContainer extends React.Component {
 
     const indicator = <Icon type="loading" style={{ fontSize: 24 }} spin/>;
 
-    const project_detail_form = <ProjectDetailView
-      projects={this.props.projects}
-      setProjects={this.props.setProjects}
+    const task_detail_form = <TaskDetail
+      setTasks={this.props.setTasks}
       history={this.props.history}
       match={this.props.match}
-      current_project={this.state.project}
+      current_task={this.state.task}
       userlist={this.state.userlist}
+      projects={this.props.projects}
     />;
 
     return (
       <div>
-        {isLoading && <Spin size='large' indicator={indicator}> {project_detail_form} </Spin>}
-        {!isLoading && project_detail_form}
+        {isLoading && <Spin size='large' indicator={indicator}> {task_detail_form} </Spin>}
+        {!isLoading && task_detail_form}
       </div>
     );
   }
@@ -77,14 +77,15 @@ class ProjectDetailContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    tasks: state.tasks.data,
     projects: state.projects.data,
   };
 
 };
 
 const mapDispatchToProps = {
-  setProjects,
+  setTasks,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetailContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskDetailContainer);
 

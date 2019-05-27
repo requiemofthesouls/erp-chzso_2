@@ -1,12 +1,37 @@
-#components-form-demo-normal-login .login-form {
-  max-width: 300px;
+/* ==================================== */
+/* LOGIN AND SIGNUP FORM */
+/* ==================================== */
+
+.login-form-wrapper,
+.signup-form-wrapper {
+  text-align: center;
 }
 
-#components-form-demo-normal-login .login-form-forgot {
+.login-form {
+  display: inline-block;
+}
+
+.signup-form {
+  display: inline-block;
+}
+
+
+.login-form-forgot {
   float: right;
 }
 
-#components-form-demo-normal-login .login-form-button {
-  width: 100%;
+.login-form-rememberme {
+  float: left;
 }
 
+/* ==================================== */
+/* ADD PROJECT FORM */
+/* ==================================== */
+
+.add-delete-update-project-form {
+}
+
+.add-delete-update-project-form-label-active,
+.add-delete-update-project-form-switch-active {
+
+}

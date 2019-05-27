@@ -75,6 +75,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'core',
     'projects',
+    'users'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -154,6 +155,8 @@ DATABASES['default']['ATOMIC_REQUESTS'] = True
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
+AUTH_USER_MODEL = 'users.UserProfile'
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -206,7 +209,7 @@ STATIC_ROOT = os.path.join(FRONTEND_DIR, 'staticfiles')
 
 MEDIA_URL = "/media/"
 
-# MEDIA_ROOT = os.path.join(os.path.dirname(FRONTEND_DIR), "media_cdn")
+MEDIA_ROOT = os.path.join(FRONTEND_DIR, "src", "public", "media")
 
 # Django REST framework
 # ------------------------------------------------------------------------------
@@ -226,7 +229,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-
 # Django REST-AUTH framework
 # ------------------------------------------------------------------------------
 # https://github.com/Tivix/django-rest-auth/
@@ -240,9 +242,7 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
 }
 
-
 GRAPH_MODELS = {
-  'all_applications': True,
-  'group_models': True,
+    'all_applications': True,
+    'group_models': True,
 }
-

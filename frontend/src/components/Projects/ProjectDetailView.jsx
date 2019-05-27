@@ -20,6 +20,7 @@ class ProjectDetail extends React.Component {
       <div>
 
         <CreateDeleteUpdateProjectForm
+          userlist={this.props.userlist}
           current_project={this.props.current_project}
           requestMethod="put"
           projectID={this.props.match.params.projectID}
@@ -52,8 +53,7 @@ class ProjectDetail extends React.Component {
   };
 
   updateProjects = () => {
-    console.log('updating projects');
-    // Get all Projects and put them to the redux
+    // Get all Tasks and put them to the redux
     axios.get(`http://127.0.0.1:8000/api/projects/`, {
       headers: this.Auth.auth_header
     })
