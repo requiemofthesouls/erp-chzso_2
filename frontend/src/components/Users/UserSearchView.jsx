@@ -41,8 +41,8 @@ export default class UserSearchView extends React.Component {
         onSelect={(id) => this.props.history.push(`${id}`)}
         loading={loading}
         showSearch
-        style={{ width: 200 }}
-        placeholder="Select a person"
+        style={{ width: 300 }}
+        placeholder="Введите никнейм"
         optionFilterProp="children"
       >
 
@@ -50,7 +50,7 @@ export default class UserSearchView extends React.Component {
           <Option value={user.id}>
             <img
               style={{
-                width: '20px',
+                width: '30px',
                 marginRight: '10px'
               }}
               src={user.avatar}

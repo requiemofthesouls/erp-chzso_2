@@ -10,6 +10,7 @@ import UserListView from './Users/UserListView';
 import UserSearchView from './Users/UserSearchView'
 import UserDetailContainer from '../containers/Users/UserDetailContainer';
 import Err404 from './404';
+import LogListViewContainer from '../containers/Logs/LogListViewContainer';
 
 
 const BaseRouter = () => {
@@ -30,6 +31,8 @@ const BaseRouter = () => {
         <Route exact path='/users/search' component={UserSearchView}/>
         <Route exact path='/users/:userID' component={UserDetailContainer}/>
 
+
+        <Route exact path='/joblogitems' component={LogListViewContainer}/>
 
         <Route exact path='/404' component={Err404}/>
 

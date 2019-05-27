@@ -1,10 +1,11 @@
-from rest_framework import permissions, status
+from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 
-from core.api.serializers import UserSerializer, UserSerializerWithToken
+from core.api.serializers import UserSerializer, UserSerializerWithToken, LogSerializer
+from core.models import Record
 
 
 @api_view(['GET'])
@@ -15,6 +16,11 @@ def current_user(request):
 
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
+
+
+class LogsList(viewsets.ModelViewSet):
+    serializer_class = LogSerializer
+    queryset = Record.objects.all()
 
 
 class UserList(APIView):
