@@ -37,7 +37,7 @@ class RootLayout extends React.Component {
   render() {
 
     const { username, children } = this.props;
-    const gantt = <GanttContainer/>;
+    const gantt = <GanttContainer history={this.props.history}/>;
 
 
     return (
@@ -64,7 +64,7 @@ class RootLayout extends React.Component {
 
             <Menu.Item key="login/logout" style={{ float: 'right' }}>
               {this.Auth.loggedIn() ?
-                <Link to='' onClick={this.handleLogout}><Icon type="logout"/>Выйти</Link>
+                <Link onClick={this.handleLogout} to={"/login"}     ><Icon type="logout"/>Выйти</Link>
                 : <Link to='/login'><Icon type="login"/>Войти</Link>
               }
             </Menu.Item>
@@ -91,7 +91,7 @@ class RootLayout extends React.Component {
                 borderRight: 0
               }}
             >
-              <Menu.Item key="nav1">
+                <Menu.Item key="nav1">
                 <Icon type="project"/>
                 Проекты
                 <Link to='/projects'/>
@@ -150,7 +150,7 @@ class RootLayout extends React.Component {
     message.success(`Сессия завершена`, 2.5);
     this.Auth.logout();
     this.setUsername('');
-    setTimeout(() => window.location.reload(), 1000);
+    this.props.history.push('/login');
   };
 }
 

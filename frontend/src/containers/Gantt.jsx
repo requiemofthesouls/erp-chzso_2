@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
-import {message, Icon, Spin} from 'antd';
+import { message, Icon, Spin } from 'antd';
 import GanttDiagram from '../components/Gantt';
-import AuthServiceLogic from "../components/AuthService/AuthServiceLogic";
+import AuthServiceLogic from '../components/AuthService/AuthServiceLogic';
 import moment from 'moment';
 import 'moment/locale/ru';
 
@@ -21,7 +21,7 @@ class GanttContainer extends Component {
         links: [
           // {id: 12, source: 12, target: 24, type: 1},
           // {id: 11, source: 11, target: 18, type: 1}
-          ]
+        ]
       },
     };
     this.getProjects();
@@ -40,15 +40,18 @@ class GanttContainer extends Component {
             id: project.id,
             open: true,
             text: project.title,
-            type: "project",
+            type: 'project',
             holder: project.manager_username,
           };
-          this.state.projects.data.push(formated_project)
+          this.state.projects.data.push(formated_project);
         }
         this.getTasks();
       }, (err) => {
-        message.error(err.toString(), 2);
-        this.setState({isLoading: false})
+        if (err.response.status === 401) {
+          this.props.history.push("/login")
+        }
+        message.info("Необходимо авторизоваться", 2);
+        this.setState({ isLoading: false });
       });
   };
 
@@ -62,24 +65,26 @@ class GanttContainer extends Component {
           let formated_task = {
             id: task.id,
             text: task.title,
-            type: "task",
+            type: 'task',
             parent: task.project_id,
             holder: task.assigned_on_username,
-            start_date: moment(task.start).format('YYYY-MM-DD HH:SS'),
-            end_date: moment(task.due).format('YYYY-MM-DD HH:SS'),
+            start_date: moment(task.start)
+              .format('YYYY-MM-DD HH:SS'),
+            end_date: moment(task.due)
+              .format('YYYY-MM-DD HH:SS'),
           };
-          this.state.projects.data.push(formated_task)
+          this.state.projects.data.push(formated_task);
         }
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       }, (err) => {
         message.error(err.toString(), 2);
-        this.setState({isLoading: false})
+        this.setState({ isLoading: false });
       });
   };
 
   addMessage(message) {
     const maxLogLength = 5;
-    const newMessage = {message};
+    const newMessage = { message };
     const messages = [
       newMessage,
       ...this.state.messages
@@ -88,7 +93,7 @@ class GanttContainer extends Component {
     if (messages.length > maxLogLength) {
       messages.length = maxLogLength;
     }
-    this.setState({messages});
+    this.setState({ messages });
   }
 
   logDataUpdate = (type, action, item, id) => {
@@ -107,14 +112,14 @@ class GanttContainer extends Component {
   };
 
   componentDidUpdate() {
-    console.log(this.state)
+    console.log(this.state);
   }
 
   render() {
-    const {currentZoom, messages, isLoading, projects} = this.state;
-    const indicator = <Icon type="loading" style={{fontSize: 24}} spin/>;
+    const { currentZoom, messages, isLoading, projects } = this.state;
+    const indicator = <Icon type="loading" style={{ fontSize: 24 }} spin/>;
     const gantt =
-      <div style={{height: "calc(100vh - 40px - 200px)"}}>
+      <div style={{ height: 'calc(100vh - 40px - 200px)' }}>
         <GanttDiagram
           tasks={projects}
           zoom={currentZoom}

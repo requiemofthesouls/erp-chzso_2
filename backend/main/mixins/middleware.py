@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 
 from django.contrib.auth.middleware import get_user
+from django.contrib.auth.models import AnonymousUser
 from django.utils.functional import SimpleLazyObject
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from django.core.exceptions import ObjectDoesNotExist
@@ -25,8 +26,11 @@ class JWTAuthenticationMiddleware(object):
         if user.is_authenticated:
             return user
         jwt_authentication = JSONWebTokenAuthentication()
-        if jwt_authentication.get_jwt_value(request):
+        try:
+            jwt_authentication.get_jwt_value(request)
             user, jwt = jwt_authentication.authenticate(request)
+        except Exception:
+            user = AnonymousUser()
         return user
 
 
