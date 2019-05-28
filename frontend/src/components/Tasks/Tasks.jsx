@@ -179,7 +179,6 @@ class Tasks extends React.Component {
               <Tooltip title="Создать новую задачу">
                 <Button
                   onClick={this.props.showModal}
-                  htmlType="submit"
                   icon="folder-add"
                   style={{ marginBottom: 10 }}
                 >
@@ -197,14 +196,12 @@ class Tasks extends React.Component {
 
                 <Tooltip title="Удалить выбранные задачи">
                   <Button
-                    htmlType="submit"
                     icon="delete"
                     style={{
                       marginBottom: 10,
                       marginLeft: 10
                     }}
                     disabled={!hasSelected}
-                    onClick={this.handleDeleteSelected}
                     loading={loading}
                     hidden={!hasSelected}
                   >

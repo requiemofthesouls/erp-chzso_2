@@ -103,33 +103,12 @@ class RootLayout extends React.Component {
                 <Link to='/tasks'/>
               </Menu.Item>
 
-              <Menu.SubMenu
-                key="users"
-                title={
-                  <span>
-                    <Icon type="usergroup-add"/>
-                    <span>Пользователи</span>
-                  </span>
-                }
-              >
-                <Menu.Item key="userlist">
-                  <Icon type="unordered-list"/>
-                  Список
-                  <Link to='/users'/>
-                </Menu.Item>
 
-                <Menu.Item
-                  key="useradd">
-                  <UserAddView/>
-                </Menu.Item>
-
-                <Menu.Item key="finduser">
-                  <Icon type="search"/>
-                  Искать
-                  <Link to='/users/search'/>
-                </Menu.Item>
-
-              </Menu.SubMenu>
+              <Menu.Item key="users">
+                <Icon type="usergroup-add"/>
+                Пользователи
+                <Link to='/users'/>
+              </Menu.Item>
 
 
               <Menu.Item key="nav4">

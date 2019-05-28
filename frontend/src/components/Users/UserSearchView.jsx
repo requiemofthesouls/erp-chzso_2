@@ -2,7 +2,6 @@ import React from 'react';
 import { Mentions, Select } from 'antd';
 import axios from 'axios';
 import AuthServiceLogic from '../AuthService/AuthServiceLogic';
-import { Link } from 'react-router-dom';
 
 
 export default class UserSearchView extends React.Component {
@@ -38,11 +37,11 @@ export default class UserSearchView extends React.Component {
 
     return (
       <Select
-        onSelect={(id) => this.props.history.push(`${id}`)}
+        onSelect={(id) => this.props.history.push(`users/${id}`)}
         loading={loading}
         showSearch
-        style={{ width: 300 }}
-        placeholder="Введите никнейм"
+        style={{ width: 300}}
+        placeholder="Поиск"
         optionFilterProp="children"
       >
 

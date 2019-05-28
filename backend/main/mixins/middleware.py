@@ -7,7 +7,7 @@ from django.utils.functional import SimpleLazyObject
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from django.core.exceptions import ObjectDoesNotExist
 
-from core.models import Record
+from core.models import LogRecord
 from settings.base import LOGALL_LOG_HTML_RESPONSE, LOGALL_HTML_START
 
 
@@ -45,21 +45,27 @@ class LogAllMiddleware(object):
         # Code to be executed for each request/response after
         # the view is called.
 
-
-    def process_view(self, request, view_func, view_args, view_kwargs):
+    @staticmethod
+    def process_view(request, view_func, view_args, view_kwargs):
         try:
             if not request.user.is_authenticated or not request.session:
                 return None
         except AttributeError:
             return None
 
+        if request.method == 'GET':
+            return None
+
         # Fix the issue with the authorization request
         try:
-            newRecord = Record(
+            body = request.body.decode('utf-8')
+
+            newRecord = LogRecord(
                 created_at=datetime.now(),
                 # sessionId=request.session.session_key,
                 requestUser=request.user,
                 requestPath=request.path,
+                requestBody=body,
                 requestQueryString=request.META["QUERY_STRING"],
                 requestVars=json.dumps({"POST": request.POST, "GET": request.GET}),
                 requestMethod=request.method,
@@ -74,4 +80,3 @@ class LogAllMiddleware(object):
             pass
 
         return None
-

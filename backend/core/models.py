@@ -4,7 +4,7 @@ from django.db import models
 
 # Create your models here.
 
-class Record(models.Model):
+class LogRecord(models.Model):
     """
     Basic log record describing all user interaction with the UI.
     Will be propagated by a middle ware.
@@ -14,10 +14,11 @@ class Record(models.Model):
     # sessionId = models.CharField(max_length=256, null=True, blank=True)
 
     requestUser = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    requestPath = models.TextField()
-    requestQueryString = models.TextField()
-    requestVars = models.TextField()
-    requestMethod = models.CharField(max_length=4)
+    requestPath = models.TextField(default='')
+    requestBody = models.TextField(default='')
+    requestQueryString = models.TextField(default='')
+    requestVars = models.TextField(default='')
+    requestMethod = models.CharField(max_length=10)
     requestSecure = models.BooleanField(default=False)
     requestAjax = models.BooleanField(default=False)
     requestMETA = models.TextField(null=True, blank=True)
@@ -25,7 +26,7 @@ class Record(models.Model):
 
     viewFunction = models.CharField(max_length=256)
     viewDocString = models.TextField(null=True, blank=True)
-    viewArgs = models.TextField()
+    viewArgs = models.TextField(default='')
 
     responseCode = models.CharField(max_length=3)
-    responseContent = models.TextField()
+    responseContent = models.TextField(default='')

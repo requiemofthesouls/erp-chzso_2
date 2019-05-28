@@ -51,10 +51,13 @@ class UserAddForm extends React.Component {
 
     return (
       <div>
-        <div onClick={this.showDrawer}>
-          <Icon type="user-add"/>
+        <Button
+          onClick={this.showDrawer}
+          htmlType="submit"
+          icon="user-add"
+        >
           Добавить
-        </div>
+        </Button>
 
         <Drawer
           title="Создание нового пользователя"

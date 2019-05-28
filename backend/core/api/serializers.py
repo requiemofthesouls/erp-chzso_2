@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 
-from core.models import Record
+from core.models import LogRecord
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -37,6 +37,8 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
 
 class LogSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='requestUser.username', read_only=True)
+
     class Meta:
-        model = Record
+        model = LogRecord
         fields = '__all__'

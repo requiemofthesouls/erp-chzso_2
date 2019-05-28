@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from django.contrib.auth.models import User
 
 from core.api.serializers import UserSerializer, UserSerializerWithToken, LogSerializer
-from core.models import Record
+from core.models import LogRecord
 
 
 @api_view(['GET'])
@@ -20,7 +20,8 @@ def current_user(request):
 
 class LogsList(viewsets.ModelViewSet):
     serializer_class = LogSerializer
-    queryset = Record.objects.all()
+    queryset = LogRecord.objects.all().order_by('-created_at')
+    http_method_names = ['get', 'head', 'options']
 
 
 class UserList(APIView):

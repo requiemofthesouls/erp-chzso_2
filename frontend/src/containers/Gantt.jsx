@@ -19,13 +19,16 @@ class GanttContainer extends Component {
       projects: {
         data: [],
         links: [
-          {id: 12, source: 12, target: 24, type: 1},
-          {id: 11, source: 11, target: 18, type: 1}]
+          // {id: 12, source: 12, target: 24, type: 1},
+          // {id: 11, source: 11, target: 18, type: 1}
+          ]
       },
     };
     this.getProjects();
   }
 
+  // TODO: Есть баг когда id проекта и задачи совпадают.
+  // TODO: Диаграмма перестаёт правильно отображаться или вовсе крашит страницу.
   getProjects = () => {
     axios.get(`http://127.0.0.1:8000/api/projects/`, {
       headers: this.Auth.auth_header

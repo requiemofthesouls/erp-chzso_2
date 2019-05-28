@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 class ERPModel(models.Model):
     title = models.CharField(
         verbose_name=_('Title'),
-        max_length=1000
+        max_length=255
     )
 
     active = models.BooleanField(
@@ -18,7 +18,7 @@ class ERPModel(models.Model):
 
     slug = models.SlugField(
         verbose_name=_('Slug'),
-        max_length=1000,
+        max_length=255,
         allow_unicode=True,
         null=True,
         default=None
