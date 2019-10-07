@@ -16,7 +16,7 @@ import {
   Checkbox,
   Radio,
   Switch,
-  DatePicker
+  DatePicker, Icon
 } from 'antd';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -62,7 +62,7 @@ class CreateDeleteUpdateTaskForm extends React.Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    console.log("next props ---", nextProps)
+    console.log('next props ---', nextProps);
     this.setState({
       userlist: nextProps.userlist ? nextProps.userlist : emptyUserlist,
       projectList: nextProps.projects ? nextProps.projects : [],
@@ -75,7 +75,7 @@ class CreateDeleteUpdateTaskForm extends React.Component {
   handleFormSubmit = (event, requestMethod) => {
     event.preventDefault();
     const taskID = this.props.taskID;
-    const {updateTasks, closeModal} = this.props;
+    const { updateTasks, closeModal } = this.props;
     const {
       title,
       active,
@@ -149,12 +149,18 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
   render() {
     const formItemLayout = {
-      labelCol: {span: 6},
-      wrapperCol: {span: 24},
+      labelCol: {
+        sm: { span: 24 },
+        md: { span: 6 },
+      },
+      wrapperCol: {
+        sm: { span: 24 },
+        md: { span: 16 },
+      }
     };
 
     const RangePicker = DatePicker.RangePicker;
-    const {defaultData} = this.state;
+    const { defaultData } = this.state;
     const tips = <span>от 1 до 9</span>;
 
     const today = new Date();
@@ -168,11 +174,19 @@ class CreateDeleteUpdateTaskForm extends React.Component {
       <Option value={project.id.toString()}>{project.title}</Option>
     );
 
+    const statuses =
+      <Radio.Group name="status" defaultValue={defaultData.status} buttonStyle="solid">
+        <Radio.Button value="new">Новая</Radio.Button>
+        <Radio.Button value="current">Текущая</Radio.Button>
+        <Radio.Button value="suspend">Заморожена</Radio.Button>
+        <Radio.Button value="done">Завершена</Radio.Button>
+        <Radio.Button value="cancel">Отменена</Radio.Button>
+      </Radio.Group>;
 
     return (
       <div>
         <Form
-
+          {...formItemLayout}
           onChange={this.handleChange}
           onSubmit={(e) => this.handleFormSubmit(e, this.props.requestMethod)}
         >
@@ -186,6 +200,8 @@ class CreateDeleteUpdateTaskForm extends React.Component {
 
           <Form.Item label="Активная">
             <Switch
+              checkedChildren={<Icon type="check"/>}
+              unCheckedChildren={<Icon type="close"/>}
               defaultChecked={defaultData.active}
               onChange={this.handleActiveChange}
             />
@@ -240,16 +256,7 @@ class CreateDeleteUpdateTaskForm extends React.Component {
           </Form.Item>
 
           <Form.Item label="Статус">
-            <div>
-              <Radio.Group name="status" defaultValue="new" buttonStyle="solid"
-                           onChange={() => console.log(this.state)}>
-                <Radio.Button value="new">Новая</Radio.Button>
-                <Radio.Button value="current">Текущая</Radio.Button>
-                <Radio.Button value="suspend">Заморожена</Radio.Button>
-                <Radio.Button value="done">Завершена</Radio.Button>
-                <Radio.Button value="cancel">Отменена</Radio.Button>
-              </Radio.Group>
-            </div>
+            {statuses}
           </Form.Item>
 
           <Form.Item label='Время начала и окончания'>
@@ -287,23 +294,25 @@ class CreateDeleteUpdateTaskForm extends React.Component {
           </Form.Item>
 
           {this.props.btnText === 'Изменить' ?
-            <div>
-              <Form.Item label='Последнее изменение'>
-                <Input readOnly defaultValue={last_modified.toLocaleDateString('ru', {
-                  weekday: 'long',
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                  hour: 'numeric',
-                  minute: 'numeric'
-                })
-                }/>
-              </Form.Item>
-            </div>
+
+            <Form.Item label='Последнее изменение'>
+              <Input readOnly defaultValue={last_modified.toLocaleDateString('ru', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric'
+              })
+              }/>
+            </Form.Item>
             : <span/>}
+
           <Form.Item>
-            <Button block type="primary" htmlType="submit">{this.props.btnText}</Button>
+            <Button
+              block type="primary" htmlType="submit">{this.props.btnText}</Button>
           </Form.Item>
+
         </Form>
       </div>
     );

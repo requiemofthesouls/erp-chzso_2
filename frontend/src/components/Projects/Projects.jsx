@@ -172,7 +172,6 @@ class Projects extends React.Component {
               <Tooltip title="Создать новый проект">
                 <Button
                   onClick={this.props.showModal}
-                  htmlType="submit"
                   icon="folder-add"
                   style={{ marginBottom: 10 }}
                 >
@@ -190,7 +189,6 @@ class Projects extends React.Component {
 
                 <Tooltip title="Удалить выбранные проекты">
                   <Button
-                    htmlType="submit"
                     icon="delete"
                     style={{
                       marginBottom: 10,

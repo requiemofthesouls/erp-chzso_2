@@ -21,6 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 BACKEND_DIR = os.path.join(BASE_DIR, 'backend')
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
+# Should we log full HTML responses?
+LOGALL_LOG_HTML_RESPONSE = True
+
+# If we how do we recognized a full HTML response
+LOGALL_HTML_START = "<!DOCTYPE html"
+
 # SECRET KEY
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-SECRET_KEY
@@ -100,6 +106,12 @@ DJANGO_MIDDLEWARE = [
 THIRD_PARTY_MIDDLEWARE = []
 
 CORS_HEADERS_MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware']
+
+LOGALL_MIDDLEWARE = ['main.mixins.middleware.LogAllMiddleware']
+
+JWT_AUTH_MIDDLEWARE = ['main.mixins.middleware.JWTAuthenticationMiddleware']
+
+DEBUG_TOOLBAR_MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware']
 
 MIDDLEWARE = DJANGO_SECURITY_MIDDLEWARE + DJANGO_MIDDLEWARE + THIRD_PARTY_MIDDLEWARE
 

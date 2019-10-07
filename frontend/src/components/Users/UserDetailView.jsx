@@ -122,8 +122,8 @@ class UserDetailView extends React.Component {
         <Form.Item label="Пароль" hasFeedback>
           <Collapse>
             <Collapse.Panel header="Изменить" key="1">
-              <Input type="password" placeholder="Текущий пароль" onChange={this.handleOldPasswordChange}/>
-              <Input type="password" placeholder="Новый пароль" onChange={this.handleNewPasswordChange}/>
+              <Input style={{marginBottom: "10px"}} type="password" placeholder="Текущий пароль" onChange={this.handleOldPasswordChange}/>
+              <Input style={{marginBottom: "10px"}} type="password" placeholder="Новый пароль" onChange={this.handleNewPasswordChange}/>
               <Input type="password" placeholder="Повторите новый пароль" onChange={this.handleConfirmPasswordChange}/>
             </Collapse.Panel>
           </Collapse>
@@ -131,6 +131,8 @@ class UserDetailView extends React.Component {
 
         <Form.Item label="Суперпользователь">
           <Switch
+            checkedChildren={<Icon type="check"/>}
+            unCheckedChildren={<Icon type="close"/>}
             defaultChecked={defaultData.is_superuser}
             onChange={this.handleIsSuperuserChange}
           />
@@ -138,6 +140,8 @@ class UserDetailView extends React.Component {
 
         <Form.Item label="Персонал">
           <Switch
+            checkedChildren={<Icon type="check"/>}
+            unCheckedChildren={<Icon type="close"/>}
             defaultChecked={defaultData.is_staff}
             onChange={this.handleIsStaffChange}
           />
@@ -145,6 +149,8 @@ class UserDetailView extends React.Component {
 
         <Form.Item label="Активный">
           <Switch
+            checkedChildren={<Icon type="check"/>}
+            unCheckedChildren={<Icon type="close"/>}
             defaultChecked={defaultData.is_active}
             onChange={this.handleIsActiveChange}
           />

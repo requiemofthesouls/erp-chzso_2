@@ -8,7 +8,7 @@ import {
   Breadcrumb,
   Icon,
   Button,
-  message,
+  message, Dropdown, Input, Tooltip,
 } from 'antd';
 
 import AuthServiceLogic from './AuthService/AuthServiceLogic';
@@ -37,7 +37,7 @@ class RootLayout extends React.Component {
   render() {
 
     const { username, children } = this.props;
-    const gantt = <GanttContainer/>;
+    const gantt = <GanttContainer history={this.props.history}/>;
 
 
     return (
@@ -64,7 +64,7 @@ class RootLayout extends React.Component {
 
             <Menu.Item key="login/logout" style={{ float: 'right' }}>
               {this.Auth.loggedIn() ?
-                <Link to='' onClick={this.handleLogout}><Icon type="logout"/>Выйти</Link>
+                <Link onClick={this.handleLogout} to={"/login"}     ><Icon type="logout"/>Выйти</Link>
                 : <Link to='/login'><Icon type="login"/>Войти</Link>
               }
             </Menu.Item>
@@ -91,7 +91,7 @@ class RootLayout extends React.Component {
                 borderRight: 0
               }}
             >
-              <Menu.Item key="nav1">
+                <Menu.Item key="nav1">
                 <Icon type="project"/>
                 Проекты
                 <Link to='/projects'/>
@@ -103,33 +103,12 @@ class RootLayout extends React.Component {
                 <Link to='/tasks'/>
               </Menu.Item>
 
-              <Menu.SubMenu
-                key="users"
-                title={
-                  <span>
-                    <Icon type="usergroup-add"/>
-                    <span>Пользователи</span>
-                  </span>
-                }
-              >
-                <Menu.Item key="userlist">
-                  <Icon type="unordered-list"/>
-                  Список
-                  <Link to='/users'/>
-                </Menu.Item>
 
-                <Menu.Item
-                  key="useradd">
-                  <UserAddView/>
-                </Menu.Item>
-
-                <Menu.Item key="finduser">
-                  <Icon type="search"/>
-                  Искать
-                  <Link to='/users/search'/>
-                </Menu.Item>
-
-              </Menu.SubMenu>
+              <Menu.Item key="users">
+                <Icon type="usergroup-add"/>
+                Пользователи
+                <Link to='/users'/>
+              </Menu.Item>
 
 
               <Menu.Item key="nav4">
@@ -171,7 +150,7 @@ class RootLayout extends React.Component {
     message.success(`Сессия завершена`, 2.5);
     this.Auth.logout();
     this.setUsername('');
-    setTimeout(() => window.location.reload(), 1000);
+    this.props.history.push('/login');
   };
 }
 

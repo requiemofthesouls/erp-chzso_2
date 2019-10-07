@@ -9,7 +9,7 @@ import {
   message,
   Select,
   Tooltip,
-  Switch
+  Switch, Icon
 } from 'antd';
 
 import CKEditor from '@ckeditor/ckeditor5-react';
@@ -148,6 +148,8 @@ class CreateDeleteUpdateProjectForm extends React.Component {
             label="Активный"
           >
             <Switch
+              checkedChildren={<Icon type="check"/>}
+              unCheckedChildren={<Icon type="close"/>}
               defaultChecked={defaultData.active}
               onChange={this.handleActiveChange}/>
           </Form.Item>
@@ -210,9 +212,9 @@ class CreateDeleteUpdateProjectForm extends React.Component {
               </Form.Item>
             </div>
             : <span/>}
-          <Form.Item>
-            <Button block type="primary" htmlType="submit">{this.props.btnText}</Button>
-          </Form.Item>
+
+          <Button block type="primary" htmlType="submit">{this.props.btnText}</Button>
+
         </Form>
       </div>
     );

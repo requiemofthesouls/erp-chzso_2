@@ -23,17 +23,18 @@ class Project(ERPModel):
 
 class Task(ERPModel):
     STATUS_LIST = (
-        ('new', _('New')),
-        ('current', _('Current')),
-        ('suspend', _('Suspend')),
-        ('done', _('Done')),
-        ('cancel', _('Canceled')),
+        ('new', _('Новая')),
+        ('current', _('Текущая')),
+        ('suspend', _('Заморожена')),
+        ('done', _('Завершена')),
+        ('cancel', _('Отменена')),
     )
     project = models.ForeignKey(Project, verbose_name=_('Project'), on_delete=models.CASCADE)
     description = models.TextField(blank=True, verbose_name=_('Description'))
     priority = models.IntegerField(default=0, verbose_name=_('Priority'))
     status = models.CharField(max_length=255, verbose_name=_('Status'), choices=STATUS_LIST, default='new')
-    assigned_on = models.ForeignKey(get_user_model(), verbose_name=_('Assigned on'), on_delete=models.CASCADE, default=None)
+    assigned_on = models.ForeignKey(get_user_model(), verbose_name=_('Assigned on'), on_delete=models.CASCADE,
+                                    default=None)
 
     start = models.DateTimeField(
         verbose_name=_('Time start'),
